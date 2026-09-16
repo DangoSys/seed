@@ -1,6 +1,16 @@
-# bb-seed
+# seed
 
 A single-core RV32 processor developed with AI in Chisel. Start with a multicycle core that boots Linux into a BusyBox shell, then optimize PPA in the Buckyball framework.
+
+
+## Quick Start
+
+```bash
+cd seed
+mill seed.runMain framework.seed.SeedTop
+```
+
+You can find generated verilog files under `seed/build/Seed.sv`
 
 ## MVP Specification
 
@@ -66,8 +76,6 @@ The following targets will be evaluated in the Buckyball framework. Their feasib
 | 180nm | ≤ 2 mm² | ≥ 500 MHz |
 
 PPA reports will distinguish core logic area, core area including cache SRAM, and subsystem area including bus and interrupt/timer wrappers. Whether the final area budget includes SRAM remains to be decided. Frequency must be based on post-layout timing at specified process, voltage, and temperature (PVT) conditions. Power results must state the workload and switching activity assumptions. The 500 MHz target at 180nm requires an early feasibility check with the actual process library.
-
-The cacheless, multicycle MVP establishes a functional baseline; it is not the final performance implementation.
 
 ## References
 
