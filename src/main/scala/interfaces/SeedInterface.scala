@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.util._
 
 class SeedAxiWriteAddr extends Bundle {
-  val addr  = UInt(32.W)
+  val addr  = UInt(64.W)
   val size  = UInt(3.W)
   val len   = UInt(8.W)
   val burst = UInt(2.W)
@@ -12,8 +12,8 @@ class SeedAxiWriteAddr extends Bundle {
 }
 
 class SeedAxiWriteData extends Bundle {
-  val data = UInt(32.W)
-  val strb = UInt(4.W)
+  val data = UInt(64.W)
+  val strb = UInt(8.W)
   val last = Bool()
 }
 
@@ -23,7 +23,7 @@ class SeedAxiWriteResp extends Bundle {
 }
 
 class SeedAxiReadAddr extends Bundle {
-  val addr  = UInt(32.W)
+  val addr  = UInt(64.W)
   val size  = UInt(3.W)
   val len   = UInt(8.W)
   val burst = UInt(2.W)
@@ -31,7 +31,7 @@ class SeedAxiReadAddr extends Bundle {
 }
 
 class SeedAxiReadData extends Bundle {
-  val data = UInt(32.W)
+  val data = UInt(64.W)
   val resp = UInt(2.W)
   val last = Bool()
   val id   = UInt(4.W)

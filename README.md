@@ -1,6 +1,6 @@
 # bb-seed
 
-A single-core RV32 processor developed with AI in Chisel. Start with a multicycle core that boots Linux into a BusyBox shell, then optimize PPA in the Buckyball framework.
+A single-core RV64 processor developed with AI in Chisel. Start with a multicycle core that boots Linux into a BusyBox shell, then optimize PPA in the Buckyball framework.
 
 
 ## Quick Start
@@ -31,7 +31,7 @@ You can find generated verilog files under `build/Seed.sv`
 
 | Item | Design |
 | --- | --- |
-| ISA | Current baseline: `RV32IM`; target: `RV32IMA_Zicsr_Zifencei` |
+| ISA | Current baseline: `RV64IM`; target: `RV64IMA_Zicsr_Zifencei` |
 | Execution | Single core, in-order five-stage pipeline: IF / ID / EX / MEM / WB |
 | Multiply/divide | Multicycle implementation |
 | Privilege modes | Planned; current pipeline runs in a simple machine-mode test environment |
@@ -40,9 +40,9 @@ You can find generated verilog files under `build/Seed.sv`
 | Internal memory interface | Simple request/response interface, converted to AXI4 by a bridge |
 | External interfaces | One AXI4 master, clock, reset, and timer/software/external interrupt inputs |
 | AXI4 transactions | Single-beat accesses, with at most one outstanding transaction |
-| Software | OpenSBI + Linux + soft-float `ilp32` BusyBox initramfs |
+| Software | OpenSBI + Linux + soft-float `lp64` BusyBox initramfs |
 
-The current pipeline baseline excludes the A, C, F/D, and V extensions, CSR traps, Sv32, multicore support, DMA, and cache coherence. The CPU is the only master accessing RAM. AMO and LR/SC implementation and verification rely on this platform constraint; adding other masters will require revisiting atomicity guarantees.
+The current pipeline baseline excludes the A, C, F/D, and V extensions, CSR traps, Sv39, multicore support, DMA, and cache coherence. The CPU is the only master accessing RAM. AMO and LR/SC implementation and verification rely on this platform constraint; adding other masters will require revisiting atomicity guarantees.
 
 ## AI and RSI
 
@@ -70,18 +70,18 @@ Initially, the simulation environment preloads OpenSBI, Linux, the device tree, 
 
 | Stage | Work | Acceptance Criteria |
 | --- | --- | --- |
-| 1. Bare-metal RV32I | Register file, ALU, decoder, multicycle FSM, simulated memory | Run arithmetic, branch, and load/store programs |
+| 1. Bare-metal RV64I | 64-bit register file, ALU, decoder, pipeline registers, simulated memory | Run arithmetic, branch, and load/store programs |
 | 2. M extension and M-mode | Multiply/divide, CSRs, exceptions, `ECALL`, `MRET`, timer interrupts | Run a bare-metal timer example |
 | 3. Atomics and bus integration | LR/SC, AMO, `FENCE`, `FENCE.I`, AXI4 bridge, UART | Pass atomic-operation tests and produce UART output |
-| 4. Privilege and virtual memory | S/U modes, trap delegation, `SRET`, Sv32, page permissions, A/D bit handling, `SFENCE.VMA` | Verify translation, user-mode execution, and page faults |
+| 4. Privilege and virtual memory | S/U modes, trap delegation, `SRET`, Sv39, page permissions, A/D bit handling, `SFENCE.VMA` | Verify translation, user-mode execution, and page faults |
 | 5. Linux boot | Platform devices, OpenSBI, Linux configuration, device tree, initramfs | Reach a shell and run `echo` and `cat /proc/cpuinfo` |
 | 6. PPA optimization | Pipelining, caches, critical-path and area optimization | Evaluate and iterate using actual process libraries |
 
-The first RTL milestone is split into `IFStage.scala`, `IDStage.scala`, `EXStage.scala`, `MEMStage.scala`, and `WBStage.scala`. `IFIDReg.scala`, `IDEXReg.scala`, `EXMEMReg.scala`, and `MEMWBReg.scala` hold the four inter-stage pipeline registers; `PipelineCore.scala` only connects stages and handles hazards. It includes forwarding, load-use stalling, branch flushing, RV32I/M ALU operations, and single-outstanding AXI4 arbitration.
+The first RTL milestone is split into `IFStage.scala`, `IDStage.scala`, `EXStage.scala`, `MEMStage.scala`, and `WBStage.scala`. `IFIDReg.scala`, `IDEXReg.scala`, `EXMEMReg.scala`, and `MEMWBReg.scala` hold the four inter-stage pipeline registers; `PipelineCore.scala` only connects stages and handles hazards. It includes forwarding, load-use stalling, branch flushing, RV64I/M ALU operations, including RV64 W-class operations, and single-outstanding AXI4 arbitration.
 
 ## Verification and PPA
 
-Starting with RV32I, record each retired instruction's PC, encoding, and register writeback for differential testing against a reference model. Add targeted tests for exceptions, the MMU, atomic operations, and AXI4 handshakes. Reaching the Linux shell is the system-level acceptance milestone.
+Starting with RV64I, record each retired instruction's PC, encoding, and register writeback for differential testing against a reference model. Add targeted tests for exceptions, the MMU, atomic operations, and AXI4 handshakes. Reaching the Linux shell is the system-level acceptance milestone.
 
 The following targets will be evaluated in the Buckyball framework. Their feasibility has not yet been established.
 
