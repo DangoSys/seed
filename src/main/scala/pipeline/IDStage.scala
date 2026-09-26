@@ -1,0 +1,74 @@
+package framework.seed.pipeline
+
+import chisel3._
+import chisel3.util._
+import framework.seed.configs.SeedParam
+
+class IDStage(val p: SeedParam = SeedParam()) extends Module {
+  val io = IO(new Bundle {
+    val in = Input(new IfId(p))
+    val rs1Data = Input(UInt(p.xLen.W))
+    val rs2Data = Input(UInt(p.xLen.W))
+    val rs1 = Output(UInt(5.W))
+    val rs2 = Output(UInt(5.W))
+    val usesRs1 = Output(Bool())
+    val usesRs2 = Output(Bool())
+    val out = Output(new IdEx(p))
+  })
+
+  val instr = io.in.instr
+  val opcode = instr(6, 0)
+  val funct3 = instr(14, 12)
+  val funct7 = instr(31, 25)
+  val rs1 = instr(19, 15)
+  val rs2 = instr(24, 20)
+  val rd = instr(11, 7)
+  val immI = Cat(Fill(20, instr(31)), instr(31, 20))
+  val immS = Cat(Fill(20, instr(31)), instr(31, 25), instr(11, 7))
+  val immB = Cat(Fill(19, instr(31)), instr(31), instr(7), instr(30, 25), instr(11, 8), 0.U)
+  val immU = Cat(instr(31, 12), Fill(12, 0.U))
+  val immJ = Cat(Fill(11, instr(31)), instr(31), instr(19, 12), instr(20), instr(30, 21), 0.U)
+
+  val out = WireDefault(0.U.asTypeOf(new IdEx(p)))
+  out.valid := io.in.valid; out.pc := io.in.pc; out.rs1 := rs1; out.rs2 := rs2; out.rd := rd
+  out.rs1Val := io.rs1Data; out.rs2Val := io.rs2Data; out.branchFunct3 := funct3; out.memSize := 2.U
+  val usesRs1 = WireDefault(false.B)
+  val usesRs2 = WireDefault(false.B)
+
+  switch(opcode) {
+    is("b0110111".U) { out.imm := immU; out.aluSrcImm := true.B; out.regWrite := true.B }
+    is("b0010111".U) { out.imm := immU; out.aluSrcImm := true.B; out.usePc := true.B; out.regWrite := true.B }
+    is("b1101111".U) { out.imm := immJ; out.jump := true.B; out.regWrite := true.B }
+    is("b1100111".U) { out.imm := immI; out.aluSrcImm := true.B; out.jalr := true.B; out.jump := true.B; out.regWrite := true.B; usesRs1 := true.B }
+    is("b1100011".U) { out.imm := immB; out.branch := true.B; usesRs1 := true.B; usesRs2 := true.B }
+    is("b0000011".U) {
+      out.imm := immI; out.aluSrcImm := true.B; out.regWrite := true.B; out.memRead := true.B; out.memToReg := true.B; usesRs1 := true.B
+      out.memSize := Mux(funct3 === 0.U || funct3 === 4.U, 0.U, Mux(funct3 === 1.U || funct3 === 5.U, 1.U, 2.U))
+      out.loadUnsigned := funct3(2)
+    }
+    is("b0100011".U) {
+      out.imm := immS; out.aluSrcImm := true.B; out.memWrite := true.B; usesRs1 := true.B; usesRs2 := true.B
+      out.memSize := Mux(funct3 === 0.U, 0.U, Mux(funct3 === 1.U, 1.U, 2.U))
+    }
+    is("b0010011".U) {
+      out.imm := immI; out.aluSrcImm := true.B; out.regWrite := true.B; usesRs1 := true.B
+      switch(funct3) {
+        is(0.U) { out.aluOp := AluOp.add }; is(2.U) { out.aluOp := AluOp.slt }; is(3.U) { out.aluOp := AluOp.sltu }
+        is(4.U) { out.aluOp := AluOp.xor }; is(6.U) { out.aluOp := AluOp.or }; is(7.U) { out.aluOp := AluOp.and }
+        is(1.U) { out.aluOp := AluOp.sll; out.imm := Cat(0.U(27.W), instr(24, 20)) }
+        is(5.U) { out.aluOp := Mux(instr(30), AluOp.sra, AluOp.srl); out.imm := Cat(0.U(27.W), instr(24, 20)) }
+      }
+    }
+    is("b0110011".U) {
+      out.regWrite := true.B; usesRs1 := true.B; usesRs2 := true.B
+      switch(funct3) {
+        is(0.U) { out.aluOp := Mux(funct7 === "b0100000".U, AluOp.sub, Mux(funct7 === "b0000001".U, AluOp.mul, AluOp.add)) }
+        is(1.U) { out.aluOp := AluOp.sll }; is(2.U) { out.aluOp := AluOp.slt }; is(3.U) { out.aluOp := AluOp.sltu }
+        is(4.U) { out.aluOp := Mux(funct7 === "b0000001".U, AluOp.rem, AluOp.xor) }
+        is(5.U) { out.aluOp := Mux(funct7 === "b0100000".U, AluOp.sra, AluOp.srl) }
+        is(6.U) { out.aluOp := AluOp.or }; is(7.U) { out.aluOp := Mux(funct7 === "b0000001".U, AluOp.div, AluOp.and) }
+      }
+    }
+  }
+  io.out := out; io.rs1 := rs1; io.rs2 := rs2; io.usesRs1 := usesRs1; io.usesRs2 := usesRs2
+}
