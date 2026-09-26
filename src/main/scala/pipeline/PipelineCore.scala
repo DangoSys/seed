@@ -45,9 +45,8 @@ class PipelineCore(val p: SeedParam = SeedParam()) extends Module {
   ifStage.io.redirect.valid := redirect
   ifStage.io.redirect.bits := exStage.io.redirect.bits
   ifStage.io.stall := frontStall
-  ifStage.io.consume := !frontStall && !redirect && ifStage.io.out.valid
-
   ifidReg.io.enable := !frontStall && !redirect
+  ifStage.io.outReady := ifidReg.io.enable
   ifidReg.io.flush := redirect
   idexReg.io.enable := !memStall
   idexReg.io.flush := redirect
