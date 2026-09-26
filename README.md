@@ -77,7 +77,7 @@ Initially, the simulation environment preloads OpenSBI, Linux, the device tree, 
 | 5. Linux boot | Platform devices, OpenSBI, Linux configuration, device tree, initramfs | Reach a shell and run `echo` and `cat /proc/cpuinfo` |
 | 6. PPA optimization | Pipelining, caches, critical-path and area optimization | Evaluate and iterate using actual process libraries |
 
-The first RTL milestone is split into `IFStage.scala`, `IDStage.scala`, `EXStage.scala`, `MEMStage.scala`, and `WBStage.scala`, with `PipelineCore.scala` connecting the stage registers and hazard control. It includes forwarding, load-use stalling, branch flushing, RV32I/M ALU operations, and single-outstanding AXI4 arbitration.
+The first RTL milestone is split into `IFStage.scala`, `IDStage.scala`, `EXStage.scala`, `MEMStage.scala`, and `WBStage.scala`. `IFIDReg.scala`, `IDEXReg.scala`, `EXMEMReg.scala`, and `MEMWBReg.scala` hold the four inter-stage pipeline registers; `PipelineCore.scala` only connects stages and handles hazards. It includes forwarding, load-use stalling, branch flushing, RV32I/M ALU operations, and single-outstanding AXI4 arbitration.
 
 ## Verification and PPA
 
