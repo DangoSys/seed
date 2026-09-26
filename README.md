@@ -25,7 +25,7 @@ sudo mv mill /usr/local/bin/mill
 mill seed.runMain framework.seed.SeedTop
 ```
 
-You can find generated verilog files under `seed/build/Seed.sv`
+You can find generated verilog files under `build/Seed.sv`
 
 ## MVP Specification
 
