@@ -1,12 +1,27 @@
-# seed
+# bb-seed
 
 A single-core RV32 processor developed with AI in Chisel. Start with a multicycle core that boots Linux into a BusyBox shell, then optimize PPA in the Buckyball framework.
 
 
 ## Quick Start
 
+Install [Mill](https://mill-build.org/) 1.1.10. JDK 17 or newer is also required.
+
+macOS:
+
 ```bash
-cd seed
+brew install mill
+```
+
+Linux:
+
+```bash
+curl -L https://repo1.maven.org/maven2/com/lihaoyi/mill-dist/1.1.10/mill-dist-1.1.10-mill.sh -o mill
+chmod +x mill
+sudo mv mill /usr/local/bin/mill
+```
+
+```bash
 mill seed.runMain framework.seed.SeedTop
 ```
 
@@ -16,18 +31,18 @@ You can find generated verilog files under `seed/build/Seed.sv`
 
 | Item | Design |
 | --- | --- |
-| ISA | `RV32IMA_Zicsr_Zifencei` |
-| Execution | Single core, single issue, multicycle, no speculative execution |
+| ISA | Current baseline: `RV32IM`; target: `RV32IMA_Zicsr_Zifencei` |
+| Execution | Single core, in-order five-stage pipeline: IF / ID / EX / MEM / WB |
 | Multiply/divide | Multicycle implementation |
-| Privilege modes | M / S / U |
-| Address translation | Sv32, hardware page-table walker, small shared TLB |
+| Privilege modes | Planned; current pipeline runs in a simple machine-mode test environment |
+| Address translation | Planned; current baseline uses physical addresses |
 | Caches | None initially; instruction fetches and data accesses execute serially |
 | Internal memory interface | Simple request/response interface, converted to AXI4 by a bridge |
 | External interfaces | One AXI4 master, clock, reset, and timer/software/external interrupt inputs |
 | AXI4 transactions | Single-beat accesses, with at most one outstanding transaction |
 | Software | OpenSBI + Linux + soft-float `ilp32` BusyBox initramfs |
 
-The MVP excludes the C, F/D, and V extensions, multicore support, DMA, and cache coherence. The CPU is the only master accessing RAM. AMO and LR/SC implementation and verification rely on this platform constraint; adding other masters will require revisiting atomicity guarantees.
+The current pipeline baseline excludes the A, C, F/D, and V extensions, CSR traps, Sv32, multicore support, DMA, and cache coherence. The CPU is the only master accessing RAM. AMO and LR/SC implementation and verification rely on this platform constraint; adding other masters will require revisiting atomicity guarantees.
 
 ## AI and RSI
 
@@ -62,7 +77,7 @@ Initially, the simulation environment preloads OpenSBI, Linux, the device tree, 
 | 5. Linux boot | Platform devices, OpenSBI, Linux configuration, device tree, initramfs | Reach a shell and run `echo` and `cat /proc/cpuinfo` |
 | 6. PPA optimization | Pipelining, caches, critical-path and area optimization | Evaluate and iterate using actual process libraries |
 
-Begin with `Core.scala`, `Decoder.scala`, `RegFile.scala`, and `Alu.scala`, running a small program with `addi -> add -> sw -> lw -> branch loop`. Introduce `CsrFile`, `MulDiv`, `Mmu`, and `AxiBridge` as later stages require them.
+The first RTL milestone is split into `IFStage.scala`, `IDStage.scala`, `EXStage.scala`, `MEMStage.scala`, and `WBStage.scala`, with `PipelineCore.scala` connecting the stage registers and hazard control. It includes forwarding, load-use stalling, branch flushing, RV32I/M ALU operations, and single-outstanding AXI4 arbitration.
 
 ## Verification and PPA
 
