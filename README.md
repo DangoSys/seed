@@ -1,4 +1,4 @@
-# bb-seed
+# seed
 
 A single-core RV64 processor developed with AI in Chisel. Start with a multicycle core that boots Linux into a BusyBox shell, then optimize PPA in the Buckyball framework.
 
