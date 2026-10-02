@@ -1,11 +1,10 @@
 # seed
 
-A single-core RV64 processor developed with AI in Chisel. Start with a multicycle core that boots Linux into a BusyBox shell, then optimize PPA in the Buckyball framework.
+`bb-seed` is a single-core RV64 processor written in Chisel. The current RTL baseline is an in-order five-stage pipeline. The project roadmap extends that baseline toward a Linux-capable platform and later PPA optimization in the Buckyball framework.
 
+## Quick start
 
-## Quick Start
-
-Install [Mill](https://mill-build.org/) 1.1.10. JDK 17 or newer is also required.
+Install [Mill](https://mill-build.org/) 1.1.10 and JDK 17 or newer.
 
 macOS:
 
@@ -21,78 +20,87 @@ chmod +x mill
 sudo mv mill /usr/local/bin/mill
 ```
 
+Generate SystemVerilog with:
+
 ```bash
 mill seed.runMain framework.seed.SeedTop
 ```
 
-You can find generated verilog files under `build/Seed.sv`
+The generated file is written to `build/Seed.sv`.
 
-## MVP Specification
+## Design specifications
 
-| Item | Design |
+The design baseline is maintained in [`docs/specs/`](docs/specs/README.md). The specifications follow a hardware design flow of system requirements, subsystem architecture, block microarchitecture, interface contracts, and verification mapping.
+
+Start with:
+
+- [System requirements](docs/specs/00-system/requirements.md)
+- [Current architecture](docs/specs/00-system/architecture.md)
+- [Five-stage pipeline](docs/specs/10-subsystems/pipeline.md)
+- [Block microarchitecture template](docs/specs/templates/block-microarchitecture.md)
+
+The specs are the intended behavior. RTL changes that alter behavior must update the relevant spec revision and requirement-to-verification mapping.
+
+## Current RTL baseline
+
+| Area | Current baseline |
 | --- | --- |
-| ISA | Current baseline: `RV64IM`; target: `RV64IMA_Zicsr_Zifencei` |
-| Execution | Single core, in-order five-stage pipeline: IF / ID / EX / MEM / WB |
-| Multiply/divide | Multicycle implementation |
-| Privilege modes | Planned; current pipeline runs in a simple machine-mode test environment |
-| Address translation | Planned; current baseline uses physical addresses |
-| Caches | None initially; instruction fetches and data accesses execute serially |
-| Internal memory interface | Simple request/response interface, converted to AXI4 by a bridge |
-| External interfaces | One AXI4 master, clock, reset, and timer/software/external interrupt inputs |
-| AXI4 transactions | Single-beat accesses, with at most one outstanding transaction |
-| Software | OpenSBI + Linux + soft-float `lp64` BusyBox initramfs |
+| ISA | A subset of RV64I, RV64M, and RV64W as decoded by `IDStage` |
+| Datapath | 64-bit integer datapath and 32 × 64-bit register file |
+| Pipeline | In-order, single-issue IF / ID / EX / MEM / WB |
+| Hazards | EX/MEM and MEM/WB forwarding, load-use stall, branch/jump flush |
+| Memory | Separate instruction/data request-response ports inside the core |
+| Bus | Single-beat AXI4 bridge, one outstanding transaction, data priority over instruction fetch |
+| Parameters | `xLen=64`, `vaddrBits=64`, `pgIdxBits=12` are currently fixed |
+| Commit trace | `PipelineCore` exposes retired and retired PC signals for verification |
 
-The current pipeline baseline excludes the A, C, F/D, and V extensions, CSR traps, Sv39, multicore support, DMA, and cache coherence. The CPU is the only master accessing RAM. AMO and LR/SC implementation and verification rely on this platform constraint; adding other masters will require revisiting atomicity guarantees.
+The current implementation does not yet include CSR or trap handling, privilege modes, virtual memory, caches, atomic instructions, multiple outstanding transactions, or a dedicated multicycle multiply/divide unit. AXI response errors and misaligned accesses are also not converted into architectural exceptions.
 
-## AI and RSI
+The top-level `Seed` exposes `mtip`, `msip`, and `meip` inputs for future integration, but they are currently unused. `cease` is tied low.
 
-bb-seed explores RSI through iterative hardware design: AI modifies Chisel, runs verification and PPA evaluation, and uses the results to guide the next iteration. Engineers define the goals and review the changes.
+## Architecture overview
 
-The project is currently at the planning stage; RTL and the automated feedback loop are not yet implemented.
-
-## Architecture Overview
-
-The block diagram shows the target MVP architecture, not pipeline stages. Solid lines denote data or memory-request paths; dashed lines denote control signals. Return paths and local control connections are simplified. Modules will be added incrementally during development.
-
-![bb-seed architecture: processor core, shared memory path, and platform devices](docs/images/architecture.svg)
-
-Instruction fetches, data accesses, and page-table walks share the external AXI4 master. UART, timers, the interrupt controller, and RAM belong to the platform. Interrupts reach the core through dedicated signals; ordinary AXI4 memory transactions do not replace interrupt inputs.
-
-The boot sequence is:
+The implemented boundary is:
 
 ```text
-Reset -> Boot ROM -> OpenSBI (M-mode) -> Linux (S-mode) -> BusyBox (U-mode)
+                 +-----------------------------+
+                 | Seed                        |
+  AXI4 master <--| AxiBridge                   |
+                 |       ^                 ^   |
+                 |       | imem / dmem     |   |
+                 |       +-- PipelineCore-+   |
+                 +-----------------------------+
 ```
 
-Initially, the simulation environment preloads OpenSBI, Linux, the device tree, and initramfs. U-Boot, block devices, and booting from persistent storage are outside the initial scope.
+Inside `PipelineCore`:
 
-## Implementation Plan
+```text
+IFStage -> IFIDReg -> IDStage -> IDEXReg -> EXStage
+        -> EXMEMReg -> MEMStage -> MEMWBReg -> WBStage
+```
 
-| Stage | Work | Acceptance Criteria |
+The existing [architecture diagram](docs/images/architecture.svg) describes a later target architecture and still contains RV32, MMU, CSR, and platform blocks that are not part of the current RTL baseline. It is retained as a roadmap artifact until the architecture is updated.
+
+## Development roadmap
+
+| Phase | Scope | Exit criteria |
 | --- | --- | --- |
-| 1. Bare-metal RV64I | 64-bit register file, ALU, decoder, pipeline registers, simulated memory | Run arithmetic, branch, and load/store programs |
-| 2. M extension and M-mode | Multiply/divide, CSRs, exceptions, `ECALL`, `MRET`, timer interrupts | Run a bare-metal timer example |
-| 3. Atomics and bus integration | LR/SC, AMO, `FENCE`, `FENCE.I`, AXI4 bridge, UART | Pass atomic-operation tests and produce UART output |
-| 4. Privilege and virtual memory | S/U modes, trap delegation, `SRET`, Sv39, page permissions, A/D bit handling, `SFENCE.VMA` | Verify translation, user-mode execution, and page faults |
-| 5. Linux boot | Platform devices, OpenSBI, Linux configuration, device tree, initramfs | Reach a shell and run `echo` and `cat /proc/cpuinfo` |
-| 6. PPA optimization | Pipelining, caches, critical-path and area optimization | Evaluate and iterate using actual process libraries |
+| 1. Pipeline baseline | RV64I subset, register file, ALU, hazards, simulated memory | Arithmetic, branch, load/store and retire tests pass |
+| 2. M extension and traps | Complete M coverage, CSR state, exceptions, `ECALL`, `MRET` | Differential instruction tests and trap tests pass |
+| 3. Atomic and bus features | LR/SC, AMO, `FENCE`, `FENCE.I`, robust AXI error handling | Atomicity and AXI protocol tests pass |
+| 4. Privilege and virtual memory | M/S/U modes, delegation, Sv39, permissions, page faults | Translation and privilege tests pass |
+| 5. Linux boot | Platform devices, OpenSBI, device tree, initramfs | Reach a BusyBox shell and run basic commands |
+| 6. PPA optimization | Caches, timing, area and power optimization | PPA reports are reproducible for declared PVT/workloads |
 
-The first RTL milestone is split into `IFStage.scala`, `IDStage.scala`, `EXStage.scala`, `MEMStage.scala`, and `WBStage.scala`. `IFIDReg.scala`, `IDEXReg.scala`, `EXMEMReg.scala`, and `MEMWBReg.scala` hold the four inter-stage pipeline registers; `PipelineCore.scala` only connects stages and handles hazards. It includes forwarding, load-use stalling, branch flushing, RV64I/M ALU operations, including RV64 W-class operations, and single-outstanding AXI4 arbitration.
+The first phase is the current implementation focus. Linux boot and the later architectural features are planned work, not current acceptance criteria.
 
 ## Verification and PPA
 
-Starting with RV64I, record each retired instruction's PC, encoding, and register writeback for differential testing against a reference model. Add targeted tests for exceptions, the MMU, atomic operations, and AXI4 handshakes. Reaching the Linux shell is the system-level acceptance milestone.
+Verification will use the `retired` and `retiredPc` observations for instruction-level comparison, then add targeted checks for hazards, redirects, memory backpressure, AXI handshakes, exceptions, and virtual memory as those features land. Each block spec contains its initial verification obligations; the pipeline-level plan is in [`docs/specs/10-subsystems/pipeline.md`](docs/specs/10-subsystems/pipeline.md).
 
-The following targets will be evaluated in the Buckyball framework. Their feasibility has not yet been established.
-
-| Process | Area Target | Frequency Target |
-| --- | --- | --- |
-| 28nm | ≤ 0.05 mm² | ≥ 1 GHz |
-| 180nm | ≤ 2 mm² | ≥ 500 MHz |
-
-PPA reports will distinguish core logic area, core area including cache SRAM, and subsystem area including bus and interrupt/timer wrappers. Whether the final area budget includes SRAM remains to be decided. Frequency must be based on post-layout timing at specified process, voltage, and temperature (PVT) conditions. Power results must state the workload and switching activity assumptions. The 500 MHz target at 180nm requires an early feasibility check with the actual process library.
+PPA evaluation is planned for the Buckyball flow. Reports must state process, voltage, temperature, clock constraints, SRAM inclusion, workload, and switching assumptions before results are compared.
 
 ## References
 
-- [Linux 6.12 RISC-V Build Configuration](https://github.com/torvalds/linux/blob/v6.12/arch/riscv/Makefile)
-- [RISC-V Linux Boot Requirements](https://docs.kernel.org/arch/riscv/boot.html)
+- [Linux 6.12 RISC-V build configuration](https://github.com/torvalds/linux/blob/v6.12/arch/riscv/Makefile)
+- [RISC-V Linux boot requirements](https://docs.kernel.org/arch/riscv/boot.html)
