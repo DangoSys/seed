@@ -34,7 +34,7 @@
 
 ## 设计事实和已知偏差
 
-- 当前参数固定为 `xLen=64`、`vaddrBits=64`、`pgIdxBits=12`。
+- 当前参数固定为 `xLen=64`、`vaddrBits=64`、`pgIdxBits=12`，默认 `resetPc=0x0000000080000000`。
 - 当前实现是 RV64 五级流水线，支持一部分 RV64I/RV64M 和 RV64W 指令；CSR、特权级、异常、中断、虚拟内存、缓存和原子指令尚未接入。
 - 指令和数据路径各自对接一个 `Decoupled` 请求/响应端口，但通过 `AxiBridge` 共享单个 AXI4 master；同一时刻最多一个外部事务。
 - 数据存取响应中的 `resp` 字段目前没有转化为异常；对齐检查也尚未实现。
@@ -46,6 +46,7 @@
 
 - [Pipeline subsystem](10-subsystems/pipeline.md)
 - [PipelineCore](20-blocks/pipeline/pipeline-core.md)
+- [PCReg](20-blocks/pipeline/pc-reg.md)
 - [IFStage](20-blocks/pipeline/if-stage.md)
 - [IDStage](20-blocks/pipeline/id-stage.md)
 - [EXStage](20-blocks/pipeline/ex-stage.md)

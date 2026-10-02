@@ -55,6 +55,7 @@ IFStage -> IFIDReg -> IDStage -> IDEXReg -> EXStage -> EXMEMReg -> MEMStage -> M
 | instruction | 32 bit |
 | integer registers | 32 × 64 bit |
 | PC increment | 4 byte |
+| reset PC | `0x0000000080000000` by default |
 | data bus | 64 bit, byte mask |
 | page index parameter | 12 bit, currently unused |
 

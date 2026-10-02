@@ -17,14 +17,16 @@ class IFStage(val p: SeedParam = SeedParam()) extends Module {
     val out = Output(new IfId(p))
   })
 
-  val pc = RegInit(0.U(p.vaddrBits.W))
+  val pcReg = Module(new PCReg(p))
   val requestPc = RegInit(0.U(p.vaddrBits.W))
   val pending = RegInit(false.B)
   val discardResponse = RegInit(false.B)
 
   val consumeResponse = pending && io.imem.resp.valid && !io.stall && io.outReady && !io.redirect.valid && !discardResponse
   io.imem.req.valid := !pending && !io.stall && !io.redirect.valid && io.outReady
-  io.imem.req.bits.addr := pc
+  pcReg.io.redirect := io.redirect
+  pcReg.io.advance := io.imem.req.fire
+  io.imem.req.bits.addr := pcReg.io.pc
   io.imem.resp.ready := pending && (io.redirect.valid || discardResponse || (!io.stall && io.outReady))
   io.out.valid := consumeResponse
   io.out.pc := requestPc
@@ -32,11 +34,9 @@ class IFStage(val p: SeedParam = SeedParam()) extends Module {
 
   when(io.imem.req.fire) {
     pending := true.B
-    requestPc := pc
-    pc := pc + 4.U
+    requestPc := pcReg.io.pc
   }
   when(io.redirect.valid) {
-    pc := io.redirect.bits
     when(pending) { discardResponse := true.B }
   }
   when(io.imem.resp.fire) {

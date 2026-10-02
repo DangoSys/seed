@@ -51,7 +51,7 @@ The specs are the intended behavior. RTL changes that alter behavior must update
 | Hazards | EX/MEM and MEM/WB forwarding, load-use stall, branch/jump flush |
 | Memory | Separate instruction/data request-response ports inside the core |
 | Bus | Single-beat AXI4 bridge, one outstanding transaction, data priority over instruction fetch |
-| Parameters | `xLen=64`, `vaddrBits=64`, `pgIdxBits=12` are currently fixed |
+| Parameters | `xLen=64`, `vaddrBits=64`, `pgIdxBits=12`, default `resetPc=0x0000000080000000` |
 | Commit trace | `PipelineCore` exposes retired and retired PC signals for verification |
 
 The current implementation does not yet include CSR or trap handling, privilege modes, virtual memory, caches, atomic instructions, multiple outstanding transactions, or a dedicated multicycle multiply/divide unit. AXI response errors and misaligned accesses are also not converted into architectural exceptions.

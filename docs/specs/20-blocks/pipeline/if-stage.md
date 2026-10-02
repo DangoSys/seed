@@ -25,16 +25,17 @@
 
 ## 3. State
 
+`pc` 由独立的 [`PCReg`](pc-reg.md) 持有。IFStage 只持有请求生命周期状态：
+
 | State | Reset | Set | Clear |
 | --- | --- | --- | --- |
-| `pc` | 0 | request fire 后加 4；redirect 时写目标 | never |
-| `requestPc` | 0 | request fire 时捕获 `pc` | next request |
+| `requestPc` | 0 | request fire 时捕获 `PCReg.pc` | next request |
 | `pending` | false | request fire | response fire |
 | `discardResponse` | false | pending 时收到 redirect | response fire |
 
 ## 4. Requirements
 
-- `REQ-IF-001`: 复位后第一个可接受请求的地址 SHALL 为 0。
+- `REQ-IF-001`: 复位后第一个可接受请求的地址 SHALL 为 `SeedParam.resetPc`（`0x80000000`）。
 - `REQ-IF-002`: IF SHALL 最多保持一个 outstanding instruction request；`req.valid` SHALL 在 `pending=1` 时为 0。
 - `REQ-IF-003`: 请求 fire 时 SHALL 捕获 request PC，并将下一顺序 PC 更新为 `pc+4`。
 - `REQ-IF-004`: response 只有在 `pending && resp.valid && !stall && outReady && !redirect.valid && !discardResponse` 时才形成 valid `out`。
