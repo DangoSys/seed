@@ -6,6 +6,8 @@
 
 Install [Mill](https://mill-build.org/) 1.1.10 and JDK 17 or newer.
 
+The build pins Scala 2.13.18 and Chisel 7.16.0, with the matching Chisel compiler plugin. The chisel-iabv verification templates use the same versions. SystemVerilog emission uses Chisel's matching firtool release.
+
 macOS:
 
 ```bash
@@ -26,7 +28,30 @@ Generate SystemVerilog with:
 mill seed.runMain framework.seed.SeedTop
 ```
 
-The generated file is written to `build/Seed.sv`.
+The generated file is written to `build/rtl/Seed.sv`.
+
+## Mill verification adapter
+
+Initialize the pinned chisel-iabv tool checkout:
+
+```bash
+git submodule update --init tools/chisel-iabv
+```
+
+From the Seed root, with Python 3.10+ on macOS/Linux, run:
+
+```bash
+python3 tools/chisel-iabv/src/product/adapters/mill_project.py \
+  --manifest verification/seed-mill.json \
+  --project-root . \
+  --output "build/verification/$(date +%Y%m%d-%H%M%S)" \
+  --mode compile_emit
+```
+
+Use a new output directory per run. RTL is emitted to `build/rtl/`; reports,
+logs and copied artifacts are stored in `build/verification/`. Both are ignored
+by Git. The adapter currently compiles and emits SeedTop; PCReg LTL properties
+and a formal backend are not yet connected. See [verification setup](verification/README.md).
 
 ## Design specifications
 

@@ -5,8 +5,8 @@ import mill.*, scalalib.*
 object seed extends SbtModule {
   // Sources live at the repo root, not under seed/.
   def moduleDir = super.moduleDir / os.up
-  def scalaVersion = "2.13.16"
-  def mvnDeps = Seq(mvn"org.chipsalliance::chisel:6.7.0")
-  def scalacPluginMvnDeps = Seq(mvn"org.chipsalliance:::chisel-plugin:6.7.0")
+  def scalaVersion = "2.13.18"
+  def mvnDeps = Seq(mvn"org.chipsalliance::chisel:7.16.0")
+  def scalacPluginMvnDeps = Seq(mvn"org.chipsalliance:::chisel-plugin:7.16.0")
   def scalacOptions = Seq("-language:reflectiveCalls", "-Ymacro-annotations")
 }

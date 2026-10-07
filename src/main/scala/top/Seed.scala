@@ -15,6 +15,6 @@ object SeedTop extends App {
   _root_.circt.stage.ChiselStage.emitSystemVerilogFile(
     new Seed(),
     firtoolOpts = args.drop(1),
-    args = Array("--target-dir", "build")
+    args = Array("--target-dir", "build/rtl")
   )
 }
