@@ -28,7 +28,9 @@ inspect such files if an emitter fails to refresh its complete output.
 
 `passed` means the requested compile/emission stages succeeded. `formal_status`
 remains `not_run`. The current manifest builds the processor top including PCReg;
-a separate PCReg property harness and formal backend are future integration work.
+the [PCReg Assertion job](pc-reg/README.md) delegates generation from its supplied
+plan, isolated builds, simulation and mutation checks to chisel-iabv product.
+Run `python3 verification/pc-reg/run.py` to launch the job. A formal backend remains future integration work.
 
 ## Updating the tool
 

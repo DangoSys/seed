@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "build_system": "mill",
+  "module": "pcRegVerification",
+  "inputs": ["src/main/scala", "src/main/resources", "verification/pc-reg", "docs/specs/20-blocks/pipeline/pc-reg.md"],
+  "emit": {
+    "main_class": "framework.seed.verification.EmitPCRegVerification",
+    "args": [],
+    "output_dir": "build/pc-reg-rtl"
+  }
+}

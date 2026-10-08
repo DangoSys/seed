@@ -3,8 +3,8 @@
 | Field | Value |
 | --- | --- |
 | Spec ID | `SEED-BLK-PC` |
-| Status | `Implemented / Unverified` |
-| Revision | `0.1` |
+| Status | `Implemented / LTL simulation verified; formal pending` |
+| Revision | `0.3` |
 | RTL | `src/main/scala/pipeline/PCReg.scala` |
 | Parent | [IFStage](if-stage.md) |
 
@@ -61,3 +61,17 @@ else:             state' = state
 | redirect while idle | target captured |
 | redirect with advance | redirect wins |
 | IF response delayed | PC remains at post-request value; response PC comes from IFStage `requestPc` |
+
+## 7. Executable verification
+
+Run `python3 verification/pc-reg/run.py` from the Seed root. The
+[verification setup](../../../../verification/pc-reg/README.md) maps
+REQ-PC-001 through REQ-PC-005 to a project-supplied property plan. chisel-iabv
+product calls the ca-assertion official LTL renderer to generate assertions, then
+executes isolated Mill builds and Verilator assertion simulation on the real PCReg,
+six measured cover points and a +4-to-+8 mutation that must fail the advance
+property. It includes directed scenarios and 10,000 deterministic random cycles.
+
+This evidence establishes simulation coverage of these scenarios; formal proof
+is pending. REQ-PC-006 remains a structural review obligation. The response-delay
+scenario in section 6 belongs to IFStage integration and is not exercised here.

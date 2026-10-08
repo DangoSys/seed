@@ -58,8 +58,10 @@ python3 tools/chisel-iabv/src/product/adapters/mill_project.py \
 
 Use a new output directory per run. RTL is emitted to `build/rtl/`; reports,
 logs and copied artifacts are stored in `build/verification/`. Both are ignored
-by Git. The adapter currently compiles and emits SeedTop; PCReg LTL properties
-and a formal backend are not yet connected. See [verification setup](verification/README.md).
+by Git. The manifest above compiles and emits SeedTop. For PCReg Assertion generation from its supplied plan, LTL simulation and a
+mutation check, run `python3 verification/pc-reg/run.py` (a launcher for the
+chisel-iabv product workflow).
+A formal backend is not yet connected. See [verification setup](verification/README.md).
 
 ## Design specifications
 

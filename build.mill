@@ -10,3 +10,12 @@ object seed extends SbtModule {
   def scalacPluginMvnDeps = Seq(mvn"org.chipsalliance:::chisel-plugin:7.16.0")
   def scalacOptions = Seq("-language:reflectiveCalls", "-Ymacro-annotations")
 }
+
+object pcRegVerification extends SbtModule {
+  def moduleDir = seed.moduleDir / "verification" / "pc-reg"
+  def scalaVersion = seed.scalaVersion()
+  def mvnDeps = seed.mvnDeps()
+  def scalacPluginMvnDeps = seed.scalacPluginMvnDeps()
+  def scalacOptions = seed.scalacOptions()
+  def moduleDeps = Seq(seed)
+}
