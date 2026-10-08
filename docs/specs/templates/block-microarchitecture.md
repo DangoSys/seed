@@ -7,7 +7,7 @@
 | Revision | `0.1` |
 | Owner | TBD |
 | RTL | `src/main/scala/...` |
-| Verification | `src/test/...` or TBD |
+| Verification | `docs/verification-plan/<this-file>.md` or TBD |
 | Reviewers | TBD |
 | Last updated | YYYY-MM-DD |
 
@@ -65,11 +65,9 @@
 
 说明延迟、吞吐率、Outstanding 数量、频率/面积预算和假设。
 
-## 9. Verification plan
+## 9. Verification
 
-| Requirement | Simulation | Assertion/formal | Coverage/acceptance |
-| --- | --- | --- | --- |
-| `REQ-XXX-001` | ... | ... | ... |
+验证计划写在 `docs/verification-plan/<this-file>.md`，本节只写链接，不展开测试、断言和覆盖率。
 
 ## 10. Integration checklist
 

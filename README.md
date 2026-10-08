@@ -93,48 +93,6 @@ The current implementation does not yet include CSR or trap handling, privilege 
 
 The top-level `Seed` exposes `mtip`, `msip`, and `meip` inputs for future integration, but they are currently unused. `cease` is tied low.
 
-## Architecture overview
-
-The implemented boundary is:
-
-```text
-                 +-----------------------------+
-                 | Seed                        |
-  AXI4 master <--| AxiBridge                   |
-                 |       ^                 ^   |
-                 |       | imem / dmem     |   |
-                 |       +-- PipelineCore-+   |
-                 +-----------------------------+
-```
-
-Inside `PipelineCore`:
-
-```text
-IFStage -> IFID -> IDStage -> IDEXReg -> EXStage
-        -> EXMEMReg -> MEMStage -> MEMWBReg -> WBStage
-```
-
-The existing [architecture diagram](docs/images/architecture.svg) describes a later target architecture and still contains RV32, MMU, CSR, and platform blocks that are not part of the current RTL baseline. It is retained as a roadmap artifact until the architecture is updated.
-
-## Development roadmap
-
-| Phase | Scope | Exit criteria |
-| --- | --- | --- |
-| 1. Pipeline baseline | RV64I subset, register file, ALU, hazards, simulated memory | Arithmetic, branch, load/store and retire tests pass |
-| 2. M extension and traps | Complete M coverage, CSR state, exceptions, `ECALL`, `MRET` | Differential instruction tests and trap tests pass |
-| 3. Atomic and bus features | LR/SC, AMO, `FENCE`, `FENCE.I`, robust AXI error handling | Atomicity and AXI protocol tests pass |
-| 4. Privilege and virtual memory | M/S/U modes, delegation, Sv39, permissions, page faults | Translation and privilege tests pass |
-| 5. Linux boot | Platform devices, OpenSBI, device tree, initramfs | Reach a BusyBox shell and run basic commands |
-| 6. PPA optimization | Caches, timing, area and power optimization | PPA reports are reproducible for declared PVT/workloads |
-
-The first phase is the current implementation focus. Linux boot and the later architectural features are planned work, not current acceptance criteria.
-
-## Verification and PPA
-
-Verification will use the `retired` and `retiredPc` observations for instruction-level comparison, then add targeted checks for hazards, redirects, memory backpressure, AXI handshakes, exceptions, and virtual memory as those features land. Each block spec contains its initial verification obligations; the pipeline-level plan is in [`docs/specs/10-subsystems/pipeline.md`](docs/specs/10-subsystems/pipeline.md).
-
-PPA evaluation is planned for the Buckyball flow. Reports must state process, voltage, temperature, clock constraints, SRAM inclusion, workload, and switching assumptions before results are compared.
-
 ## References
 
 - [Linux 6.12 RISC-V build configuration](https://github.com/torvalds/linux/blob/v6.12/arch/riscv/Makefile)
