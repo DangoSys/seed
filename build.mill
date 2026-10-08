@@ -33,3 +33,17 @@ object ifuVerification extends SbtModule {
   def scalacOptions = seed.scalacOptions()
   def moduleDeps = Seq(seed)
 }
+
+object ifidRegVerification extends SbtModule {
+  def moduleDir = seed.moduleDir / "verification" / "ifid-reg"
+  def scalaVersion = seed.scalaVersion()
+  def mvnDeps = seed.mvnDeps()
+  def scalacPluginMvnDeps = seed.scalacPluginMvnDeps()
+  def scalacOptions = seed.scalacOptions()
+  def moduleDeps = Seq(seed)
+
+  object test extends SbtTests {
+    def mvnDeps = Seq(mvn"org.scalatest::scalatest:3.2.20")
+    def testFramework = "org.scalatest.tools.Framework"
+  }
+}
