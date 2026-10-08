@@ -13,9 +13,9 @@ import chisel3.util._
 import framework.seed.configs.SeedParam
 
 /** ID stage: decode a 32-bit instruction and read the 64-bit register file. */
-class IDStage(val p: SeedParam = SeedParam()) extends Module {
+class IDU(val p: SeedParam = SeedParam()) extends Module {
   val io = IO(new Bundle {
-    val in = Input(new IfIdBundle(p))
+    val in = Input(new IfId(p))
     val rs1Data = Input(UInt(p.xLen.W))
     val rs2Data = Input(UInt(p.xLen.W))
     val rs1 = Output(UInt(5.W))

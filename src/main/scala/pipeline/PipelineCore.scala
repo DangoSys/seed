@@ -8,15 +8,15 @@ import framework.seed.configs.SeedParam
 class PipelineCore(val p: SeedParam = SeedParam()) extends Module {
   val io = IO(new PipelineIO(p))
 
-  val ifStage = Module(new IFStage(p))
-  val ifidReg = Module(new IFID(p))
-  val idStage = Module(new IDStage(p))
+  val ifStage = Module(new IFU(p))
+  val ifidReg = Module(new IFIDReg(p))
+  val idStage = Module(new IDU(p))
   val idexReg = Module(new IDEXReg(p))
-  val exStage = Module(new EXStage(p))
+  val exStage = Module(new EXU(p))
   val exmemReg = Module(new EXMEMReg(p))
-  val memStage = Module(new MEMStage(p))
+  val memStage = Module(new MEMU(p))
   val memwbReg = Module(new MEMWBReg(p))
-  val wbStage = Module(new WBStage(p))
+  val wbStage = Module(new WBU(p))
   val regs = RegInit(VecInit(Seq.fill(32)(0.U(p.xLen.W))))
 
   ifStage.io.imem <> io.imem

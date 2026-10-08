@@ -40,7 +40,7 @@
     },
     {
       "name": "deliver_stale_response",
-      "file": "IFStage.sv",
+      "file": "IFU.sv",
       "find": "& ~discardResponse;",
       "replace": ";",
       "args": [
@@ -50,7 +50,7 @@
     },
     {
       "name": "wrong_response_pc",
-      "file": "IFStage.sv",
+      "file": "IFU.sv",
       "find": "assign io_out_pc = requestPc;",
       "replace": "assign io_out_pc = _pcReg_io_pc;",
       "args": [

@@ -5,7 +5,7 @@ import chisel3.util._
 import framework.seed.configs.SeedParam
 
 /** EX stage: forwarding, 64-bit ALU/M operations, branch resolution. */
-class EXStage(val p: SeedParam = SeedParam()) extends Module {
+class EXU(val p: SeedParam = SeedParam()) extends Module {
   val io = IO(new Bundle {
     val in = Input(new IdEx(p))
     val exmem = Input(new ExMem(p))

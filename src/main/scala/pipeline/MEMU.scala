@@ -5,7 +5,7 @@ import chisel3.util._
 import framework.seed.configs.SeedParam
 
 /** MEM stage: one outstanding 64-bit AXI data access at a time. */
-class MEMStage(val p: SeedParam = SeedParam()) extends Module {
+class MEMU(val p: SeedParam = SeedParam()) extends Module {
   val io = IO(new Bundle {
     val in = Input(new ExMem(p))
     val dmem = new Bundle { val req = Decoupled(new PipeDMemReq(p)); val resp = Flipped(Decoupled(new PipeDMemResp(p))) }

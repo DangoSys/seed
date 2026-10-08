@@ -3,7 +3,7 @@ package framework.seed.verification
 import chisel3._
 import chisel3.util._
 import framework.seed.configs.SeedParam
-import framework.seed.pipeline.{IFStage, IfIdBundle, PipeIMemReq, PipeIMemResp}
+import framework.seed.pipeline.{IFU, IfId, PipeIMemReq, PipeIMemResp}
 
 /** Real DUT plus independent interface history; iabv injects the properties. */
 class IFUVerificationTop extends Module {
@@ -16,10 +16,10 @@ class IFUVerificationTop extends Module {
       val req = Decoupled(new PipeIMemReq(p))
       val resp = Flipped(Decoupled(new PipeIMemResp(p)))
     }
-    val out = Output(new IfIdBundle(p))
+    val out = Output(new IfId(p))
   })
 
-  val dut = Module(new IFStage(p))
+  val dut = Module(new IFU(p))
   dut.io.redirect := io.redirect
   dut.io.stall := io.stall
   dut.io.outReady := io.outReady

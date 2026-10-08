@@ -54,7 +54,7 @@ def main():
     if not re.fullmatch(r'[A-Za-z0-9_.-]+', args.host) or args.host.startswith('-'):
         p.error('Use an SSH config alias without shell syntax')
     rtl = args.rtl_dir.resolve(strict=True)
-    required = ['filelist.f', 'IFUVerificationTop.sv', 'IFStage.sv', 'PCReg.sv',
+    required = ['filelist.f', 'IFUVerificationTop.sv', 'IFU.sv', 'PCReg.sv',
                 'verification/assert/layers-IFUVerificationTop-Verification-Assert.sv',
                 'verification/cover/layers-IFUVerificationTop-Verification-Cover.sv']
     for name in required:

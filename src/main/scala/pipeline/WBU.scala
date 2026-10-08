@@ -3,7 +3,7 @@ package framework.seed.pipeline
 import chisel3._
 import framework.seed.configs.SeedParam
 
-class WBStage(val p: SeedParam = SeedParam()) extends Module {
+class WBU(val p: SeedParam = SeedParam()) extends Module {
   val io = IO(new Bundle {
     val in = Input(new MemWb(p))
     val writeValid = Output(Bool())

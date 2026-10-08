@@ -12,8 +12,8 @@ import chisel3._
 import chisel3.util._
 import framework.seed.configs.SeedParam
 
-/** Instruction fetch logic. The fetched instruction is captured only by IFID. */
-class IFStage(val p: SeedParam = SeedParam()) extends Module {
+/** Instruction fetch logic. The fetched instruction is captured only by IFIDReg. */
+class IFU(val p: SeedParam = SeedParam()) extends Module {
   val io = IO(new Bundle {
     val redirect = Flipped(Valid(UInt(p.vaddrBits.W)))
     val stall = Input(Bool())
@@ -22,7 +22,7 @@ class IFStage(val p: SeedParam = SeedParam()) extends Module {
       val req = Decoupled(new PipeIMemReq(p))
       val resp = Flipped(Decoupled(new PipeIMemResp(p)))
     }
-    val out = Output(new IfIdBundle(p))
+    val out = Output(new IfId(p))
   })
 
   /** Initialize the PC register. */
