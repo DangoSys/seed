@@ -1,0 +1,586 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "name": "ifu",
+  "verification_kind": "ltl_simulation",
+  "formal_status": "not_run",
+  "assertion_source": {
+    "mode": "ca_assertion_reviewed_plan",
+    "plan_origin": "project_supplied",
+    "llm_invoked": false,
+    "renderer": "ca-assertion.stage4_instrument/official_ltl",
+    "renderer_sha256": "09f9d7803dc5e0c187d2fee5ee793986959bf956986d1657836295db53fda769",
+    "generated_sha256": "692d0cf032c0352b3a53fb193694d6c098ef8cb49a27558fea785344f06969db"
+  },
+  "stages": [
+    {
+      "argv": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "$SEED_ROOT/tools/chisel-iabv/src/product/adapters/assertion_generator.py",
+        "--source",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/workspace/verification/ifu/src/main/scala/IFUVerificationTop.scala",
+        "--plan",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/plan.json",
+        "--output",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/generation"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/workspace",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/generation.log",
+      "status": "passed",
+      "returncode": 0,
+      "elapsed_seconds": 0.074
+    },
+    {
+      "argv": [
+        "verilator",
+        "--cc",
+        "--exe",
+        "--build",
+        "-j",
+        "2",
+        "--assert",
+        "--coverage-user",
+        "--trace",
+        "--top-module",
+        "IFUVerificationTop",
+        "--Mdir",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/obj",
+        "-o",
+        "assertion-sim",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts/verification",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts/verification/assert",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts/verification/assume",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts/verification/cover",
+        "-f",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts/filelist.f",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts/verification/assert/layers-IFUVerificationTop-Verification-Assert.sv",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts/verification/cover/layers-IFUVerificationTop-Verification-Cover.sv",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/workspace/verification/ifu/sim_main.cpp"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/artifacts",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/verilator-build.log",
+      "status": "passed",
+      "returncode": 0,
+      "elapsed_seconds": 2.002
+    },
+    {
+      "argv": [
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/obj/assertion-sim"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/baseline",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/simulation.log",
+      "status": "passed",
+      "returncode": 0,
+      "elapsed_seconds": 0.4
+    },
+    {
+      "argv": [
+        "verilator",
+        "--cc",
+        "--exe",
+        "--build",
+        "-j",
+        "2",
+        "--assert",
+        "--coverage-user",
+        "--trace",
+        "--top-module",
+        "IFUVerificationTop",
+        "--Mdir",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/obj",
+        "-o",
+        "assertion-sim",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl/verification",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl/verification/assert",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl/verification/assume",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl/verification/cover",
+        "-f",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl/filelist.f",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl/verification/assert/layers-IFUVerificationTop-Verification-Assert.sv",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl/verification/cover/layers-IFUVerificationTop-Verification-Cover.sv",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/workspace/verification/ifu/sim_main.cpp"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/rtl",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/build.log",
+      "status": "passed",
+      "returncode": 0,
+      "elapsed_seconds": 2.052
+    },
+    {
+      "argv": [
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/obj/assertion-sim",
+        "--ltl-only"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-0/simulation.log",
+      "status": "failed",
+      "returncode": 1,
+      "elapsed_seconds": 0.399,
+      "expected_outcome": "assertion_failure"
+    },
+    {
+      "argv": [
+        "verilator",
+        "--cc",
+        "--exe",
+        "--build",
+        "-j",
+        "2",
+        "--assert",
+        "--coverage-user",
+        "--trace",
+        "--top-module",
+        "IFUVerificationTop",
+        "--Mdir",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/obj",
+        "-o",
+        "assertion-sim",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl/verification",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl/verification/assert",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl/verification/assume",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl/verification/cover",
+        "-f",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl/filelist.f",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl/verification/assert/layers-IFUVerificationTop-Verification-Assert.sv",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl/verification/cover/layers-IFUVerificationTop-Verification-Cover.sv",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/workspace/verification/ifu/sim_main.cpp"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/rtl",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/build.log",
+      "status": "passed",
+      "returncode": 0,
+      "elapsed_seconds": 1.999
+    },
+    {
+      "argv": [
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/obj/assertion-sim",
+        "--ltl-only"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-1/simulation.log",
+      "status": "failed",
+      "returncode": 1,
+      "elapsed_seconds": 0.395,
+      "expected_outcome": "assertion_failure"
+    },
+    {
+      "argv": [
+        "verilator",
+        "--cc",
+        "--exe",
+        "--build",
+        "-j",
+        "2",
+        "--assert",
+        "--coverage-user",
+        "--trace",
+        "--top-module",
+        "IFUVerificationTop",
+        "--Mdir",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/obj",
+        "-o",
+        "assertion-sim",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl/verification",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl/verification/assert",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl/verification/assume",
+        "-I$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl/verification/cover",
+        "-f",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl/filelist.f",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl/verification/assert/layers-IFUVerificationTop-Verification-Assert.sv",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl/verification/cover/layers-IFUVerificationTop-Verification-Cover.sv",
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/workspace/verification/ifu/sim_main.cpp"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/rtl",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/build.log",
+      "status": "passed",
+      "returncode": 0,
+      "elapsed_seconds": 2.041
+    },
+    {
+      "argv": [
+        "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/obj/assertion-sim",
+        "--ltl-only"
+      ],
+      "cwd": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2",
+      "log": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/mutation-2/simulation.log",
+      "status": "failed",
+      "returncode": 1,
+      "elapsed_seconds": 0.401,
+      "expected_outcome": "assertion_failure"
+    }
+  ],
+  "input_hashes": {
+    "job": "7a1bebd928f70b8f97c11b11e670b139a93f4b1d853cddfa62c3d50859d55835",
+    "plan": "6e23f7f6001c67e704053e89062be7f70377d5a5b31a3dbdf9212cd67d924a28",
+    "spec": "692ed005ab769da470c0d80a1555f35bab07e8684d1f8dc3c2dfd2b9fa14e01e"
+  },
+  "project_inputs_sha256": {
+    "build.mill": "439ae91c93c71db7bfb7593b9c8906266e22bdfebea6ee34679b9b33e9b9e047",
+    "src/main/resources/README.md": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/main/scala/configs/SeedParam.scala": "3513469710ad4d64b001c11ebcd1bdefaa41c39a5d6271eb86872c2270060c8b",
+    "src/main/scala/interfaces/SeedInterface.scala": "22557f80563fe865a21109d563642f5dfcf4ca1ab2f2ef747c11ca39fdbb6699",
+    "src/main/scala/pipeline/EXMEMReg.scala": "fadae66e687479e06a1a2e79b3739a738723a580b1604520049ee9864f1013ef",
+    "src/main/scala/pipeline/EXU.scala": "3b22e165d75a021f725f097a4618bc04846145bd1d0f39b6fb0b6a840bd693a8",
+    "src/main/scala/pipeline/IDEX.scala": "6807ad36a1e2b16ade41e82126916844a095ca5ee7b6a7ad4e0ca9e998eacaf6",
+    "src/main/scala/pipeline/IDU.scala": "f94c43139413e51d56f72f4e9f22de46c20f5bacc7c30d06ccd0dc97a4f969be",
+    "src/main/scala/pipeline/IFID.scala": "2bbce5ae7b2d5e7a4628ad0ee483dbae977f8d5200270d842a3115d6a3a31ae8",
+    "src/main/scala/pipeline/IFU.scala": "bbf3752f68859cf866a46ef4b6cd1c4d611d51269bc2a4e46383c949592ff1b4",
+    "src/main/scala/pipeline/MEMStage.scala": "c2d25dba422b91b99bef5bc8e3ecfd07ad9e475db0bb47d19c71678adb4856a3",
+    "src/main/scala/pipeline/MEMWBReg.scala": "05cd42903e18bebbd8297cc5a730771fed7c863db03a593c7d8a0cff61b93c97",
+    "src/main/scala/pipeline/PCReg.scala": "ef08cb4e5acef3221a3d5dc9d4ad7e644a79edb24f8f98f768e53f40ff1645a0",
+    "src/main/scala/pipeline/PipelineCore.scala": "39b83ead03943e1de5e087fa4c497d21257ff539a59dcc10f3cfadb10164d125",
+    "src/main/scala/pipeline/PipelineTypes.scala": "056580f4fbf126739fe29331d487d77bab972a9d4bb4e8226fbe7e0efa3ec403",
+    "src/main/scala/pipeline/WB.scala": "7c7cddc4fbb88fc3140e865320e1cc0f7eafcd20a30a0f0c3b8882924b92724e",
+    "src/main/scala/top/AxiBridge.scala": "b28e8814e25eb3335eb45253c7489a4625c140987d223e9a3dcc26e7b348b9fb",
+    "src/main/scala/top/Seed.scala": "7e8c55e1017d88925bf8c6fa3de0910e33fea3376b14ceed1d1ca0d9d6ac8759",
+    "verification/ifu/assertion-plan.json": "6e23f7f6001c67e704053e89062be7f70377d5a5b31a3dbdf9212cd67d924a28",
+    "verification/ifu/formal/environment.sv": "814af8296ef18bee0b13a1d848aedf3520278aa9dab7cd074307f557022bb154",
+    "verification/ifu/formal/run.tcl": "76ce01b3bae5cb919211c15378fd5744e08acdc0dcffb0570590ae4e9302e8b1",
+    "verification/ifu/job-protocol.json": "6da5f1a6f285043fde3b8d80be6deb29d62fa2d031b29ae4fa39c9de98dabddc",
+    "verification/ifu/job.json": "7a1bebd928f70b8f97c11b11e670b139a93f4b1d853cddfa62c3d50859d55835",
+    "verification/ifu/manifest.json": "541cb8d0742bace41e6824cd7bf273cd27f300af67f773490d8099df92ab7d25",
+    "verification/ifu/run.py": "5c3383d3bf53e45ae6349f691245d37ee7b98b2f42ec9d1716e15b364b56ce6e",
+    "verification/ifu/run_jasper.py": "d3af3fb85e5ddb9f7cc01cb43b090d2ff4c343d440324f7fcbda55d66551de35",
+    "verification/ifu/sim_main.cpp": "78ed6dc1b7185d5a232954488bbeabd54bc212bc7b2677575780741a1a37f1aa",
+    "verification/ifu/sim_protocol.cpp": "693343f093f6ff5eceaf190ed90049895bd15f9f378ff5895ee184b520034a06",
+    "verification/ifu/src/main/scala/IFUVerificationTop.scala": "4c7c16b8856f561cee5d4262be6bdb4cd75d6b2c54f9fa508613004aaecce690",
+    "docs/specs/20-blocks/pipeline/ifu.md": "692ed005ab769da470c0d80a1555f35bab07e8684d1f8dc3c2dfd2b9fa14e01e",
+    "docs/verification-plan/ifu.md": "04c6070ebb34589967af0a50557b7c5b9ce84bad170c0ecb0a685bb8130285a4"
+  },
+  "product_sources_sha256": {
+    "src/product/cli.py": "3635eb561c5351c1a6632f87a7a34b7edb6a49a75ec74cfdac3fabddc560a8dd",
+    "src/product/contracts/job.py": "822ec59d7020896c5d55485dd2dec1065cd3552557463fcf9ef3938a0f26b44e",
+    "src/product/contracts/__init__.py": "13b001094555c380480638bb11c3ebf33086e2fc98e006995ae721dd3a3d3917",
+    "src/product/tests/test_mill_project_adapter.py": "5a8205479b8dce1ee43f65984b9a1dec67a40b7ec1926ebd1aded25e3bb47e3b",
+    "src/product/tests/test_assertion_product.py": "6c527417e68c489dbcd304ff512747ab7878b8f0e2932afa2eea93535d87ea82",
+    "src/product/workflows/__init__.py": "13b001094555c380480638bb11c3ebf33086e2fc98e006995ae721dd3a3d3917",
+    "src/product/workflows/assertion.py": "63b9b4e2100d885adc67ccb62f60a85dbe790708263792a6cded2ba08e8a7e53",
+    "src/product/docs/reviews/chisel-iabv-review-20261008/reproduce.py": "a2c0127b15180a9d1ffccedc127c43c4420f532941f14661e3e27ea646ffec4d",
+    "src/product/adapters/__init__.py": "58ce116df07190f984cd0b8c62ccb5b20df7dd38ed1b5bf39509da9c32e4fcda",
+    "src/product/adapters/assertion_generator.py": "391c03b6f322020c1473c4e4983b02a3738bc918b888df0dbde9697b318e6c7d",
+    "src/product/adapters/mill_project.py": "fa8928dc0ba8c9aba0532e7e76cac0e44d691c588eba507a74012c13b4fcaa5f",
+    "src/product/adapters/verilator.py": "e2396131a395100d8ec03741e328b160192510f3af5a4c2a3666122cb87753d6",
+    "src/product/examples/seed-pc-reg/run.py": "62f8a93c4779b5a564d789fc2b4ba7e2c3190db8cbe6d5a03c03b98d113b3e6d"
+  },
+  "tool_commit": "ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23",
+  "tool_worktree_dirty": false,
+  "verilator_version": "Verilator 5.046 2026-02-28 rev vUNKNOWN-built20260228",
+  "requirement_mapping": [
+    {
+      "requirement_id": "REQ-IF-001",
+      "assertion_id": "REQ_IF_001_RESET_STATE",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-001",
+      "assertion_id": "REQ_IF_001_RESET_FETCH",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-002",
+      "assertion_id": "REQ_IF_002_SINGLE_PENDING",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-003",
+      "assertion_id": "REQ_IF_003_SEQUENCE",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-003",
+      "assertion_id": "REQ_IF_003_ADVANCE_ON_FIRE",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-003",
+      "assertion_id": "REQ_IF_003_HOLD",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-004",
+      "assertion_id": "REQ_IF_004_DELIVERY",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-004",
+      "assertion_id": "REQ_IF_004_LIVE_READY",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "REQ_IF_005_TARGET",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "REQ_IF_005_DISCARD",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-006",
+      "assertion_id": "REQ_IF_006_REQUEST_GATE",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-007",
+      "assertion_id": "REQ_IF_007_PAIRING",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-IF-001",
+      "assertion_id": "COV_IF_RESET",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-002",
+      "assertion_id": "COV_IF_DELAYED",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-003",
+      "assertion_id": "COV_IF_SEQUENCE",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-003",
+      "assertion_id": "COV_IF_WRAP",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-003",
+      "assertion_id": "COV_IF_REQ_BLOCKED",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "COV_IF_REDIRECT_IDLE",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "COV_IF_REDIRECT_PENDING",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "COV_IF_REDIRECT_RESPONSE",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "COV_IF_TARGET_ACCEPTED",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-007",
+      "assertion_id": "COV_IF_PAIRING",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-004",
+      "assertion_id": "COV_IF_RESP_BLOCKED_1",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "COV_IF_DISCARD_BLOCKED_1",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-004",
+      "assertion_id": "COV_IF_RESP_BLOCKED_2",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "COV_IF_DISCARD_BLOCKED_2",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-004",
+      "assertion_id": "COV_IF_RESP_BLOCKED_3",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-005",
+      "assertion_id": "COV_IF_DISCARD_BLOCKED_3",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-006",
+      "assertion_id": "COV_IF_REQUEST_GATES_1",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-006",
+      "assertion_id": "COV_IF_REQUEST_GATES_2",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-006",
+      "assertion_id": "COV_IF_REQUEST_GATES_3",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-006",
+      "assertion_id": "COV_IF_REQUEST_GATES_4",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-006",
+      "assertion_id": "COV_IF_REQUEST_GATES_5",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-006",
+      "assertion_id": "COV_IF_REQUEST_GATES_6",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-IF-006",
+      "assertion_id": "COV_IF_REQUEST_GATES_7",
+      "assertion_kind": "cover"
+    }
+  ],
+  "build_report": "$SEED_ROOT/build/verification/assertion-20261008-165718-611344/build/report.json",
+  "simulation": {
+    "status": "passed",
+    "cycles": 30193,
+    "verification_kind": "ltl_simulation",
+    "formal_status": "not_run",
+    "protocol_status": "failing",
+    "failure": "",
+    "random_seeds": [
+      24301,
+      1,
+      12648430
+    ],
+    "random_cycles_per_seed": 10000,
+    "scenario_hits": {
+      "delay_1": 70,
+      "delay_10": 48,
+      "delay_11": 46,
+      "delay_12": 43,
+      "delay_13": 35,
+      "delay_14": 32,
+      "delay_15": 44,
+      "delay_16": 57,
+      "delay_17": 37,
+      "delay_18": 42,
+      "delay_19": 53,
+      "delay_2": 49,
+      "delay_20": 43,
+      "delay_21": 42,
+      "delay_22": 37,
+      "delay_23": 44,
+      "delay_24": 40,
+      "delay_25": 52,
+      "delay_26": 39,
+      "delay_27": 42,
+      "delay_28": 35,
+      "delay_29": 40,
+      "delay_3": 51,
+      "delay_30": 27,
+      "delay_31": 37,
+      "delay_32": 34,
+      "delay_4": 34,
+      "delay_5": 41,
+      "delay_6": 31,
+      "delay_7": 38,
+      "delay_8": 53,
+      "delay_9": 54,
+      "delivered": 790,
+      "discard_blocked": 364,
+      "discarded": 580,
+      "gate_1": 60,
+      "gate_2": 833,
+      "gate_3": 11,
+      "gate_4": 2649,
+      "gate_5": 47,
+      "gate_6": 924,
+      "gate_7": 17,
+      "redirect_idle": 135,
+      "redirect_pending": 580,
+      "redirect_response": 78,
+      "request_blocked": 1366,
+      "request_stability_violations": 823,
+      "requests": 1370,
+      "reset": 8,
+      "response_downstream_block": 1084,
+      "response_stall": 543,
+      "target_accepted": 715,
+      "wrap": 1
+    }
+  },
+  "ltl_cover_hits": {
+    "COV_IF_REQUEST_GATES_4": 2649,
+    "COV_IF_REQUEST_GATES_5": 47,
+    "COV_IF_REQUEST_GATES_6": 924,
+    "COV_IF_REQUEST_GATES_7": 17,
+    "COV_IF_SEQUENCE": 651,
+    "COV_IF_WRAP": 1,
+    "COV_IF_REQ_BLOCKED": 1366,
+    "COV_IF_REDIRECT_IDLE": 135,
+    "COV_IF_REDIRECT_PENDING": 502,
+    "COV_IF_RESET": 4,
+    "COV_IF_REDIRECT_RESPONSE": 78,
+    "COV_IF_TARGET_ACCEPTED": 715,
+    "COV_IF_PAIRING": 790,
+    "COV_IF_RESP_BLOCKED_1": 270,
+    "COV_IF_DISCARD_BLOCKED_1": 65,
+    "COV_IF_RESP_BLOCKED_2": 811,
+    "COV_IF_DISCARD_BLOCKED_2": 192,
+    "COV_IF_RESP_BLOCKED_3": 273,
+    "COV_IF_DISCARD_BLOCKED_3": 61,
+    "COV_IF_REQUEST_GATES_1": 60,
+    "COV_IF_DELAYED": 20184,
+    "COV_IF_REQUEST_GATES_2": 833,
+    "COV_IF_REQUEST_GATES_3": 11
+  },
+  "mutations": [
+    {
+      "configuration": {
+        "name": "wrong_increment",
+        "file": "PCReg.sv",
+        "find": "pcReg + 64'h4",
+        "replace": "pcReg + 64'h8",
+        "args": [
+          "--ltl-only"
+        ],
+        "expected_assertion": "REQ_IF_003_ADVANCE_ON_FIRE"
+      },
+      "detected_by_ltl": true
+    },
+    {
+      "configuration": {
+        "name": "deliver_stale_response",
+        "file": "IFStage.sv",
+        "find": "& ~discardResponse;",
+        "replace": ";",
+        "args": [
+          "--ltl-only"
+        ],
+        "expected_assertion": "REQ_IF_005_DISCARD"
+      },
+      "detected_by_ltl": true
+    },
+    {
+      "configuration": {
+        "name": "wrong_response_pc",
+        "file": "IFStage.sv",
+        "find": "assign io_out_pc = requestPc;",
+        "replace": "assign io_out_pc = _pcReg_io_pc;",
+        "args": [
+          "--ltl-only"
+        ],
+        "expected_assertion": "REQ_IF_007_PAIRING"
+      },
+      "detected_by_ltl": true
+    }
+  ],
+  "project_inputs_unchanged": true
+}

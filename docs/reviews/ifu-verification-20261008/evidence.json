@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-08",
+  "path_normalization": "Local Seed root replaced with $SEED_ROOT in archived text; source/artifact hash values preserved.",
+  "records": {
+    "simulation-report.json": {
+      "source": "build/verification/assertion-20261008-165718-611344/report.json",
+      "original_sha256": "81b7c34e73da162cf31fdd7ed11a6d4bb1d4e81a62982fc264ad8395c3ea9ebe",
+      "archived_sha256": "f6bc547d27a7e1aab839faff1bae0f5cbd6a0bf02210f0ba5904eb5a7f74c0fe"
+    },
+    "simulation-result.json": {
+      "source": "build/verification/assertion-20261008-165718-611344/baseline/simulation.json",
+      "original_sha256": "00650f896087a3f4f401914d11346811125350a1715aa393d3d34834f530c61f",
+      "archived_sha256": "00650f896087a3f4f401914d11346811125350a1715aa393d3d34834f530c61f"
+    },
+    "protocol-report.json": {
+      "source": "build/verification/assertion-20261008-165409-012587/report.json",
+      "original_sha256": "97ab00a0a60cfc0c981cda2c2838539022faaacfc601792902ff96307904e1ba",
+      "archived_sha256": "ac1e9d60f836a7188b318e3d65be86c6f6c257ddc943db03c93c3a9e2efccab7"
+    },
+    "protocol-simulation.log": {
+      "source": "build/verification/assertion-20261008-165409-012587/simulation.log",
+      "original_sha256": "244b128d86bfe197ac583998230e10e3a518b43cbf5c5c02909f831a93be54fb",
+      "archived_sha256": "244b128d86bfe197ac583998230e10e3a518b43cbf5c5c02909f831a93be54fb"
+    },
+    "jasper-summary.json": {
+      "source": "build/verification/ifu-jasper-20261008-165802-f53b0aae/summary.json",
+      "original_sha256": "dced2531a2831d44b69f321449dae5666fade3031f2b7a93c52eb25667b554ff",
+      "archived_sha256": "dced2531a2831d44b69f321449dae5666fade3031f2b7a93c52eb25667b554ff"
+    },
+    "jasper-results.json": {
+      "source": "build/verification/ifu-jasper-20261008-165802-f53b0aae/results.json",
+      "original_sha256": "d3817d90c1acd5655a604f2c0acbf35060516574bf0809f9670018645ecbb390",
+      "archived_sha256": "d3817d90c1acd5655a604f2c0acbf35060516574bf0809f9670018645ecbb390"
+    },
+    "jasper-report.txt": {
+      "source": "build/verification/ifu-jasper-20261008-165802-f53b0aae/report.txt",
+      "original_sha256": "6cdc1bcc8b98f4aa068ea8a72773675c5cae190035bf780c32a68293b73bd707",
+      "archived_sha256": "6cdc1bcc8b98f4aa068ea8a72773675c5cae190035bf780c32a68293b73bd707"
+    },
+    "jasper-inputs.sha256.json": {
+      "source": "build/verification/ifu-jasper-20261008-165802-f53b0aae/inputs.sha256.json",
+      "original_sha256": "98b52fd94bac36ce591f90256f5ca0c3d059d69c4908a35596e075f72f4e9685",
+      "archived_sha256": "98b52fd94bac36ce591f90256f5ca0c3d059d69c4908a35596e075f72f4e9685"
+    },
+    "request-stability.vcd": {
+      "source": "build/verification/ifu-jasper-20261008-165802-f53b0aae/request-stability.vcd",
+      "original_sha256": "0f22b090e6b1e0d882b9d6abe60a2a4d13e73741139f4d64ab11bd67c7a5bb4e",
+      "archived_sha256": "0f22b090e6b1e0d882b9d6abe60a2a4d13e73741139f4d64ab11bd67c7a5bb4e"
+    },
+    "mutation-0.log": {
+      "source": "build/verification/assertion-20261008-165718-611344/mutation-0/simulation.log",
+      "original_sha256": "ce21243cb18a8dd260384263b22c60f27d0baefcd4de40680b54e295393ffb30",
+      "archived_sha256": "cc7fbe9507b9477f8dcf54a84ac8b16304dfd2ec6d158f7749d4f9ec7050b92e"
+    },
+    "mutation-1.log": {
+      "source": "build/verification/assertion-20261008-165718-611344/mutation-1/simulation.log",
+      "original_sha256": "a1fa88acf2f547b6210b0dd107d3017793d56c25997b30993b71b826b94cfdbb",
+      "archived_sha256": "40cba9a2f3baab5577fbc4be1be6ff8c6b4d57a135b9b784a5aa46af9b520e3b"
+    },
+    "mutation-2.log": {
+      "source": "build/verification/assertion-20261008-165718-611344/mutation-2/simulation.log",
+      "original_sha256": "48dfacab7407769c92ed70f6867f953cca2b54a689e71bcee71961e4b6abd5a2",
+      "archived_sha256": "b6019a10e9ac404b98188fb39b2a89e74820d6259d1cae9bc40768ba297bf231"
+    }
+  }
+}

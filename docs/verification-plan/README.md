@@ -24,9 +24,10 @@ verification/<block>/             Executable verification inputs
 build/verification/<run-id>/      Generated assertions, reports, logs and waves
 ```
 
-The executable layout is a convention for future modules; an IFU environment has
-not been implemented yet. The existing [PCReg environment](../../verification/pc-reg/README.md)
-is an integration example. Generated run artifacts remain outside source control.
+The [IFU environment](../../verification/ifu/README.md) and existing
+[PCReg environment](../../verification/pc-reg/README.md) follow this convention.
+IFU also has a project-level SSH launcher for JasperGold. Generated run artifacts
+remain outside source control except intentional review evidence archives.
 
 ## File conventions
 
@@ -77,8 +78,6 @@ Known defects must remain visible and must not be waived automatically.
 
 | Block | Spec | Plan | Implementation |
 | --- | --- | --- | --- |
-| IFU | [IFU](../specs/20-blocks/pipeline/ifu.md) | [IFU plan](ifu.md) | Planned |
+| IFU | [IFU](../specs/20-blocks/pipeline/ifu.md) | [IFU plan](ifu.md) | Implemented; functional checks pass, protocol counterexample |
 
-PCReg plan migration is pending. Its executable environment already exists, but
-the currently deleted `pc-reg.md` spec must be restored or its replacement agreed
-before reconciling its requirement mappings and job paths.
+PCReg plan migration is pending; its executable environment and block spec exist.

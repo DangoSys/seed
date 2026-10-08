@@ -1,0 +1,35 @@
+{
+  "status": "failed",
+  "verification_kind": "formal",
+  "scope": "Post-reset safety under two IMEM assumptions; no bounded response/fairness assumption.",
+  "assertion_statuses": {
+    "proven": 13,
+    "cex": 1
+  },
+  "cover_statuses": {
+    "unreachable": 1,
+    "covered": 40
+  },
+  "nonvacuous_proven": [
+    "IFUVerificationTop.verification_assert.REQ_IF_001_RESET_FETCH",
+    "IFUVerificationTop.verification_assert.REQ_IF_002_SINGLE_PENDING",
+    "IFUVerificationTop.verification_assert.REQ_IF_003_SEQUENCE",
+    "IFUVerificationTop.verification_assert.REQ_IF_003_ADVANCE_ON_FIRE",
+    "IFUVerificationTop.verification_assert.REQ_IF_003_HOLD",
+    "IFUVerificationTop.verification_assert.REQ_IF_004_DELIVERY",
+    "IFUVerificationTop.verification_assert.REQ_IF_004_LIVE_READY",
+    "IFUVerificationTop.verification_assert.REQ_IF_005_TARGET",
+    "IFUVerificationTop.verification_assert.REQ_IF_005_DISCARD",
+    "IFUVerificationTop.verification_assert.REQ_IF_006_REQUEST_GATE",
+    "IFUVerificationTop.verification_assert.REQ_IF_007_PAIRING",
+    "IFUVerificationTop.formal_environment.CHK_IF_OUTSTANDING_LIMIT"
+  ],
+  "counterexamples": [
+    "IFUVerificationTop.formal_environment.CHK_IF_REQUEST_STABILITY"
+  ],
+  "inactive_antecedents": [
+    "IFUVerificationTop.verification_assert.REQ_IF_001_RESET_STATE"
+  ],
+  "note": "The reset-state property has no active antecedent after Jasper reset initialization. Do not count it as a dynamic-reset proof. See simulation evidence.",
+  "missing_properties": []
+}

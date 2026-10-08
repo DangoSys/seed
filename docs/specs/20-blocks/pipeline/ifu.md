@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Spec ID | `SEED-BLK-IF` |
-| Status | `Implemented / Unverified` |
+| Status | `Implemented / Partially verified; ISSUE-IF-001 confirmed` |
 | Revision | `0.2` |
 | RTL | `src/main/scala/pipeline/IFU.scala`, module `IFU` |
 | Parent | [PipelineCore](pipeline-core.md) |
