@@ -45,6 +45,7 @@ class IFStage(val p: SeedParam = SeedParam()) extends Module {
   io.out.pc := requestPc
   io.out.instr := io.imem.resp.bits.data
 
+  /** Track the outstanding fetch: its PC, completion, and redirect discard. */
   when(io.imem.req.fire) {
     pending := true.B
     requestPc := pcReg.io.pc
