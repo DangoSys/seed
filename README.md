@@ -1,6 +1,6 @@
 # seed
 
-`bb-seed` is a single-core RV64 processor written in Chisel. The current RTL baseline is an in-order five-stage pipeline. The project roadmap extends that baseline toward a Linux-capable platform and later PPA optimization in the Buckyball framework.
+`seed` is a single-core RV64 processor written in Chisel. The current RTL baseline is an in-order five-stage pipeline. The project roadmap extends that baseline toward a Linux-capable platform and later PPA optimization in the Buckyball framework.
 
 ## Quick start
 
