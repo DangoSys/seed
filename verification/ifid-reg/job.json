@@ -34,7 +34,7 @@
       "find": "~io_flush & (io_enable ? io_in_valid : reg_valid)",
       "replace": "(io_enable ? io_in_valid : reg_valid)",
       "args": ["--ltl-only"],
-      "expected_assertion": "REQ_IFID_002_PRIORITY"
+      "expected_assertion": "REQ_IFID_002_FLUSH"
     }
   ]
 }
