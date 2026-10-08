@@ -100,7 +100,7 @@ The implemented boundary is:
 Inside `PipelineCore`:
 
 ```text
-IFStage -> IFIDReg -> IDStage -> IDEXReg -> EXStage
+IFStage -> IFID -> IDStage -> IDEXReg -> EXStage
         -> EXMEMReg -> MEMStage -> MEMWBReg -> WBStage
 ```
 

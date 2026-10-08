@@ -34,7 +34,7 @@ object AluOp {
   val mulh = 15.U(5.W); val mulhsu = 16.U(5.W); val mulhu = 17.U(5.W)
 }
 
-class IfId(val p: SeedParam) extends Bundle {
+class IfIdBundle(val p: SeedParam) extends Bundle {
   val valid = Bool(); val pc = UInt(p.vaddrBits.W); val instr = UInt(32.W)
 }
 

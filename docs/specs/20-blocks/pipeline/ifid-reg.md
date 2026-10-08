@@ -1,20 +1,20 @@
-# IFIDReg Block Specification
+# IFID Block Specification
 
 | Field | Value |
 | --- | --- |
 | Spec ID | `SEED-BLK-IFID` |
 | Status | `Implemented / Unverified` |
 | Revision | `0.1` |
-| RTL | `src/main/scala/pipeline/IFIDReg.scala` |
+| RTL | `src/main/scala/pipeline/IFID.scala` |
 
 ## Interface
 
 | Port | Meaning |
 | --- | --- |
-| `in` | IF 产生的 `IfId` |
+| `in` | IF 产生的 `IfIdBundle` |
 | `enable` | 正常捕获条件 |
 | `flush` | 清除当前项的 valid |
-| `out` | 注册后的 `IfId` |
+| `out` | 注册后的 `IfIdBundle` |
 
 ## Requirements
 

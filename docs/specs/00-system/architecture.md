@@ -26,7 +26,7 @@
 ## 2. Pipeline organization
 
 ```text
-IFStage -> IFIDReg -> IDStage -> IDEXReg -> EXStage -> EXMEMReg -> MEMStage -> MEMWBReg -> WBStage
+IFStage -> IFID -> IDStage -> IDEXReg -> EXStage -> EXMEMReg -> MEMStage -> MEMWBReg -> WBStage
 ```
 
 - 每个 stage 在一个时钟周期内完成组合计算；相邻阶段通过独立寄存器隔离。

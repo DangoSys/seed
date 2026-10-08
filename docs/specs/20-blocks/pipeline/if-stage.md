@@ -5,11 +5,11 @@
 | Spec ID | `SEED-BLK-IF` |
 | Status | `Implemented / Unverified` |
 | Revision | `0.1` |
-| RTL | `src/main/scala/pipeline/IFStage.scala` |
+| RTL | `src/main/scala/pipeline/IFU.scala` |
 
 ## 1. Purpose
 
-产生顺序指令地址、管理一个未完成的 instruction request、在响应到达时形成 `IfId`，并处理 EX 产生的 redirect。
+产生顺序指令地址、管理一个未完成的 instruction request、在响应到达时形成 `IfIdBundle`，并处理 EX 产生的 redirect。
 
 ## 2. Interface
 
@@ -21,7 +21,7 @@
 | `outReady` | in | 1 | IF/ID 本周期可接收 |
 | `imem.req` | out | Decoupled | `{addr}` |
 | `imem.resp` | in | Decoupled | `{data[31:0], resp[1:0]}` |
-| `out` | out | `IfId` | response 的 PC 和 instruction |
+| `out` | out | `IfIdBundle` | response 的 PC 和 instruction |
 
 ## 3. State
 

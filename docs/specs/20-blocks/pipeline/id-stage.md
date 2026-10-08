@@ -5,7 +5,7 @@
 | Spec ID | `SEED-BLK-ID` |
 | Status | `Implemented / Unverified` |
 | Revision | `0.1` |
-| RTL | `src/main/scala/pipeline/IDStage.scala` |
+| RTL | `src/main/scala/pipeline/IDU.scala` |
 
 ## 1. Purpose
 
@@ -15,7 +15,7 @@
 
 | Port | Direction | Width | Meaning |
 | --- | --- | ---: | --- |
-| `in` | in | `IfId` | valid、PC、instruction |
+| `in` | in | `IfIdBundle` | valid、PC、instruction |
 | `rs1Data/rs2Data` | in | 64 | register file read data |
 | `rs1/rs2` | out | 5 | source register numbers |
 | `usesRs1/usesRs2` | out | 1 | hazard detector 使用标记 |
@@ -45,4 +45,4 @@
 
 ## 5. Reset and invalid behavior
 
-本模块无独立状态。invalid `IfId` 产生 invalid `IdEx`，其余控制字段为零默认值。
+本模块无独立状态。invalid `IfIdBundle` 产生 invalid `IdEx`，其余控制字段为零默认值。

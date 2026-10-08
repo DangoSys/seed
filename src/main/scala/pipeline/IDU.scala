@@ -1,3 +1,11 @@
+/*************************************************************************
+    > File Name: IDU.scala
+    > Author: Nick
+    > Email: chengni2001@gmail.com
+    > Created Time: 2026-10-08 15:24:24
+    > Description:
+*************************************************************************/
+
 package framework.seed.pipeline
 
 import chisel3._
@@ -7,7 +15,7 @@ import framework.seed.configs.SeedParam
 /** ID stage: decode a 32-bit instruction and read the 64-bit register file. */
 class IDStage(val p: SeedParam = SeedParam()) extends Module {
   val io = IO(new Bundle {
-    val in = Input(new IfId(p))
+    val in = Input(new IfIdBundle(p))
     val rs1Data = Input(UInt(p.xLen.W))
     val rs2Data = Input(UInt(p.xLen.W))
     val rs1 = Output(UInt(5.W))

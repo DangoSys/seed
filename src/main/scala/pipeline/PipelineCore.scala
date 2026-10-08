@@ -9,7 +9,7 @@ class PipelineCore(val p: SeedParam = SeedParam()) extends Module {
   val io = IO(new PipelineIO(p))
 
   val ifStage = Module(new IFStage(p))
-  val ifidReg = Module(new IFIDReg(p))
+  val ifidReg = Module(new IFID(p))
   val idStage = Module(new IDStage(p))
   val idexReg = Module(new IDEXReg(p))
   val exStage = Module(new EXStage(p))
