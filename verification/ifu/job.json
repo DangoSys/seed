@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "name": "ifu",
+  "build_manifest": "verification/ifu/manifest.json",
+  "snapshot_inputs": [
+    "build.mill",
+    "src/main",
+    "verification/ifu",
+    "docs/specs/20-blocks/pipeline/ifu.md",
+    "docs/verification-plan/ifu.md"
+  ],
+  "assertions": {
+    "mode": "ca_assertion_reviewed_plan",
+    "spec": "docs/specs/20-blocks/pipeline/ifu.md",
+    "plan": "verification/ifu/assertion-plan.json",
+    "source": "verification/ifu/src/main/scala/IFUVerificationTop.scala"
+  },
+  "backend": {
+    "kind": "verilator",
+    "top": "IFUVerificationTop",
+    "testbench": "verification/ifu/sim_main.cpp",
+    "filelist": "filelist.f",
+    "layers": [
+      "verification/assert/layers-IFUVerificationTop-Verification-Assert.sv",
+      "verification/cover/layers-IFUVerificationTop-Verification-Cover.sv"
+    ],
+    "result_file": "simulation.json",
+    "coverage_file": "coverage.dat"
+  },
+  "mutations": [
+    {
+      "name": "wrong_increment",
+      "file": "PCReg.sv",
+      "find": "pcReg + 64'h4",
+      "replace": "pcReg + 64'h8",
+      "args": [
+        "--ltl-only"
+      ],
+      "expected_assertion": "REQ_IF_003_ADVANCE_ON_FIRE"
+    },
+    {
+      "name": "deliver_stale_response",
+      "file": "IFStage.sv",
+      "find": "& ~discardResponse;",
+      "replace": ";",
+      "args": [
+        "--ltl-only"
+      ],
+      "expected_assertion": "REQ_IF_005_DISCARD"
+    },
+    {
+      "name": "wrong_response_pc",
+      "file": "IFStage.sv",
+      "find": "assign io_out_pc = requestPc;",
+      "replace": "assign io_out_pc = _pcReg_io_pc;",
+      "args": [
+        "--ltl-only"
+      ],
+      "expected_assertion": "REQ_IF_007_PAIRING"
+    }
+  ]
+}

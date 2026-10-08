@@ -2,13 +2,13 @@
 
 | Field | Value |
 | --- | --- |
-| Plan revision | `0.1` |
-| Plan status | Draft; all verification items planned |
+| Plan revision | `0.3` |
+| Plan status | Implemented; partial verification; request-stability counterexample |
 | Spec | [IFU](../specs/20-blocks/pipeline/ifu.md) |
 | Spec revision | `0.2` |
 | DUT | [IFU.scala](../../src/main/scala/pipeline/IFU.scala), class `framework.seed.pipeline.IFStage` |
 | Parameters | `SeedParam()`: 64-bit addresses, 32-bit instructions, reset PC `0x80000000` |
-| Environment | `verification/ifu/` (planned) |
+| Environment | [IFU environment](../../verification/ifu/README.md) |
 | Owner / reviewer | TBD |
 | Last updated | 2026-10-08 |
 
@@ -19,14 +19,33 @@ sequential addresses, redirect handling, response discard, backpressure and
 PC/instruction pairing. Drive the block interface directly; IF/ID storage,
 branch target calculation and AXI conversion belong to integration verification.
 
-The first implementation will use iabv-generated Chisel LTL checks and a Verilator
-reference scoreboard. No IFU harness, JSON property plan or run evidence exists
-yet. Formal proof is future work. Spec questions in section 8 block acceptance of
-the affected scenarios even if the current implementation can be observed.
+The implemented environment uses iabv-generated Chisel LTL assertions, a
+Verilator reference scoreboard and a project-level SSH launcher for JasperGold.
+The product CLI remains a simulation entry; the Jasper launcher consumes the same
+emitted RTL and generated property layers. No new agent framework is required.
+
+The functional simulation passes, but the protocol check fails: this is partial
+verification, not module signoff. Formal evidence covers post-reset safety under
+two IMEM assumptions. The dynamic-reset property has an inactive antecedent in
+that formal task and is checked in simulation only. Open spec questions remain.
 
 ## 2. Environment
 
-- Instantiate `IFStage` in a proposed `IFUVerificationTop` and expose its interface.
+### 2.1 Direct environment construction
+
+The coding agent built this module's environment directly from the spec, RTL and
+build context. Environment reasoning is necessary; a separate product planning
+flow or a new framework is not a prerequisite for executing this case. There is
+no generated `environment-plan.json` or autonomous environment-planning claim.
+
+This document records the contract and unresolved questions. `sim_main.cpp`
+implements a concrete IMEM model; `formal/environment.sv` defines symbolic IMEM
+constraints. Both use interface events rather than DUT internal state as their
+reference. Unknown protocol semantics remain explicit open items.
+
+### 2.2 Implemented environment
+
+- Instantiate `IFStage` in `IFUVerificationTop` and expose its interface.
 - Drive request readiness, stall, downstream readiness and redirects independently.
 - Use a registered instruction-memory model with configurable response latency.
   Associate each accepted request with its address and a reproducible data word;
@@ -41,21 +60,23 @@ the affected scenarios even if the current implementation can be observed.
   later internal observation mechanism; external transaction checks remain the
   reference.
 
-Planned files follow the [directory convention](README.md): `assertion-plan.json`,
-`job.json`, `manifest.json`, Scala harness, `sim_main.cpp` and run documentation.
-Use the supplied-plan iabv mode and include this document and the design spec in
-the job's snapshot. Generated Scala, reports and waves go into the run directory.
+Files follow the [directory convention](README.md): `assertion-plan.json`,
+`job.json`, `manifest.json`, Scala harness, C++ IMEM/scoreboard, and run scripts.
+The snapshot includes this plan and the design spec. The source harness contains
+no handwritten Chisel assertions; iabv inserts all 12 assertions and 23 cover
+properties into its isolated workspace. Two formal-only interface assertions and
+two IMEM assumptions are explicitly handwritten in `formal/environment.sv`.
 
 ## 3. Environment constraints
 
 | ID | Rule | Basis / limitation |
 | --- | --- | --- |
-| `ENV-IF-01` | Return exactly one response per accepted request, in order; no unsolicited responses | Legal memory model; separately detect DUT over-issue |
+| `ENV-IF-01` | Responses refer to accepted requests, in order, at most once per request; no unsolicited responses | Legal memory model; separately detect DUT over-issue; eventual return needs separate liveness assumptions |
 | `ENV-IF-02` | Offer a response no earlier than the cycle after request acceptance | Spec section 3; no same-cycle completion |
 | `ENV-IF-03` | Once a response is offered, hold its valid, data and response code until accepted | Memory-side handshake contract |
 | `ENV-IF-04` | Allow stall, outReady, request ready and redirect to vary while a request is blocked | Exercise the known request withdrawal issue; do not constrain it away |
 | `ENV-IF-05` | Baseline functional runs use successful memory response codes | Error-to-exception behavior remains `ISSUE-IF-002` |
-| `ENV-IF-06` | For initial reset tests, reset both DUT and memory model and begin a new scoreboard epoch | Proposed environment policy; reset with an outstanding transaction awaits `ISSUE-IF-007` |
+| `ENV-IF-06` | For initial reset tests, reset both DUT and memory model and begin a new scoreboard epoch | Simulation environment policy; reset with an outstanding transaction awaits `ISSUE-IF-007` |
 
 Finite response delays and watchdogs are test settings, not guarantees that
 memory always responds within a fixed bound. A future liveness proof would need
@@ -84,32 +105,40 @@ are not checked while `ISSUE-IF-003` remains unresolved.
 
 ## 5. Requirement traceability
 
-IDs below are proposed implementation labels. Every row is `Planned`; an open
-question is not an implicit waiver or a completed test.
+Statuses below apply to the stated checks and environment, not unresolved cases.
+[E1](../reviews/ifu-verification-20261008/README.md#e1-functional-simulation) is
+simulation plus mutation evidence; [E2](../reviews/ifu-verification-20261008/README.md#e2-protocol-simulation)
+is the strict protocol failure; [E3](../reviews/ifu-verification-20261008/README.md#e3-jaspergold)
+is the post-reset formal result.
 
 | Requirement / source | Property / test ID | Method | Scenario and acceptance check | Coverage ID | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| `REQ-IF-001`, section 4 | `REQ_IF_001_RESET_FETCH` | Assertion + scoreboard | Idle reset, then delayed acceptance; first accepted address is resetPc without intervening redirect; no stale output after reset | `COV_IF_RESET` | Planned | — |
-| `REQ-IF-002` | `REQ_IF_002_SINGLE_PENDING` | Assertion + scoreboard | Delay response; outstanding count stays in 0..1 and request valid is low while outstanding | `COV_IF_DELAYED` | Planned | — |
-| `REQ-IF-003` | `REQ_IF_003_SEQUENCE` | Assertion + scoreboard | Consecutive requests without intervening reset/redirect advance by 4 modulo address width | `COV_IF_SEQUENCE`, `COV_IF_WRAP` | Planned | — |
-| `REQ-IF-003`, section 6 | `REQ_IF_003_ADVANCE_ON_FIRE` | Assertion + scoreboard | Block request ready; without reset/redirect, next PC advances only on handshake | `COV_IF_REQ_BLOCKED` | Planned | — |
-| `REQ-IF-004` | `REQ_IF_004_DELIVERY` | Assertion + scoreboard | Output valid only for a live response handshake with no stall/redirect and outReady high; each transaction delivered at most once | `COV_IF_SEQUENCE`, `COV_IF_RESP_BLOCKED` | Planned | — |
-| `REQ-IF-004`, section 3 | `REQ_IF_004_LIVE_READY` | Assertion + scoreboard | Live pending response accepted and delivered when unblocked; stall or outReady low prevents live-response acceptance | `COV_IF_RESP_BLOCKED` | Planned | — |
-| `REQ-IF-005` | `REQ_IF_005_TARGET` | Assertion + scoreboard | Redirect while idle/pending; after old response drains, first accepted request uses target; repeated redirects await clarification | `COV_IF_REDIRECT_IDLE`, `COV_IF_REDIRECT_PENDING` | Planned | — |
-| `REQ-IF-005` | `REQ_IF_005_DISCARD` | Assertion + scoreboard | Redirect with pending response, including same-cycle completion: accept stale response without delivery; drain despite stall/outReady | `COV_IF_REDIRECT_RESPONSE`, `COV_IF_DISCARD_BLOCKED` | Planned | — |
-| `REQ-IF-006` | `REQ_IF_006_REQUEST_GATE` | Assertion + simulation | Redirect, stall or outReady low suppresses new request valid; exercise combinations | `COV_IF_REQUEST_GATES` | Planned | — |
-| `REQ-IF-007` | `REQ_IF_007_PAIRING` | Assertion + scoreboard | Every delivered instruction has its accepted request's PC and matching data, including after discard | `COV_IF_PAIRING` | Planned | — |
-| Interface contract; `ISSUE-IF-001` | `CHK_IF_REQUEST_STABILITY` | Protocol monitor | Request valid/address remain stable until accepted; vary stall/redirect/outReady while ready is low; report known conflict | `COV_IF_REQ_WITHDRAWAL` | Planned | — |
+| `REQ-IF-001`, section 4 | `REQ_IF_001_RESET_FETCH` | Assertion + scoreboard | Idle reset, then delayed acceptance; first accepted address is resetPc without intervening redirect; no stale output after reset | `COV_IF_RESET` | Passing | E1, E3 |
+| `REQ-IF-002` | `REQ_IF_002_SINGLE_PENDING` | Assertion + scoreboard | Delay response; outstanding count stays in 0..1 and request valid is low while outstanding | `COV_IF_DELAYED` | Passing | E1, E3 |
+| `REQ-IF-003` | `REQ_IF_003_SEQUENCE` | Assertion + scoreboard | Consecutive requests without intervening reset/redirect advance by 4 modulo address width | `COV_IF_SEQUENCE`, `COV_IF_WRAP` | Passing | E1, E3 |
+| `REQ-IF-003`, section 6 | `REQ_IF_003_ADVANCE_ON_FIRE`, `REQ_IF_003_HOLD` | Assertion + scoreboard | Block request ready; without reset/redirect, next PC advances only on handshake | `COV_IF_REQ_BLOCKED` | Passing | E1, E3 |
+| `REQ-IF-004` | `REQ_IF_004_DELIVERY` | Assertion + scoreboard | Output valid only for a live response handshake with no stall/redirect and outReady high; each transaction delivered at most once | `COV_IF_SEQUENCE`, `COV_IF_RESP_BLOCKED` | Passing | E1, E3 |
+| `REQ-IF-004`, section 3 | `REQ_IF_004_LIVE_READY` | Assertion + scoreboard | Live pending response accepted and delivered when unblocked; stall or outReady low prevents live-response acceptance | `COV_IF_RESP_BLOCKED` | Passing | E1, E3 |
+| `REQ-IF-005` | `REQ_IF_005_TARGET` | Assertion + scoreboard | Redirect while idle/pending; after old response drains, first accepted request uses target; repeated redirects await clarification | `COV_IF_REDIRECT_IDLE`, `COV_IF_REDIRECT_PENDING` | Passing | E1, E3 |
+| `REQ-IF-005` | `REQ_IF_005_DISCARD` | Assertion + scoreboard | Redirect with pending response, including same-cycle completion: accept stale response without delivery; drain despite stall/outReady | `COV_IF_REDIRECT_RESPONSE`, `COV_IF_DISCARD_BLOCKED` | Passing | E1, E3 |
+| `REQ-IF-006` | `REQ_IF_006_REQUEST_GATE` | Assertion + simulation | Redirect, stall or outReady low suppresses new request valid; exercise combinations | `COV_IF_REQUEST_GATES` | Passing | E1, E3 |
+| `REQ-IF-007` | `REQ_IF_007_PAIRING` | Assertion + scoreboard | Every delivered instruction has its accepted request's PC and matching data, including after discard | `COV_IF_PAIRING` | Passing | E1, E3 |
+| Interface contract; `ISSUE-IF-001` | `CHK_IF_REQUEST_STABILITY` | Protocol monitor | Request valid/address remain stable until accepted; vary stall/redirect/outReady while ready is low; report known conflict | `COV_IF_REQ_WITHDRAWAL` | Failing | E2, E3 |
 
-The request-stability monitor currently has no dedicated normative `REQ-*` ID.
-Resolve its conflict with redirect/request gating and assign a spec requirement
-before encoding it as an iabv property; do not invent a requirement in the JSON.
+The request-stability check is a C++ protocol monitor and a separately labeled
+formal SVA assertion associated with `ISSUE-IF-001`. It is not presented as a
+generated requirement property. The contract conflict still needs resolution.
+`REQ_IF_001_RESET_STATE` is an additional generated reset-transition check: passing
+in simulation, excluded from formal credit because its antecedent is unreachable.
 
 ## 6. Coverage and stimulus
 
-Every coverage row is planned. Require at least one measured hit for each resolved
-bin, including completion after a blocked/discarded transaction. A printed
-scenario name or stimulus attempt does not establish that a cover condition fired.
+All 23 generated LTL cover properties were hit in simulation and reached in
+Jasper. Scenario bins also have independent simulator counters. The three open
+reset/repeated-redirect cases below remain pending; no completion claim is made
+for them. `COV_IF_REQ_WITHDRAWAL` is observed by the protocol monitor and formal
+counterexample. The following table names coverage groups; JSON splits response
+backpressure into three bins and request gating into seven bins.
 
 | Coverage ID | Required scenario / bins |
 | --- | --- |
@@ -130,7 +159,7 @@ scenario name or stimulus attempt does not establish that a cover condition fire
 | `COV_IF_RESET_REDIRECT` | Redirect after reset but before first accepted request; expected result awaits `ISSUE-IF-005` |
 | `COV_IF_RESET_PENDING` | Reset while awaiting/holding response; expected result awaits `ISSUE-IF-007` |
 
-Run directed cases first, then at least 10,000 stimulus cycles for each proposed
+Run directed cases first, then at least 10,000 stimulus cycles for each
 seed `0x5eed`, `0x1`, and `0xc0ffee`. Vary memory latency over 1..32 cycles and
 independently vary control/readiness signals. Drain outstanding traffic and
 pending next-cycle checks at the end. Record watchdog expiry as an incomplete or
@@ -156,7 +185,8 @@ failed run, never a pass. These settings provide finite simulation coverage only
    plan/spec versions, parameters, commands, seeds, generated property mappings,
    layer bindings, measured coverage, mutation failures and report/log paths.
 
-Formal status remains `not_run` for simulation evidence. Local artifacts belong
+The product simulation report retains `formal_status: not_run`. The separate
+Jasper report records actual formal results and assumptions. Local artifacts belong
 under `build/verification/<run-id>/`; shared evidence needs a retained CI artifact
 or an intentional review archive, rather than another user's local path.
 
@@ -171,11 +201,12 @@ or an intentional review archive, rather than another user's local path.
 | `ISSUE-IF-005` | Redirect before first accepted request after reset | Clarify reset-first-address versus redirect-target requirements |
 | `ISSUE-IF-006` | Multiple redirects before next request | Confirm target selection; latest sampled target is a proposal, not a baselined requirement |
 | `ISSUE-IF-007` | Reset with outstanding response and interface activity during reset | Define cancellation/draining and handshake acceptance; agree scoreboard epoch policy |
-| `PLAN-IF-001` | Referenced PCReg child spec currently missing | Restore it or agree replacement before closing child traceability; existing PCReg job references missing path too |
-| `PLAN-IF-002` | Harness, JSON plan, job, monitors and mutations absent | Implement after plan review; all checks remain Planned |
+| `PLAN-IF-001` | PCReg child spec is available again | Closed: child RTL and spec resolve; IFU includes the real PCReg |
+| `PLAN-IF-002` | Harness, JSON plan, jobs, monitors and mutations | Implemented and executed; see E1–E3 |
+| `PLAN-IF-003` | Product has no automatic environment planner or Jasper backend | This case uses direct agent construction and a project SSH launcher; generic product integration is deferred |
 
 ## 9. Run history
 
 | Run / date | Baseline | Command / seed | Result | Evidence |
 | --- | --- | --- | --- | --- |
-| — | IFU spec 0.2; plan 0.1 | — | Not run | — |
+| 2026-10-08 | IFU spec 0.2; executed input hashes archived in evidence | See E1–E3 commands and seeds | Functional checks pass; protocol counterexample; dynamic reset not formally proven | [Evidence](../reviews/ifu-verification-20261008/README.md) |

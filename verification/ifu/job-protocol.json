@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "name": "ifu-protocol",
+  "build_manifest": "verification/ifu/manifest.json",
+  "snapshot_inputs": [
+    "build.mill",
+    "src/main",
+    "verification/ifu",
+    "docs/specs/20-blocks/pipeline/ifu.md",
+    "docs/verification-plan/ifu.md"
+  ],
+  "assertions": {
+    "mode": "ca_assertion_reviewed_plan",
+    "spec": "docs/specs/20-blocks/pipeline/ifu.md",
+    "plan": "verification/ifu/assertion-plan.json",
+    "source": "verification/ifu/src/main/scala/IFUVerificationTop.scala"
+  },
+  "backend": {
+    "kind": "verilator",
+    "top": "IFUVerificationTop",
+    "testbench": "verification/ifu/sim_protocol.cpp",
+    "filelist": "filelist.f",
+    "layers": [
+      "verification/assert/layers-IFUVerificationTop-Verification-Assert.sv",
+      "verification/cover/layers-IFUVerificationTop-Verification-Cover.sv"
+    ],
+    "result_file": "simulation.json",
+    "coverage_file": "coverage.dat"
+  },
+  "mutations": []
+}

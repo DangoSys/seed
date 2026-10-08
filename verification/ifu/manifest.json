@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "build_system": "mill",
+  "module": "ifuVerification",
+  "inputs": ["src/main/scala", "src/main/resources", "verification/ifu", "docs/specs/20-blocks/pipeline/ifu.md", "docs/verification-plan/ifu.md"],
+  "emit": {
+    "main_class": "framework.seed.verification.EmitIFUVerification",
+    "args": [],
+    "output_dir": "build/ifu-rtl"
+  }
+}

@@ -24,3 +24,12 @@ object pcRegVerification extends SbtModule {
     def testFramework = "org.scalatest.tools.Framework"
   }
 }
+
+object ifuVerification extends SbtModule {
+  def moduleDir = seed.moduleDir / "verification" / "ifu"
+  def scalaVersion = seed.scalaVersion()
+  def mvnDeps = seed.mvnDeps()
+  def scalacPluginMvnDeps = seed.scalacPluginMvnDeps()
+  def scalacOptions = seed.scalacOptions()
+  def moduleDeps = Seq(seed)
+}
