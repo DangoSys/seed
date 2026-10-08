@@ -1,4 +1,34 @@
-# PCReg Assertion job
+# PCReg verification
+
+This directory has two runnable checks with different purposes:
+
+| Check | Source and command | What a pass means |
+| --- | --- | --- |
+| ChiselSim functional test | `src/test/scala/PCRegChiselSimSpec.scala`; `mill pcRegVerification.test.testOnly framework.seed.verification.PCRegChiselSimSpec -- -DemitVcd=1` | The Scala reference model matched PCReg for directed and deterministic random cycles. |
+| Generated assertion simulation | `assertion-plan.json`, `src/main/scala/PCRegVerificationTop.scala`, `sim_main.cpp`; `python3 verification/pc-reg/run.py` | The configured Chisel LTL assertions and covers ran in Verilator, and the configured mutation was detected. |
+
+Both checks are simulations. The assertion job reports `formal_status: not_run`;
+there is no formal proof backend for this module yet. The C++ driver remains only
+for the current chisel-iabv assertion backend, which requires a C++ testbench.
+It is not the PCReg functional-test entry point.
+
+## ChiselSim functional test
+
+Run from the Seed root:
+
+```bash
+mill pcRegVerification.test.testOnly \
+  framework.seed.verification.PCRegChiselSimSpec -- -DemitVcd=1
+```
+
+ChiselSim instantiates `PCReg` directly. The Scala test checks the PC after each
+clock step against an independent reference value. It exercises reset, hold,
+increment, redirect, redirect priority, 64-bit wrap and 1,000 random cycles with
+seed `0x5eed`. The `-DemitVcd=1` option writes `trace.vcd` under
+`build/chiselsim/PCRegChiselSimSpec/`; open that file in Surfer. The test result
+and waveform belong to this ChiselSim run, not to the assertion job below.
+
+## Generated assertion simulation
 
 Run from the Seed root:
 
@@ -59,5 +89,5 @@ A run directory contains:
 - `mutation-0/simulation.log`: expected assertion failure.
 
 `passed` means the configured assertion simulation and mutation check passed.
-This is not formal proof; `formal_status` remains `not_run`. REQ-PC-006 remains
+It is not formal proof; `formal_status` remains `not_run`. REQ-PC-006 remains
 structural review, and delayed instruction responses belong to IFStage validation.

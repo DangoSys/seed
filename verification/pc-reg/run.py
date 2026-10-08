@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convenience launcher; verification logic lives in chisel-iabv product."""
+"""Run the generated-assertion simulation; ChiselSim has a separate Mill test."""
 from pathlib import Path
 import subprocess
 import sys
