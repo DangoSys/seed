@@ -50,6 +50,7 @@ class PCRegChiselSimSpec extends AnyFunSpec with ChiselSim {
         step(reset = false, redirect = false, advance = true, target = 0)
         step(reset = true, redirect = true, advance = true, target = 0x1234)
 
+        // Random tests
         val random = new Random(0x5eed)
         for (_ <- 0 until 1000) {
           step(

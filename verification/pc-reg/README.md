@@ -25,8 +25,9 @@ ChiselSim instantiates `PCReg` directly. The Scala test checks the PC after each
 clock step against an independent reference value. It exercises reset, hold,
 increment, redirect, redirect priority, 64-bit wrap and 1,000 random cycles with
 seed `0x5eed`. The `-DemitVcd=1` option writes `trace.vcd` under
-`build/chiselsim/PCRegChiselSimSpec/`; open that file in Surfer. The test result
-and waveform belong to this ChiselSim run, not to the assertion job below.
+`build/chiselsim/PCRegChiselSimSpec/`; follow the [Surfer guide](SURFER.md) to
+open and inspect it. The test result and waveform belong to this ChiselSim run,
+not to the assertion job below.
 
 ## Generated assertion simulation
 
