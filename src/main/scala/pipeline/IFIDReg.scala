@@ -20,6 +20,14 @@ class IFIDReg(val p: SeedParam = SeedParam()) extends Module {
     val out = Output(new IfId(p))
   })
   val reg = RegInit(0.U.asTypeOf(new IfId(p)))
-  when(io.flush) { reg.valid := false.B }.elsewhen(io.enable) { reg := io.in }
+
+  // Flush clears only valid; pc and instr are don't-care when valid is low.
+  // With neither flush nor enable, the register holds its value (stall).
+  when(io.flush) {
+    reg.valid := false.B
+  }.elsewhen(io.enable) {
+    reg := io.in
+  }
+
   io.out := reg
 }
