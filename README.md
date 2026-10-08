@@ -32,11 +32,19 @@ The generated file is written to `build/rtl/Seed.sv`.
 
 ## Mill verification adapter
 
-Initialize the pinned chisel-iabv tool checkout:
+Initialize the pinned tool checkouts:
 
 ```bash
-git submodule update --init tools/chisel-iabv
+git submodule update --init tools/chisel-iabv tools/chisel-reader
 ```
+
+[Development tools](tools/README.md) are pinned Git submodules.
+`tools/chisel-reader/` provides the ChiselReader source/SV readability tooling;
+its execution is not yet connected to the Seed verification workflow.
+
+Assertion tool code lives under `tools/chisel-iabv/`: `src/product/` contains the project
+adapter, and `src/ca-assertion/` contains the assertion-generation code.
+Seed does not maintain a separate `src/ca-assertion/` copy.
 
 From the Seed root, with Python 3.10+ on macOS/Linux, run:
 

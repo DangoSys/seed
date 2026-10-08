@@ -1,3 +1,6 @@
 [submodule "tools/chisel-iabv"]
 	path = tools/chisel-iabv
 	url = git@github.com:nick-2001/chisel-iabv.git
+[submodule "tools/chisel-reader"]
+	path = tools/chisel-reader
+	url = git@github.com:nicheng-ai/chisel-reader.git
