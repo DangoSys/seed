@@ -102,6 +102,6 @@ PC 在 `req.fire` 时前进，不等待响应返回。
 | `ISSUE-IF-002` | `imem.resp.bits.resp` 未转为 instruction access fault。 | Open |
 | `ISSUE-IF-003` | 无取指地址对齐检查；JALR 只清 bit0，bit1 为 1 时不产生 instruction-address-misaligned 异常。 | Open |
 | `ISSUE-IF-004` | 单笔在途请求限制吞吐率，接 ICache 时需重新评估。 | Open |
-| `ISSUE-IF-005` | 若复位后的首笔请求被接受前发生 redirect，`REQ-IF-001` 的 resetPc 要求与 `REQ-IF-005` 的改道目标要求如何适用，尚需明确。 | Open |
-| `ISSUE-IF-006` | 在下一笔请求被接受前发生多次 redirect 时，应选择哪个目标，尚需明确。 | Open |
-| `ISSUE-IF-007` | 复位时在途请求和未接受响应如何取消或排空，以及复位期间是否接受接口握手，尚需明确。 | Open |
+| `ISSUE-IF-005` | Clarify how the resetPc requirement in `REQ-IF-001` and the target requirement in `REQ-IF-005` apply when redirect occurs before the first accepted request after reset. | Open |
+| `ISSUE-IF-006` | Define target selection when multiple redirects occur before the next request is accepted. | Open |
+| `ISSUE-IF-007` | Define cancellation or draining of outstanding traffic at reset, and whether interface handshakes are accepted during reset. | Open |
