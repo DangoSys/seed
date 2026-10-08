@@ -40,14 +40,14 @@ else:             state' = state
 - `REQ-PC-005`: `redirect.valid=1 && advance=1` 时，redirect SHALL 胜出，下一周期不得执行顺序递增。
 - `REQ-PC-006`: `PCReg` SHALL 不产生 instruction request，不保存 request response，也不修改 `requestPc` 或 `pending`。
 
-## 5. IFStage integration
+## 5. IFU integration
 
-当前 `IFStage` 的集成方式是：
+当前 `IFU` 的集成方式是：
 
 - `io.imem.req.bits.addr := pcReg.io.pc`；
 - `pcReg.io.advance := io.imem.req.fire`；
 - `requestPc` 在 request fire 时捕获旧 `pc`；
-- `pending` 和 `discardResponse` 继续由 `IFStage` 管理。
+- `pending` 和 `discardResponse` 继续由 `IFU` 管理。
 
 因此 PC 在请求被接受时前进，而不是等 instruction response 返回后才前进。response 延迟不会改变顺序 PC；redirect 会丢弃旧响应并覆盖下一取指地址。
 
@@ -60,7 +60,7 @@ else:             state' = state
 | no advance | hold |
 | redirect while idle | target captured |
 | redirect with advance | redirect wins |
-| IF response delayed | PC remains at post-request value; response PC comes from IFStage `requestPc` |
+| IF response delayed | PC remains at post-request value; response PC comes from IFU `requestPc` |
 
 ## 7. Executable verification
 

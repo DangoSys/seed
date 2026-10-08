@@ -19,7 +19,7 @@ Seed 是一个以 Chisel 实现的单核 RV64 处理器。本版规格定义五�
 | `REQ-SYS-001` | 处理器 SHALL 使用 64-bit 整数寄存器和 64-bit 虚拟地址字段。 | Implemented |
 | `REQ-SYS-002` | 处理器 SHALL 采用 IF/ID/EX/MEM/WB 五级顺序流水线。 | Implemented |
 | `REQ-SYS-003` | `x0` SHALL 读为零，且任何指令 SHALL 不得通过 WB 修改 `x0`。 | Implemented |
-| `REQ-SYS-004` | 当前 MVP SHALL 支持已在 `IDStage` 解码表中的 RV64I、RV64M 和 RV64W 指令。 | Partially implemented |
+| `REQ-SYS-004` | 当前 MVP SHALL 支持已在 `IDU` 解码表中的 RV64I、RV64M 和 RV64W 指令。 | Partially implemented |
 | `REQ-SYS-005` | 当前 MVP SHALL 支持最多一个未完成的指令或数据外部事务。 | Implemented |
 | `REQ-SYS-006` | 分支和跳转 SHALL 在 EX 阶段解析；taken redirect SHALL flush IF/ID 和 ID/EX 中的年轻指令。 | Implemented |
 | `REQ-SYS-007` | load-use 依赖 SHALL 产生一个前端停顿和一个 ID/EX bubble。 | Implemented |

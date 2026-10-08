@@ -90,4 +90,4 @@ A run directory contains:
 
 `passed` means the configured assertion simulation and mutation check passed.
 It is not formal proof; `formal_status` remains `not_run`. REQ-PC-006 remains
-structural review, and delayed instruction responses belong to IFStage validation.
+structural review, and delayed instruction responses belong to IFU validation.

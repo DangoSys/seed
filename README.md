@@ -80,7 +80,7 @@ The specs are the intended behavior. RTL changes that alter behavior must update
 
 | Area | Current baseline |
 | --- | --- |
-| ISA | A subset of RV64I, RV64M, and RV64W as decoded by `IDStage` |
+| ISA | A subset of RV64I, RV64M, and RV64W as decoded by `IDU` |
 | Datapath | 64-bit integer datapath and 32 × 64-bit register file |
 | Pipeline | In-order, single-issue IF / ID / EX / MEM / WB |
 | Hazards | EX/MEM and MEM/WB forwarding, load-use stall, branch/jump flush |

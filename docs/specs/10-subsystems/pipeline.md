@@ -16,7 +16,7 @@
 
 | Stage | Responsibility | State boundary |
 | --- | --- | --- |
-| PC/IF | `PCReg` 维护取指地址；IF 产生请求、消费响应、处理 redirect | `IFID` |
+| PC/IF | `PCReg` 维护取指地址；IF 产生请求、消费响应、处理 redirect | `IFIDReg` |
 | ID | 译码、立即数生成、整数寄存器读、使用源寄存器标记 | `IDEXReg` |
 | EX | 旁路、ALU/M、branch/jump resolution、形成 memory request | `EXMEMReg` |
 | MEM | 保持单个数据事务、形成 load value、等待响应 | `MEMWBReg` |

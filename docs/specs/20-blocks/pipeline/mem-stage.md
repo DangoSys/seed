@@ -1,11 +1,11 @@
-# MEMStage Block Specification
+# MEMU Block Specification
 
 | Field | Value |
 | --- | --- |
 | Spec ID | `SEED-BLK-MEM` |
 | Status | `Implemented / Unverified` |
 | Revision | `0.1` |
-| RTL | `src/main/scala/pipeline/MEMStage.scala` |
+| RTL | `src/main/scala/pipeline/MEMU.scala` |
 
 ## 1. Purpose
 

@@ -1,11 +1,11 @@
-# WBStage Block Specification
+# WBU Block Specification
 
 | Field | Value |
 | --- | --- |
 | Spec ID | `SEED-BLK-WB` |
 | Status | `Implemented / Unverified` |
 | Revision | `0.1` |
-| RTL | `src/main/scala/pipeline/WBStage.scala` |
+| RTL | `src/main/scala/pipeline/WBU.scala` |
 
 ## 1. Purpose
 

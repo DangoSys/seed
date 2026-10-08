@@ -40,7 +40,7 @@ Both interfaces use `Decoupled`. A transfer occurs only on `valid && ready` at t
 
 | Bundle | Producer → consumer | Required fields |
 | --- | --- | --- |
-| `IfIdBundle` | IF → ID | `valid`, `pc`, `instr` |
+| `IfId` | IF → ID | `valid`, `pc`, `instr` |
 | `IdEx` | ID → EX | PC, source/destination register numbers and values, immediate, ALU/memory/control bits |
 | `ExMem` | EX → MEM | PC, ALU result, store data, destination, memory controls, issued/done/load data state |
 | `MemWb` | MEM → WB | `valid`, `pc`, result, destination, regWrite |
@@ -49,7 +49,7 @@ Both interfaces use `Decoupled`. A transfer occurs only on `valid && ready` at t
 
 ## 4. Field invariants
 
-- `IfIdBundle.instr` is always 32 bit and its PC is the address captured with the request.
+- `IfId.instr` is always 32 bit and its PC is the address captured with the request.
 - `IdEx.rs1Val/rs2Val` are register-file snapshots; EX may replace them through forwarding.
 - `ExMem.memIssued` and `memDone` are meaningful only for a valid memory item.
 - `MemWb.result` is the final ALU or load value presented to WB.

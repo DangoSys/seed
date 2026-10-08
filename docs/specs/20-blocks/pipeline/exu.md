@@ -1,11 +1,11 @@
-# EXStage Block Specification
+# EXU Block Specification
 
 | Field | Value |
 | --- | --- |
 | Spec ID | `SEED-BLK-EX` |
 | Status | `Implemented / Unverified` |
 | Revision | `0.1` |
-| RTL | `src/main/scala/pipeline/EXStage.scala` |
+| RTL | `src/main/scala/pipeline/EXU.scala` |
 
 ## 1. Purpose
 

@@ -6,7 +6,7 @@
 | Plan status | Implemented; partial verification; request-stability counterexample |
 | Spec | [IFU](../specs/20-blocks/pipeline/ifu.md) |
 | Spec revision | `0.2` |
-| DUT | [IFU.scala](../../src/main/scala/pipeline/IFU.scala), class `framework.seed.pipeline.IFStage` |
+| DUT | [IFU.scala](../../src/main/scala/pipeline/IFU.scala), class `framework.seed.pipeline.IFU` |
 | Parameters | `SeedParam()`: 64-bit addresses, 32-bit instructions, reset PC `0x80000000` |
 | Environment | [IFU environment](../../verification/ifu/README.md) |
 | Owner / reviewer | TBD |
@@ -45,7 +45,7 @@ reference. Unknown protocol semantics remain explicit open items.
 
 ### 2.2 Implemented environment
 
-- Instantiate `IFStage` in `IFUVerificationTop` and expose its interface.
+- Instantiate `IFU` in `IFUVerificationTop` and expose its interface.
 - Drive request readiness, stall, downstream readiness and redirects independently.
 - Use a registered instruction-memory model with configurable response latency.
   Associate each accepted request with its address and a reproducible data word;

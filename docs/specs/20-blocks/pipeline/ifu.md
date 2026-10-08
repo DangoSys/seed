@@ -5,7 +5,7 @@
 | Spec ID | `SEED-BLK-IF` |
 | Status | `Implemented / Unverified` |
 | Revision | `0.2` |
-| RTL | `src/main/scala/pipeline/IFU.scala`, module `IFStage` |
+| RTL | `src/main/scala/pipeline/IFU.scala`, module `IFU` |
 | Parent | [PipelineCore](pipeline-core.md) |
 | Children | [PCReg](pc-reg.md) |
 | Verification | [IFU verification plan](../../../verification-plan/ifu.md) |
@@ -23,9 +23,9 @@ IFU 负责：
 
 IFU 不负责：
 
-- 分支判断和目标计算（`EXStage`）。
+- 分支判断和目标计算（`EXU`）。
 - `stall`、`flush` 的产生（`PipelineCore`）。
-- 指令保存（`IFIDReg`），译码（`IDStage`）。
+- 指令保存（`IFIDReg`），译码（`IDU`）。
 - 总线仲裁和 AXI 协议转换（`AxiBridge`）。
 
 ## 2. Interface
