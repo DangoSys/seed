@@ -5,7 +5,7 @@
 | Plan revision | `0.1` |
 | Plan status | Passing in simulation; formal pending |
 | Spec | [IFIDReg block spec](../specs/20-blocks/pipeline/ifid-reg.md) |
-| Spec revision | `0.1` |
+| Spec revision | `0.2` |
 | DUT | `src/main/scala/pipeline/IFIDReg.scala`, `IFIDReg` |
 | Parameters | Default `SeedParam()` (`vaddrBits=64`) |
 | Environment | [verification/ifid-reg](../../verification/ifid-reg/README.md) |
