@@ -17,14 +17,16 @@ class PipelineCore(val p: SeedParam = SeedParam()) extends Module {
   val memStage = Module(new MEMU(p))
   val memwbReg = Module(new MEMWBReg(p))
   val wbStage = Module(new WBU(p))
-  val regs = RegInit(VecInit(Seq.fill(32)(0.U(p.xLen.W))))
+  val registerFile = Module(new RegisterFile(p))
 
   ifStage.io.imem <> io.imem
   memStage.io.dmem <> io.dmem
   ifidReg.io.in := ifStage.io.out
   idStage.io.in := ifidReg.io.out
-  idStage.io.rs1Data := Mux(idStage.io.rs1 === 0.U, 0.U, regs(idStage.io.rs1))
-  idStage.io.rs2Data := Mux(idStage.io.rs2 === 0.U, 0.U, regs(idStage.io.rs2))
+  registerFile.io.rs1 := idStage.io.rs1
+  registerFile.io.rs2 := idStage.io.rs2
+  idStage.io.rs1Data := registerFile.io.rs1Data
+  idStage.io.rs2Data := registerFile.io.rs2Data
   idexReg.io.in := idStage.io.out
   exStage.io.in := idexReg.io.out
   exStage.io.exmem := exmemReg.io.out
@@ -34,7 +36,9 @@ class PipelineCore(val p: SeedParam = SeedParam()) extends Module {
   memwbReg.io.in := memStage.io.out
   wbStage.io.in := memwbReg.io.out
 
-  when(wbStage.io.writeValid) { regs(wbStage.io.writeAddr) := wbStage.io.writeData }
+  registerFile.io.writeEnable := wbStage.io.writeValid
+  registerFile.io.writeAddr := wbStage.io.writeAddr
+  registerFile.io.writeData := wbStage.io.writeData
 
   val loadUse = ifidReg.io.out.valid && idexReg.io.out.valid && idexReg.io.out.memToReg && idexReg.io.out.rd =/= 0.U &&
     ((idStage.io.usesRs1 && idStage.io.rs1 === idexReg.io.out.rd) || (idStage.io.usesRs2 && idStage.io.rs2 === idexReg.io.out.rd))

@@ -10,7 +10,7 @@
 
 ## 1. Purpose and boundary
 
-`PipelineCore` 实例化五个 stage、四个流水寄存器、32×64 integer register file，并连接 IF/DMEM 请求/响应端口。AXI 协议不属于本 block，由 `AxiBridge` 负责。
+`PipelineCore` 实例化五个 stage、四个流水寄存器和独立的 32×64 [`RegisterFile`](register-file.md) 模块，并连接 IF/DMEM 请求/响应端口。AXI 协议不属于本 block，由 `AxiBridge` 负责。
 
 ## 2. Interface
 
@@ -34,7 +34,7 @@
 
 ## 4. Register file
 
-寄存器数组在 reset 时清零。ID 读 `rs1/rs2` 时对寄存器 0 强制返回 0；WB 对 `rd=0` 不产生写入。当前未实现同周期写后读的独立 bypass，因为 EX 还有 MEM/WB forwarding。
+`PipelineCore` 将 IDU 的 `rs1/rs2` 连接至 `RegisterFile` 的两个读端口，将读值返回 IDU，并将 WBU 的写回端口连接至 `RegisterFile`。寄存器数组在 reset 时清零；`x0` 读值恒为 0，写入被忽略。当前寄存器堆没有同周期写后读旁路；EX 的 forwarding 负责其已覆盖的相邻数据依赖。
 
 ## 5. Control implementation
 

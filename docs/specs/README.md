@@ -36,6 +36,6 @@ Every `SHALL` statement in a `REQ-*` item is checked by its verification plan.
 
 ## Modules
 
-- Pipeline: [subsystem](10-subsystems/pipeline.md), [PipelineCore](20-blocks/pipeline/pipeline-core.md), [IFU](20-blocks/pipeline/ifu.md), [IDU](20-blocks/pipeline/idu.md), [EXU](20-blocks/pipeline/exu.md), [MEMU](20-blocks/pipeline/memu.md), [WBU](20-blocks/pipeline/wbu.md), [types](20-blocks/pipeline/pipeline-types.md)
+- Pipeline: [subsystem](10-subsystems/pipeline.md), [PipelineCore](20-blocks/pipeline/pipeline-core.md), [RegisterFile](20-blocks/pipeline/register-file.md), [IFU](20-blocks/pipeline/ifu.md), [IDU](20-blocks/pipeline/idu.md), [EXU](20-blocks/pipeline/exu.md), [MEMU](20-blocks/pipeline/memu.md), [WBU](20-blocks/pipeline/wbu.md), [types](20-blocks/pipeline/pipeline-types.md)
 - Pipeline registers: [IF/ID](20-blocks/pipeline/ifid-reg.md), [ID/EX](20-blocks/pipeline/idex-reg.md), [EX/MEM](20-blocks/pipeline/exmem-reg.md), [MEM/WB](20-blocks/pipeline/memwb-reg.md)
 - Top and bus: [Seed](20-blocks/top/seed.md), [interface](20-blocks/top/seed-interface.md), [parameters](20-blocks/top/seed-param.md), [AxiBridge](20-blocks/bus/axi-bridge.md)
