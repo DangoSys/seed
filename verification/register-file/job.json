@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "name": "register-file",
+  "build_manifest": "verification/register-file/manifest.json",
+  "snapshot_inputs": [
+    "build.mill",
+    "src/main",
+    "verification/register-file",
+    "docs/specs/20-blocks/pipeline/register-file.md",
+    "docs/verification-plan/register-file.md"
+  ],
+  "assertions": {
+    "mode": "ca_assertion_reviewed_plan",
+    "spec": "docs/specs/20-blocks/pipeline/register-file.md",
+    "plan": "verification/register-file/assertion-plan.json",
+    "source": "verification/register-file/src/main/scala/RegisterFileVerificationTop.scala"
+  },
+  "backend": {
+    "kind": "verilator",
+    "top": "RegisterFileVerificationTop",
+    "testbench": "verification/register-file/sim_main.cpp",
+    "filelist": "filelist.f",
+    "layers": [
+      "verification/assert/layers-RegisterFileVerificationTop-Verification-Assert.sv",
+      "verification/cover/layers-RegisterFileVerificationTop-Verification-Cover.sv"
+    ],
+    "result_file": "simulation.json",
+    "coverage_file": "coverage.dat"
+  },
+  "mutations": [
+    {
+      "name": "force_read_port_one_zero",
+      "file": "RegisterFile.sv",
+      "find": "assign io_rs1Data = io_rs1 == 5'h0 ? 64'h0 : _GEN[io_rs1];",
+      "replace": "assign io_rs1Data = 64'h0;",
+      "args": ["--ltl-only"],
+      "expected_assertion": "REQ_REGFILE_003_WRITE1"
+    }
+  ]
+}

@@ -91,6 +91,14 @@ class IDU(val p: SeedParam = SeedParam()) extends Module {
   out.branchFunct3 := funct3
   out.memSize := 2.U // Default for instructions without a memory access.
 
+
+  // Instructions in one family set the same control signals and differ only in
+  // the ALU operation, immediate, access size, or RV64 W behavior. Each helper
+  // fills that common pattern; the when blocks below only choose the variant.
+  // word and unsigned default to false, so a plain 64-bit instruction omits them.
+
+  // ADDI and the other immediate ALU ops. Shifts pass shamt instead of immI.
+  // ADDIW and the W shifts pass word = true.
   def aluImmediate(op: UInt, immediate: UInt = immI, word: Boolean = false): Unit = {
     out.aluOp := op
     out.imm := immediate
@@ -100,6 +108,8 @@ class IDU(val p: SeedParam = SeedParam()) extends Module {
     usesRs1 := true.B
   }
 
+
+  // ADD, SUB, and the M register ops. W forms pass word; DIVU and REMU pass unsigned.
   def aluRegister(op: UInt, word: Boolean = false, unsigned: Boolean = false): Unit = {
     out.aluOp := op
     out.regWrite := true.B
@@ -109,6 +119,8 @@ class IDU(val p: SeedParam = SeedParam()) extends Module {
     usesRs2 := true.B
   }
 
+
+  // BEQ, BNE, BLT, BGE, BLTU, BGEU. branchFunct3 selects the condition in EX.
   def branch(): Unit = {
     out.imm := immB
     out.branch := true.B
@@ -116,6 +128,8 @@ class IDU(val p: SeedParam = SeedParam()) extends Module {
     usesRs2 := true.B
   }
 
+
+  // LB, LH, LW, LD. The unsigned variants pass unsigned = true.
   def load(size: Int, unsigned: Boolean = false): Unit = {
     out.imm := immI
     out.aluSrcImm := true.B
@@ -127,6 +141,7 @@ class IDU(val p: SeedParam = SeedParam()) extends Module {
     usesRs1 := true.B
   }
 
+  // SB, SH, SW, SD. size is memSize: 0 byte, 1 halfword, 2 word, 3 doubleword.
   def store(size: Int): Unit = {
     out.imm := immS
     out.aluSrcImm := true.B

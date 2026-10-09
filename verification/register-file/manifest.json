@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "build_system": "mill",
+  "module": "registerFileVerification",
+  "inputs": [
+    "src/main/scala",
+    "src/main/resources",
+    "verification/register-file",
+    "docs/specs/20-blocks/pipeline/register-file.md",
+    "docs/verification-plan/register-file.md"
+  ],
+  "emit": {
+    "main_class": "framework.seed.verification.EmitRegisterFileVerification",
+    "args": [],
+    "output_dir": "build/register-file-rtl"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "build_system": "mill",
+  "module": "iduVerification",
+  "inputs": [
+    "src/main/scala",
+    "src/main/resources",
+    "verification/idu",
+    "docs/specs/20-blocks/pipeline/idu.md",
+    "docs/verification-plan/idu.md"
+  ],
+  "emit": {
+    "main_class": "framework.seed.verification.EmitIDUVerification",
+    "args": [],
+    "output_dir": "build/idu-rtl"
+  }
+}

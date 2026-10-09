@@ -79,5 +79,7 @@ Known defects must remain visible and must not be waived automatically.
 | Block | Spec | Plan | Implementation |
 | --- | --- | --- | --- |
 | IFU | [IFU](../specs/20-blocks/pipeline/ifu.md) | [IFU plan](ifu.md) | Implemented; functional checks pass, protocol counterexample |
+| IDU | [IDU](../specs/20-blocks/pipeline/idu.md) | [IDU plan](idu.md) | iabv simulation environment |
+| RegisterFile | [RegisterFile](../specs/20-blocks/pipeline/register-file.md) | [RegisterFile plan](register-file.md) | iabv simulation environment |
 
 PCReg plan migration is pending; its executable environment and block spec exist.

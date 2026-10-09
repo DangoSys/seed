@@ -32,6 +32,11 @@ the [PCReg Assertion job](pc-reg/README.md) delegates generation from its suppli
 plan, isolated builds, simulation and mutation checks to chisel-iabv product.
 Run `python3 verification/pc-reg/run.py` to launch the job. A formal backend remains future integration work.
 
+Independent generated-assertion jobs also live in
+[`idu/`](idu/README.md) and [`register-file/`](register-file/README.md).
+Run them with `python3 verification/idu/run.py` and
+`python3 verification/register-file/run.py` respectively.
+
 ## Updating the tool
 
 Fetch and check out a reviewed tool commit inside `tools/chisel-iabv`, rerun the

@@ -61,3 +61,12 @@ object iduVerification extends SbtModule {
     def testFramework = "org.scalatest.tools.Framework"
   }
 }
+
+object registerFileVerification extends SbtModule {
+  def moduleDir = seed.moduleDir / "verification" / "register-file"
+  def scalaVersion = seed.scalaVersion()
+  def mvnDeps = seed.mvnDeps()
+  def scalacPluginMvnDeps = seed.scalacPluginMvnDeps()
+  def scalacOptions = seed.scalacOptions()
+  def moduleDeps = Seq(seed)
+}
