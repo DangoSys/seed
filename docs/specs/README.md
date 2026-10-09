@@ -21,6 +21,19 @@ docs/
 - Verification plans live only in [verification-plan](../verification-plan/README.md), never inside a spec.
 - New module: copy `templates/block-microarchitecture.md`, then create its verification plan with the same file name.
 
+## Requirement keywords
+
+Requirements use uppercase keywords, following [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119):
+
+| Keyword | Meaning | If not met |
+| --- | --- | --- |
+| `SHALL` / `MUST` | Mandatory | A bug; verification fails |
+| `SHALL NOT` / `MUST NOT` | Prohibited | A bug; verification fails |
+| `SHOULD` | Recommended; may be skipped for a documented reason | Not a bug, but the reason must be recorded |
+| `MAY` | Optional | No effect |
+
+Every `SHALL` statement in a `REQ-*` item is checked by its verification plan.
+
 ## Modules
 
 - Pipeline: [subsystem](10-subsystems/pipeline.md), [PipelineCore](20-blocks/pipeline/pipeline-core.md), [IFU](20-blocks/pipeline/ifu.md), [IDU](20-blocks/pipeline/id-stage.md), [EXU](20-blocks/pipeline/exu.md), [MEMU](20-blocks/pipeline/mem-stage.md), [WBU](20-blocks/pipeline/wb-stage.md), [types](20-blocks/pipeline/pipeline-types.md)
