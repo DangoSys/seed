@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "name": "pc-reg",
+  "verification_kind": "ltl_simulation",
+  "formal_status": "not_run",
+  "assertion_source": {
+    "mode": "ca_assertion_reviewed_plan",
+    "plan_origin": "project_supplied",
+    "llm_invoked": false,
+    "renderer": "ca-assertion.stage4_instrument/official_ltl",
+    "renderer_sha256": "09f9d7803dc5e0c187d2fee5ee793986959bf956986d1657836295db53fda769",
+    "generated_sha256": "d01062222fae1ba0bc1c6d28b6773c14e33066acc68c605683d4565ed4cc596f"
+  },
+  "stages": [
+    {
+      "argv": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "$SEED_ROOT/tools/chisel-iabv/src/product/adapters/assertion_generator.py",
+        "--source",
+        "$SEED_ROOT/build/product-review-20261008/bound/result/workspace/verification/pc-reg/src/main/scala/PCRegVerificationTop.scala",
+        "--plan",
+        "$SEED_ROOT/build/product-review-20261008/bound/result/plan.json",
+        "--output",
+        "$SEED_ROOT/build/product-review-20261008/bound/result/generation"
+      ],
+      "cwd": "$SEED_ROOT/build/product-review-20261008/bound/result/workspace",
+      "log": "$SEED_ROOT/build/product-review-20261008/bound/result/generation.log",
+      "status": "passed",
+      "returncode": 0,
+      "elapsed_seconds": 0.036
+    },
+    {
+      "argv": [
+        "verilator",
+        "--cc",
+        "--exe",
+        "--build",
+        "-j",
+        "2",
+        "--assert",
+        "--coverage-user",
+        "--trace",
+        "--top-module",
+        "PCRegVerificationTop",
+        "--Mdir",
+        "$SEED_ROOT/build/product-review-20261008/bound/result/obj",
+        "-o",
+        "assertion-sim",
+        "-I$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts",
+        "-I$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts/verification",
+        "-I$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts/verification/assert",
+        "-I$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts/verification/assume",
+        "-I$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts/verification/cover",
+        "-f",
+        "$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts/filelist.f",
+        "$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts/verification/assert/layers-PCRegVerificationTop-Verification-Assert.sv",
+        "$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts/verification/cover/layers-PCRegVerificationTop-Verification-Cover.sv",
+        "$SEED_ROOT/build/product-review-20261008/bound/result/workspace/verification/pc-reg/sim_main.cpp"
+      ],
+      "cwd": "$SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts",
+      "log": "$SEED_ROOT/build/product-review-20261008/bound/result/verilator-build.log",
+      "status": "passed",
+      "returncode": 0,
+      "elapsed_seconds": 2.055
+    },
+    {
+      "argv": [
+        "$SEED_ROOT/build/product-review-20261008/bound/result/obj/assertion-sim"
+      ],
+      "cwd": "$SEED_ROOT/build/product-review-20261008/bound/result/baseline",
+      "log": "$SEED_ROOT/build/product-review-20261008/bound/result/simulation.log",
+      "status": "failed",
+      "returncode": 1,
+      "elapsed_seconds": 0.395
+    }
+  ],
+  "input_hashes": {
+    "job": "7291a83512ac0c839eb563c78c8ea1374888c60325fc98a37ab43782ffed58ab",
+    "plan": "89039f01e782e27a0ba79335f306bb46c535c35ddbfacec476cda98ed234b78c",
+    "spec": "1d27bb06009e34c07a8ba7a28f768118807c7121b1a761c9261d7c530d59adba"
+  },
+  "project_inputs_sha256": {
+    "build.mill": "bf38d4085fdfe3261b54555e4974ba7d20df370b268f30ebd581406eaecb1e37",
+    "src/main/resources/README.md": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/main/scala/configs/SeedParam.scala": "3513469710ad4d64b001c11ebcd1bdefaa41c39a5d6271eb86872c2270060c8b",
+    "src/main/scala/interfaces/SeedInterface.scala": "22557f80563fe865a21109d563642f5dfcf4ca1ab2f2ef747c11ca39fdbb6699",
+    "src/main/scala/pipeline/EXMEMReg.scala": "fadae66e687479e06a1a2e79b3739a738723a580b1604520049ee9864f1013ef",
+    "src/main/scala/pipeline/EXStage.scala": "3b22e165d75a021f725f097a4618bc04846145bd1d0f39b6fb0b6a840bd693a8",
+    "src/main/scala/pipeline/IDEXReg.scala": "6807ad36a1e2b16ade41e82126916844a095ca5ee7b6a7ad4e0ca9e998eacaf6",
+    "src/main/scala/pipeline/IDU.scala": "b9f0021ad46bec3f3d141a31ac3d0d9088b778130664a70a5b556cb19f21ef3f",
+    "src/main/scala/pipeline/IFIDReg.scala": "affdc064afe37ee65d419cb42af3b0de6c839d26dec020b692edebfe5eb9b311",
+    "src/main/scala/pipeline/IFU.scala": "f3a17279b394fd89177ffb604f7b4a625a58f7a32e2b03361b5f763e08189be0",
+    "src/main/scala/pipeline/MEMStage.scala": "c2d25dba422b91b99bef5bc8e3ecfd07ad9e475db0bb47d19c71678adb4856a3",
+    "src/main/scala/pipeline/MEMWBReg.scala": "05cd42903e18bebbd8297cc5a730771fed7c863db03a593c7d8a0cff61b93c97",
+    "src/main/scala/pipeline/PCReg.scala": "ef08cb4e5acef3221a3d5dc9d4ad7e644a79edb24f8f98f768e53f40ff1645a0",
+    "src/main/scala/pipeline/PipelineCore.scala": "2268cd52faac305eb2626c7163a7e061f7eb4136baa207300f7b2f6519ed0d4b",
+    "src/main/scala/pipeline/PipelineTypes.scala": "3a7703a8abb6a01e14d4342db39dcfc5d949e28ae50f35baef305492c5b46428",
+    "src/main/scala/pipeline/WBStage.scala": "7c7cddc4fbb88fc3140e865320e1cc0f7eafcd20a30a0f0c3b8882924b92724e",
+    "src/main/scala/top/AxiBridge.scala": "b28e8814e25eb3335eb45253c7489a4625c140987d223e9a3dcc26e7b348b9fb",
+    "src/main/scala/top/Seed.scala": "7e8c55e1017d88925bf8c6fa3de0910e33fea3376b14ceed1d1ca0d9d6ac8759",
+    "verification/pc-reg/README.md": "d215cf6bdd8292106a030adc63822d0bc5dc3315e6e3a29213092105de2deed6",
+    "verification/pc-reg/assertion-plan.json": "89039f01e782e27a0ba79335f306bb46c535c35ddbfacec476cda98ed234b78c",
+    "verification/pc-reg/job.json": "7291a83512ac0c839eb563c78c8ea1374888c60325fc98a37ab43782ffed58ab",
+    "verification/pc-reg/manifest.json": "9025cbf0c522aa1240f3ae7050e3da668ebda3a692dabfacd714d116076a48da",
+    "verification/pc-reg/reference/PCRegVerificationTop.scala": "6449588788616039c3fc54f6d719a46f65d2aeffd4fe3e9659dd980eaea924bf",
+    "verification/pc-reg/run.py": "62f8a93c4779b5a564d789fc2b4ba7e2c3190db8cbe6d5a03c03b98d113b3e6d",
+    "verification/pc-reg/sim_main.cpp": "7a5e3902f6d2fd9ff6b7ec2b899d0d1afe6cacbe4b3dd459f46aa83f642d8e1a",
+    "verification/pc-reg/src/main/scala/PCRegVerificationTop.scala": "50c89b598b43ebcb3414fc12289b199b676fc036ee0d8f368b5bdbd37b7e0b8a",
+    "docs/specs/20-blocks/pipeline/pc-reg.md": "1d27bb06009e34c07a8ba7a28f768118807c7121b1a761c9261d7c530d59adba"
+  },
+  "product_sources_sha256": {
+    "src/product/cli.py": "3635eb561c5351c1a6632f87a7a34b7edb6a49a75ec74cfdac3fabddc560a8dd",
+    "src/product/contracts/job.py": "822ec59d7020896c5d55485dd2dec1065cd3552557463fcf9ef3938a0f26b44e",
+    "src/product/contracts/__init__.py": "13b001094555c380480638bb11c3ebf33086e2fc98e006995ae721dd3a3d3917",
+    "src/product/tests/test_mill_project_adapter.py": "5a8205479b8dce1ee43f65984b9a1dec67a40b7ec1926ebd1aded25e3bb47e3b",
+    "src/product/tests/test_assertion_product.py": "6c527417e68c489dbcd304ff512747ab7878b8f0e2932afa2eea93535d87ea82",
+    "src/product/workflows/__init__.py": "13b001094555c380480638bb11c3ebf33086e2fc98e006995ae721dd3a3d3917",
+    "src/product/workflows/assertion.py": "63b9b4e2100d885adc67ccb62f60a85dbe790708263792a6cded2ba08e8a7e53",
+    "src/product/adapters/__init__.py": "58ce116df07190f984cd0b8c62ccb5b20df7dd38ed1b5bf39509da9c32e4fcda",
+    "src/product/adapters/assertion_generator.py": "391c03b6f322020c1473c4e4983b02a3738bc918b888df0dbde9697b318e6c7d",
+    "src/product/adapters/mill_project.py": "fa8928dc0ba8c9aba0532e7e76cac0e44d691c588eba507a74012c13b4fcaa5f",
+    "src/product/adapters/verilator.py": "e2396131a395100d8ec03741e328b160192510f3af5a4c2a3666122cb87753d6"
+  },
+  "tool_commit": "060e9e57866034b3d6a93c7e37093bb69c7b5714",
+  "tool_worktree_dirty": true,
+  "verilator_version": "Verilator 5.046 2026-02-28 rev vUNKNOWN-built20260228",
+  "requirement_mapping": [
+    {
+      "requirement_id": "REQ-PC-001",
+      "assertion_id": "REQ_PC_001_RESET",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-PC-002",
+      "assertion_id": "REQ_PC_002_REDIRECT",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-PC-003",
+      "assertion_id": "REQ_PC_003_ADVANCE",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-PC-004",
+      "assertion_id": "REQ_PC_004_HOLD",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-PC-005",
+      "assertion_id": "REQ_PC_005_PRIORITY",
+      "assertion_kind": "assert"
+    },
+    {
+      "requirement_id": "REQ-PC-001",
+      "assertion_id": "COV_RESET",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-PC-002",
+      "assertion_id": "COV_REDIRECT",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-PC-003",
+      "assertion_id": "COV_ADVANCE",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-PC-004",
+      "assertion_id": "COV_HOLD",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-PC-005",
+      "assertion_id": "COV_PRIORITY",
+      "assertion_kind": "cover"
+    },
+    {
+      "requirement_id": "REQ-PC-003",
+      "assertion_id": "COV_WRAP",
+      "assertion_kind": "cover"
+    }
+  ],
+  "build_report": "$SEED_ROOT/build/product-review-20261008/bound/result/build/report.json",
+  "error": "Baseline simulation failed",
+  "project_inputs_unchanged": true
+}

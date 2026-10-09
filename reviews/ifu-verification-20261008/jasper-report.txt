@@ -1,0 +1,799 @@
+
+==============================================================
+    Jasper Verification Results
+==============================================================
+    2024.09p001 64 bits for Linux64 4.18.0-372.26.1.el8_6.x86_64
+    Host Name: eda01.localdomain
+    User Name: nicheng
+    Printed on: Thursday, Oct 8, 2026 04:57:51 PM CST
+    Working Directory: /home/nicheng/seed-ifu-verification/20261008-165802-f53b0aae
+
+
+==============================================================
+DESIGN INFO
+==============================================================
+    Top Level Module     : IFUVerificationTop
+    Clocks               : clock
+    Resets               : reset
+    Global Stopats       :     <none>
+    Global Assumptions   :     <none>
+
+==============================================================
+SUMMARY
+==============================================================
+    Total Tasks           : 1
+    Total Properties      : 57
+          assumptions     : 2                   
+           - approved     : 0                   ( 0.0% )
+           - temporary    : 2                   ( 100.0% )
+          assertions      : 14                  
+           - proven       : 13                  ( 92.9% )
+           - marked_proven: 0                   ( 0.0% )
+           - cex          : 1                   ( 7.1% )
+           - ar_cex       : 0                   ( 0.0% )
+           - undetermined : 0                   ( 0.0% )
+           - unprocessed  : 0                   ( 0.0% )
+           - error        : 0                   ( 0.0% )
+          covers          : 41                  
+           - unreachable  : 1                   ( 2.4% )
+           - covered      : 40                  ( 97.6% )
+           - ar_covered   : 0                   ( 0.0% )
+           - undetermined : 0                   ( 0.0% )
+           - unprocessed  : 0                   ( 0.0% )
+           - error        : 0                   ( 0.0% )
+
+==============================================================
+RESULTS
+==============================================================
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+       Name                                                                                |    Result    |  Engine  |  Bound  |  Time    
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+---[ <embedded> ]---------------------------------------------------------------------------------------------------------------------------
+[1]   IFUVerificationTop.verification_assert.REQ_IF_001_RESET_STATE                             proven          PRE    Infinite    0.000 s      
+[2]   IFUVerificationTop.verification_assert.REQ_IF_001_RESET_STATE:precondition1               unreachable     PRE    Infinite    0.000 s      
+[3]   IFUVerificationTop.verification_assert.REQ_IF_001_RESET_FETCH                             proven          N      Infinite    0.034 s      
+[4]   IFUVerificationTop.verification_assert.REQ_IF_001_RESET_FETCH:precondition1               covered         Hp            1    0.006 s      
+[5]   IFUVerificationTop.verification_assert.REQ_IF_002_SINGLE_PENDING                          proven          N      Infinite    0.001 s      
+[6]   IFUVerificationTop.verification_assert.REQ_IF_002_SINGLE_PENDING:precondition1            covered         Hp            2    0.092 s      
+[7]   IFUVerificationTop.verification_assert.REQ_IF_003_SEQUENCE                                proven          Hp     Infinite    0.091 s      
+[8]   IFUVerificationTop.verification_assert.REQ_IF_003_SEQUENCE:precondition1                  covered         Hp            1    0.006 s      
+[9]   IFUVerificationTop.verification_assert.REQ_IF_003_ADVANCE_ON_FIRE                         proven          Hp     Infinite    0.092 s      
+[10]  IFUVerificationTop.verification_assert.REQ_IF_003_ADVANCE_ON_FIRE:precondition1           covered         Hp            1    0.006 s      
+[11]  IFUVerificationTop.verification_assert.REQ_IF_003_HOLD                                    proven          Hp     Infinite    0.092 s      
+[12]  IFUVerificationTop.verification_assert.REQ_IF_003_HOLD:precondition1                      covered         Hp            1    0.007 s      
+[13]  IFUVerificationTop.verification_assert.REQ_IF_004_DELIVERY                                proven          N      Infinite    0.003 s      
+[14]  IFUVerificationTop.verification_assert.REQ_IF_004_DELIVERY:precondition1                  covered         Hp            1    0.006 s      
+[15]  IFUVerificationTop.verification_assert.REQ_IF_004_LIVE_READY                              proven          N      Infinite    0.002 s      
+[16]  IFUVerificationTop.verification_assert.REQ_IF_004_LIVE_READY:precondition1                covered         Hp            1    0.006 s      
+[17]  IFUVerificationTop.verification_assert.REQ_IF_005_TARGET                                  proven          Hp     Infinite    0.092 s      
+[18]  IFUVerificationTop.verification_assert.REQ_IF_005_TARGET:precondition1                    covered         PRE           1    0.000 s      
+[19]  IFUVerificationTop.verification_assert.REQ_IF_005_DISCARD                                 proven          N      Infinite    0.001 s      
+[20]  IFUVerificationTop.verification_assert.REQ_IF_005_DISCARD:precondition1                   covered         Hp            2    0.093 s      
+[21]  IFUVerificationTop.verification_assert.REQ_IF_006_REQUEST_GATE                            proven          PRE    Infinite    0.000 s      
+[22]  IFUVerificationTop.verification_assert.REQ_IF_006_REQUEST_GATE:precondition1              covered         PRE           1    0.000 s      
+[23]  IFUVerificationTop.verification_assert.REQ_IF_007_PAIRING                                 proven          PRE    Infinite    0.000 s      
+[24]  IFUVerificationTop.verification_assert.REQ_IF_007_PAIRING:precondition1                   covered         Hp            2    0.094 s      
+[25]  IFUVerificationTop.verification_cover.COV_IF_RESET                                        covered         Hp            1    0.006 s      
+[26]  IFUVerificationTop.verification_cover.COV_IF_DELAYED                                      covered         Hp            2    0.092 s      
+[27]  IFUVerificationTop.verification_cover.COV_IF_SEQUENCE                                     covered         Hp            3    0.139 s      
+[28]  IFUVerificationTop.verification_cover.COV_IF_WRAP                                         covered         Hp            2    0.095 s      
+[29]  IFUVerificationTop.verification_cover.COV_IF_REQ_BLOCKED                                  covered         Hp            1    0.008 s      
+[30]  IFUVerificationTop.verification_cover.COV_IF_REDIRECT_IDLE                                covered         PRE           1    0.000 s      
+[31]  IFUVerificationTop.verification_cover.COV_IF_REDIRECT_PENDING                             covered         Hp            2    0.093 s      
+[32]  IFUVerificationTop.verification_cover.COV_IF_REDIRECT_RESPONSE                            covered         Hp            2    0.096 s      
+[33]  IFUVerificationTop.verification_cover.COV_IF_TARGET_ACCEPTED                              covered         Hp            2    0.095 s      
+[34]  IFUVerificationTop.verification_cover.COV_IF_PAIRING                                      covered         Hp            2    0.094 s      
+[35]  IFUVerificationTop.verification_cover.COV_IF_RESP_BLOCKED_1                               covered         Hp            2    0.103 s      
+[36]  IFUVerificationTop.verification_cover.COV_IF_DISCARD_BLOCKED_1                            covered         Hp            3    0.140 s      
+[37]  IFUVerificationTop.verification_cover.COV_IF_RESP_BLOCKED_2                               covered         Hp            2    0.104 s      
+[38]  IFUVerificationTop.verification_cover.COV_IF_DISCARD_BLOCKED_2                            covered         Hp            3    0.141 s      
+[39]  IFUVerificationTop.verification_cover.COV_IF_RESP_BLOCKED_3                               covered         Hp            2    0.105 s      
+[40]  IFUVerificationTop.verification_cover.COV_IF_DISCARD_BLOCKED_3                            covered         Hp            3    0.141 s      
+[41]  IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_1                              covered         Hp            1    0.009 s      
+[42]  IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_2                              covered         Hp            1    0.007 s      
+[43]  IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_3                              covered         PRE           1    0.000 s      
+[44]  IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_4                              covered         Hp            1    0.010 s      
+[45]  IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_5                              covered         Hp            1    0.016 s      
+[46]  IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_6                              covered         Hp            1    0.017 s      
+[47]  IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_7                              covered         Hp            1    0.018 s      
+[48]  IFUVerificationTop.formal_environment.ENV_IF_RESPONSE_CREDIT:precondition1                covered         Hp            2    0.094 s      
+[49]  IFUVerificationTop.formal_environment.ENV_IF_RESPONSE_HOLD:precondition1                  covered         Hp            2    0.103 s      
+[50]  IFUVerificationTop.formal_environment.CHK_IF_OUTSTANDING_LIMIT                            proven          N      Infinite    0.002 s      
+[51]  IFUVerificationTop.formal_environment.CHK_IF_OUTSTANDING_LIMIT:precondition1              covered         Hp            1    0.006 s      
+[52]  IFUVerificationTop.formal_environment.CHK_IF_REQUEST_STABILITY                            cex             Hp            2    0.106 s      
+[53]  IFUVerificationTop.formal_environment.CHK_IF_REQUEST_STABILITY:precondition1              covered         Hp            1    0.008 s      
+[54]  IFUVerificationTop.formal_environment.COV_ENV_TRANSACTION                                 covered         Hp            2    0.094 s      
+[55]  IFUVerificationTop.formal_environment.COV_ENV_RESPONSE_WAIT                               covered         Hp            3    0.142 s      
+
+==============================================================
+ASSUMPTIONS
+==============================================================
+
+-------------------------------------------------------------------------------
+       Name    |  Expression  |  Location     |  Status      |  Dependencies                  
+-------------------------------------------------------------------------------
+[1]   <embedded>::IFUVerificationTop.formal_environment.ENV_IF_RESPONSE_CREDIT  formal_environment.ENV_IF_RESPONSE_CREDIT  N/A temporary
+[2]   <embedded>::IFUVerificationTop.formal_environment.ENV_IF_RESPONSE_HOLD  formal_environment.ENV_IF_RESPONSE_HOLD  N/A temporary
+
+==============================================================
+DETAILED RESULTS
+==============================================================
+
+---[ <embedded> ]--------------------------------------------------------------
+[1]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_001_RESET_STATE
+    Expression : verification_assert.REQ_IF_001_RESET_STATE
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 9
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.000 s
+    Engine     : PRE
+
+
+[2]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_001_RESET_STATE:precondition1
+    Expression : verification_assert.REQ_IF_001_RESET_STATE_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 9
+
+    Result     : unreachable
+    Bound      : Infinite
+    Time       : 0.000 s
+    Engine     : PRE
+
+
+[3]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_001_RESET_FETCH
+    Expression : verification_assert.REQ_IF_001_RESET_FETCH
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 13
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.034 s
+    Engine     : N
+
+
+[4]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_001_RESET_FETCH:precondition1
+    Expression : verification_assert.REQ_IF_001_RESET_FETCH_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 13
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.006 s
+    Engine     : Hp
+
+
+[5]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_002_SINGLE_PENDING
+    Expression : verification_assert.REQ_IF_002_SINGLE_PENDING
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 22
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.001 s
+    Engine     : N
+
+
+[6]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_002_SINGLE_PENDING:precondition1
+    Expression : verification_assert.REQ_IF_002_SINGLE_PENDING_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 22
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.092 s
+    Engine     : Hp
+
+
+[7]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_003_SEQUENCE
+    Expression : verification_assert.REQ_IF_003_SEQUENCE
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 25
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.091 s
+    Engine     : Hp
+
+
+[8]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_003_SEQUENCE:precondition1
+    Expression : verification_assert.REQ_IF_003_SEQUENCE_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 25
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.006 s
+    Engine     : Hp
+
+
+[9]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_003_ADVANCE_ON_FIRE
+    Expression : verification_assert.REQ_IF_003_ADVANCE_ON_FIRE
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 32
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.092 s
+    Engine     : Hp
+
+
+[10]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_003_ADVANCE_ON_FIRE:precondition1
+    Expression : verification_assert.REQ_IF_003_ADVANCE_ON_FIRE_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 32
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.006 s
+    Engine     : Hp
+
+
+[11]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_003_HOLD
+    Expression : verification_assert.REQ_IF_003_HOLD
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 37
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.092 s
+    Engine     : Hp
+
+
+[12]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_003_HOLD:precondition1
+    Expression : verification_assert.REQ_IF_003_HOLD_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 37
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.007 s
+    Engine     : Hp
+
+
+[13]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_004_DELIVERY
+    Expression : verification_assert.REQ_IF_004_DELIVERY
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 41
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.003 s
+    Engine     : N
+
+
+[14]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_004_DELIVERY:precondition1
+    Expression : verification_assert.REQ_IF_004_DELIVERY_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 41
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.006 s
+    Engine     : Hp
+
+
+[15]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_004_LIVE_READY
+    Expression : verification_assert.REQ_IF_004_LIVE_READY
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 50
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.002 s
+    Engine     : N
+
+
+[16]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_004_LIVE_READY:precondition1
+    Expression : verification_assert.REQ_IF_004_LIVE_READY_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 50
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.006 s
+    Engine     : Hp
+
+
+[17]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_005_TARGET
+    Expression : verification_assert.REQ_IF_005_TARGET
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 57
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.092 s
+    Engine     : Hp
+
+
+[18]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_005_TARGET:precondition1
+    Expression : verification_assert.REQ_IF_005_TARGET_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 57
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.000 s
+    Engine     : PRE
+
+
+[19]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_005_DISCARD
+    Expression : verification_assert.REQ_IF_005_DISCARD
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 62
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.001 s
+    Engine     : N
+
+
+[20]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_005_DISCARD:precondition1
+    Expression : verification_assert.REQ_IF_005_DISCARD_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 62
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.093 s
+    Engine     : Hp
+
+
+[21]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_006_REQUEST_GATE
+    Expression : verification_assert.REQ_IF_006_REQUEST_GATE
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 67
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.000 s
+    Engine     : PRE
+
+
+[22]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_006_REQUEST_GATE:precondition1
+    Expression : verification_assert.REQ_IF_006_REQUEST_GATE_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 67
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.000 s
+    Engine     : PRE
+
+
+[23]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_007_PAIRING
+    Expression : verification_assert.REQ_IF_007_PAIRING
+    Type       : assert
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 73
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.000 s
+    Engine     : PRE
+
+
+[24]
+    Name       : IFUVerificationTop.verification_assert.REQ_IF_007_PAIRING:precondition1
+    Expression : verification_assert.REQ_IF_007_PAIRING_precondition1
+    Type       : cover
+    Location   : rtl/verification/assert/IFUVerificationTop_Verification_Assert.sv, 73
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.094 s
+    Engine     : Hp
+
+
+[25]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_RESET
+    Expression : verification_cover.COV_IF_RESET
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 4
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.006 s
+    Engine     : Hp
+
+
+[26]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_DELAYED
+    Expression : verification_cover.COV_IF_DELAYED
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 9
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.092 s
+    Engine     : Hp
+
+
+[27]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_SEQUENCE
+    Expression : verification_cover.COV_IF_SEQUENCE
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 14
+
+    Result     : covered
+    Bound      : 3
+    Time       : 0.139 s
+    Engine     : Hp
+
+
+[28]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_WRAP
+    Expression : verification_cover.COV_IF_WRAP
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 20
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.095 s
+    Engine     : Hp
+
+
+[29]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REQ_BLOCKED
+    Expression : verification_cover.COV_IF_REQ_BLOCKED
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 25
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.008 s
+    Engine     : Hp
+
+
+[30]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REDIRECT_IDLE
+    Expression : verification_cover.COV_IF_REDIRECT_IDLE
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 33
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.000 s
+    Engine     : PRE
+
+
+[31]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REDIRECT_PENDING
+    Expression : verification_cover.COV_IF_REDIRECT_PENDING
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 36
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.093 s
+    Engine     : Hp
+
+
+[32]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REDIRECT_RESPONSE
+    Expression : verification_cover.COV_IF_REDIRECT_RESPONSE
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 40
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.096 s
+    Engine     : Hp
+
+
+[33]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_TARGET_ACCEPTED
+    Expression : verification_cover.COV_IF_TARGET_ACCEPTED
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 43
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.095 s
+    Engine     : Hp
+
+
+[34]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_PAIRING
+    Expression : verification_cover.COV_IF_PAIRING
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 48
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.094 s
+    Engine     : Hp
+
+
+[35]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_RESP_BLOCKED_1
+    Expression : verification_cover.COV_IF_RESP_BLOCKED_1
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 58
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.103 s
+    Engine     : Hp
+
+
+[36]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_DISCARD_BLOCKED_1
+    Expression : verification_cover.COV_IF_DISCARD_BLOCKED_1
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 66
+
+    Result     : covered
+    Bound      : 3
+    Time       : 0.140 s
+    Engine     : Hp
+
+
+[37]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_RESP_BLOCKED_2
+    Expression : verification_cover.COV_IF_RESP_BLOCKED_2
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 69
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.104 s
+    Engine     : Hp
+
+
+[38]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_DISCARD_BLOCKED_2
+    Expression : verification_cover.COV_IF_DISCARD_BLOCKED_2
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 73
+
+    Result     : covered
+    Bound      : 3
+    Time       : 0.141 s
+    Engine     : Hp
+
+
+[39]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_RESP_BLOCKED_3
+    Expression : verification_cover.COV_IF_RESP_BLOCKED_3
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 77
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.105 s
+    Engine     : Hp
+
+
+[40]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_DISCARD_BLOCKED_3
+    Expression : verification_cover.COV_IF_DISCARD_BLOCKED_3
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 80
+
+    Result     : covered
+    Bound      : 3
+    Time       : 0.141 s
+    Engine     : Hp
+
+
+[41]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_1
+    Expression : verification_cover.COV_IF_REQUEST_GATES_1
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 88
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.009 s
+    Engine     : Hp
+
+
+[42]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_2
+    Expression : verification_cover.COV_IF_REQUEST_GATES_2
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 93
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.007 s
+    Engine     : Hp
+
+
+[43]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_3
+    Expression : verification_cover.COV_IF_REQUEST_GATES_3
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 97
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.000 s
+    Engine     : PRE
+
+
+[44]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_4
+    Expression : verification_cover.COV_IF_REQUEST_GATES_4
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 100
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.010 s
+    Engine     : Hp
+
+
+[45]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_5
+    Expression : verification_cover.COV_IF_REQUEST_GATES_5
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 104
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.016 s
+    Engine     : Hp
+
+
+[46]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_6
+    Expression : verification_cover.COV_IF_REQUEST_GATES_6
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 107
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.017 s
+    Engine     : Hp
+
+
+[47]
+    Name       : IFUVerificationTop.verification_cover.COV_IF_REQUEST_GATES_7
+    Expression : verification_cover.COV_IF_REQUEST_GATES_7
+    Type       : cover
+    Location   : rtl/verification/cover/IFUVerificationTop_Verification_Cover.sv, 110
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.018 s
+    Engine     : Hp
+
+
+[48]
+    Name       : IFUVerificationTop.formal_environment.ENV_IF_RESPONSE_CREDIT
+    Expression : formal_environment.ENV_IF_RESPONSE_CREDIT
+    Type       : assume
+    Location   : formal/environment.sv, 27
+
+    Status     : temporary
+[49]
+    Name       : IFUVerificationTop.formal_environment.ENV_IF_RESPONSE_CREDIT:precondition1
+    Expression : formal_environment.ENV_IF_RESPONSE_CREDIT_precondition1
+    Type       : cover
+    Location   : formal/environment.sv, 27
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.094 s
+    Engine     : Hp
+
+
+[50]
+    Name       : IFUVerificationTop.formal_environment.ENV_IF_RESPONSE_HOLD
+    Expression : formal_environment.ENV_IF_RESPONSE_HOLD
+    Type       : assume
+    Location   : formal/environment.sv, 30
+
+    Status     : temporary
+[51]
+    Name       : IFUVerificationTop.formal_environment.ENV_IF_RESPONSE_HOLD:precondition1
+    Expression : formal_environment.ENV_IF_RESPONSE_HOLD_precondition1
+    Type       : cover
+    Location   : formal/environment.sv, 30
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.103 s
+    Engine     : Hp
+
+
+[52]
+    Name       : IFUVerificationTop.formal_environment.CHK_IF_OUTSTANDING_LIMIT
+    Expression : formal_environment.CHK_IF_OUTSTANDING_LIMIT
+    Type       : assert
+    Location   : formal/environment.sv, 35
+
+    Result     : proven
+    Bound      : Infinite
+    Time       : 0.002 s
+    Engine     : N
+
+
+[53]
+    Name       : IFUVerificationTop.formal_environment.CHK_IF_OUTSTANDING_LIMIT:precondition1
+    Expression : formal_environment.CHK_IF_OUTSTANDING_LIMIT_precondition1
+    Type       : cover
+    Location   : formal/environment.sv, 35
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.006 s
+    Engine     : Hp
+
+
+[54]
+    Name       : IFUVerificationTop.formal_environment.CHK_IF_REQUEST_STABILITY
+    Expression : formal_environment.CHK_IF_REQUEST_STABILITY
+    Type       : assert
+    Location   : formal/environment.sv, 37
+
+    Result     : cex
+    Bound      : 2
+    Time       : 0.106 s
+    Engine     : Hp
+
+
+[55]
+    Name       : IFUVerificationTop.formal_environment.CHK_IF_REQUEST_STABILITY:precondition1
+    Expression : formal_environment.CHK_IF_REQUEST_STABILITY_precondition1
+    Type       : cover
+    Location   : formal/environment.sv, 37
+
+    Result     : covered
+    Bound      : 1
+    Time       : 0.008 s
+    Engine     : Hp
+
+
+[56]
+    Name       : IFUVerificationTop.formal_environment.COV_ENV_TRANSACTION
+    Expression : formal_environment.COV_ENV_TRANSACTION
+    Type       : cover
+    Location   : formal/environment.sv, 40
+
+    Result     : covered
+    Bound      : 2
+    Time       : 0.094 s
+    Engine     : Hp
+
+
+[57]
+    Name       : IFUVerificationTop.formal_environment.COV_ENV_RESPONSE_WAIT
+    Expression : formal_environment.COV_ENV_RESPONSE_WAIT
+    Type       : cover
+    Location   : formal/environment.sv, 42
+
+    Result     : covered
+    Bound      : 3
+    Time       : 0.142 s
+    Engine     : Hp
+
+
+-------------------------------------------------------------------------------

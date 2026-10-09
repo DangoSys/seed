@@ -1,0 +1,3 @@
+[13] %Error: PCRegVerificationTop_Verification_Assert.sv:16: Assertion failed in TOP.PCRegVerificationTop.verification_assert.REQ_PC_003_ADVANCE: 'assert' failed.
+%Error: $SEED_ROOT/build/product-review-20261008/bound/result/build/artifacts/verification/assert/PCRegVerificationTop_Verification_Assert.sv:16: Verilog $stop
+Aborting...

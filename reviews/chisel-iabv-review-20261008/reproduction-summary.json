@@ -1,0 +1,14 @@
+{
+  "unbound": {
+    "exit_code": 0,
+    "status": "passed",
+    "error": null,
+    "generated_sha256": "d01062222fae1ba0bc1c6d28b6773c14e33066acc68c605683d4565ed4cc596f"
+  },
+  "bound": {
+    "exit_code": 1,
+    "status": "failed",
+    "error": "Baseline simulation failed",
+    "generated_sha256": "d01062222fae1ba0bc1c6d28b6773c14e33066acc68c605683d4565ed4cc596f"
+  }
+}

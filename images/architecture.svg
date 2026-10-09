@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="820" viewBox="0 0 1120 820" role="img" aria-labelledby="title desc">
+<title id="title">bb-seed core block diagram</title>
+<desc id="desc">Multicycle RV32 core. PC and Decoder, register file, ALU and multiplier-divider, LSU, CSR and control, Sv32 MMU, and AXI4 bridge. Instruction and data requests share the memory path. Control signals are dashed. RAM and peripherals are external to the core.</desc>
+<defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto-start-reverse"><path d="M0 0 L6 3 L0 6 Z" fill="#333"/></marker>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#222;font-size:14px} .name{font-size:17px;font-weight:bold} .small{font-size:12px} .wire{fill:none;stroke:#333;stroke-width:1.5;marker-end:url(#a)} .ctl{fill:none;stroke:#555;stroke-width:1.3;stroke-dasharray:6 4;marker-end:url(#a)} .box{fill:white;stroke:#333;stroke-width:1.5}</style></defs>
+<rect width="1120" height="820" fill="white"/>
+<text x="40" y="32" class="name">bb-seed — Core Block Diagram</text>
+<text x="1080" y="32" text-anchor="end" class="small">RV32IMA_Zicsr_Zifencei · Multicycle</text>
+<rect x="130" y="70" width="950" height="608" fill="none" stroke="#333" stroke-width="1.7"/>
+<text x="148" y="94" class="name">Core</text>
+
+<rect x="170" y="125" width="225" height="68" class="box"/>
+<text x="282.5" y="156.0" text-anchor="middle" class="name">Control FSM</text>
+<text x="282.5" y="178.0" text-anchor="middle" class="small">Fetch / Decode / Execute / Commit</text>
+<rect x="770" y="125" width="265" height="68" class="box"/>
+<text x="902.5" y="156.0" text-anchor="middle" class="name">CSR / Trap Control</text>
+<text x="902.5" y="178.0" text-anchor="middle" class="small">M / S / U</text>
+<path d="M770 159 H395" class="ctl"/>
+<text x="580" y="149" text-anchor="middle" class="small">Trap / return control</text>
+<path d="M35 145 H170" class="ctl"/>
+<text x="35" y="133" text-anchor="start" class="small">clock / reset</text>
+<path d="M1100 112 H902 V125" class="ctl"/>
+<text x="1035" y="101" text-anchor="end" class="small">Interrupt inputs</text>
+<rect x="170" y="245" width="150" height="65" class="box"/>
+<text x="245.0" y="282.5" text-anchor="middle" class="name">PC / Fetch</text>
+<rect x="380" y="245" width="160" height="65" class="box"/>
+<text x="460.0" y="282.5" text-anchor="middle" class="name">IR / Decoder</text>
+<rect x="610" y="245" width="170" height="65" class="box"/>
+<text x="695.0" y="274.5" text-anchor="middle" class="name">Register File</text>
+<text x="695.0" y="296.5" text-anchor="middle" class="small">32 × 32 bits</text>
+<rect x="845" y="245" width="190" height="65" class="box"/>
+<text x="940.0" y="274.5" text-anchor="middle" class="name">ALU / MulDiv</text>
+<text x="940.0" y="296.5" text-anchor="middle" class="small">32-bit operands</text>
+<path d="M320 277 H380" class="wire"/>
+<text x="350" y="267" text-anchor="middle" class="small">32</text>
+<path d="M540 277 H610" class="wire"/>
+<text x="575" y="264" text-anchor="middle" class="small">rs1 / rs2</text>
+<path d="M780 277 H845" class="wire"/>
+<text x="812" y="266" text-anchor="middle" class="small">2 × 32</text>
+<path d="M282 193 V218 H460 V245" class="ctl"/>
+<path d="M460 218 H940 V245" class="ctl"/>
+<path d="M695 218 V245" class="ctl"/>
+<circle cx="460" cy="218" r="2.5" fill="#555"/>
+<circle cx="695" cy="218" r="2.5" fill="#555"/>
+<text x="564" y="211" text-anchor="start" class="small">Execution control</text>
+<rect x="845" y="370" width="190" height="66" class="box"/>
+<text x="940.0" y="400.0" text-anchor="middle" class="name">LSU / Atomics</text>
+<text x="940.0" y="422.0" text-anchor="middle" class="small">Load / Store · LR/SC · AMO</text>
+<path d="M940 310 V370" class="wire"/>
+<text x="950" y="343" text-anchor="start" class="small">Address / store data</text>
+<path d="M845 402 H695 V310" class="wire"/>
+<text x="695" y="425" text-anchor="start" class="small">Load / ALU writeback, 32</text>
+<path d="M885 310 V334 H735 V402" class="wire"/>
+<circle cx="735" cy="402" r="2.5" fill="#333"/>
+<rect x="350" y="493" width="445" height="75" class="box"/>
+<text x="572.5" y="527.5" text-anchor="middle" class="name">Sv32 MMU</text>
+<text x="572.5" y="549.5" text-anchor="middle" class="small">Shared TLB / Hardware Page-Table Walker</text>
+<path d="M245 310 V530 H350" class="wire"/>
+<text x="257" y="474" text-anchor="start" class="small">Instruction request</text>
+<path d="M940 436 V530 H795" class="wire"/>
+<text x="826" y="474" text-anchor="start" class="small">Data request</text>
+<rect x="350" y="598" width="445" height="56" class="box"/>
+<text x="572.5" y="631.0" text-anchor="middle" class="name">Memory Arbiter / AXI4 Bridge</text>
+<path d="M572 568 V598" class="wire"/>
+<text x="807" y="555" text-anchor="start" class="small">Return paths omitted</text>
+<path d="M572 654 V726" class="wire"/>
+<text x="588" y="699" text-anchor="start" class="small">AXI4 master</text>
+<rect x="170" y="726" width="865" height="54" class="box"/>
+<text x="602.5" y="758.0" text-anchor="middle" class="name">Platform Interconnect</text>
+<text x="205" y="803" text-anchor="start" class="small">Boot ROM / RAM</text>
+<text x="502" y="803" text-anchor="start" class="small">UART</text>
+<text x="770" y="803" text-anchor="start" class="small">Timer / Interrupt Controller</text>
+<path d="M277 780 V789" class="wire"/>
+<path d="M520 780 V789" class="wire"/>
+<path d="M897 780 V789" class="wire"/>
+<text x="150" y="666" text-anchor="start" class="small">No cache · One outstanding memory transaction</text>
+<text x="40" y="708" text-anchor="start" class="small">Solid: data / requests. Dashed: control.</text>
+</svg>

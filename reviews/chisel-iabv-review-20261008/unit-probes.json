@@ -1,0 +1,8 @@
+{
+  "partial_requirement_id_accepted": true,
+  "vacuous_tautology_accepted": true,
+  "missing_backend_fields_accepted": true,
+  "unbounded_null_timeout_accepted": true,
+  "invalid_check_type": "AttributeError: 'list' object has no attribute 'strip'",
+  "preprocessor_disabled_property_accepted": true
+}

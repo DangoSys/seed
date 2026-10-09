@@ -1,0 +1,1749 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Design specification of the Seed RV64 processor">
+      
+      
+      
+      
+        <link rel="prev" href="../ifu/">
+      
+      
+        <link rel="next" href="../exu/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>IDU - Seed</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#idu-block-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Seed" class="md-header__button md-logo" aria-label="Seed" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seed
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              IDU
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DangoSys/seed" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Seed" class="md-nav__button md-logo" aria-label="Seed" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seed
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DangoSys/seed" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design specs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../00-system/requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../00-system/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subsystems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Subsystems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10-subsystems/pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline blocks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline blocks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipeline-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PipelineCore
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../register-file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RegisterFile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ifu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IFU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IDU
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IDU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-inputs-and-register-file-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Inputs and register-file addresses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-out-idex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 out: IdEx 解码结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-decode-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Decode coverage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-reset-and-invalid-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Reset and invalid behavior
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EXU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MEMU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wbu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WBU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pc-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PCReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ifid-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IFIDReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../idex-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IDEXReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exmem-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EXMEMReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memwb-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MEMWBReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipeline-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bus and top
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bus and top
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bus/axi-bridge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AxiBridge
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../top/seed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../top/seed-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../top/seed-param/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-inputs-and-register-file-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Inputs and register-file addresses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-out-idex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 out: IdEx 解码结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-decode-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Decode coverage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-reset-and-invalid-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Reset and invalid behavior
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DangoSys/seed/edit/main/docs/specs/20-blocks/pipeline/idu.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="idu-block-specification">IDU Block Specification<a class="headerlink" href="#idu-block-specification" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spec ID</td>
+<td><code>SEED-BLK-ID</code></td>
+</tr>
+<tr>
+<td>Status</td>
+<td><code>Implemented / Unverified</code></td>
+</tr>
+<tr>
+<td>Revision</td>
+<td><code>0.4</code></td>
+</tr>
+<tr>
+<td>RTL</td>
+<td><code>src/main/scala/pipeline/IDU.scala</code>, <code>src/main/scala/pipeline/Instruction.scala</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-purpose">1. Purpose<a class="headerlink" href="#1-purpose" title="Permanent link">&para;</a></h2>
+<p>将 32-bit instruction 解码为 <code>IdEx</code> 控制/数据项，生成 RV64 immediate，并从外部提供的 <code>rs1Data/rs2Data</code> 形成操作数快照。</p>
+<p><code>Instruction.scala</code> 给每条支持的指令定义独立的命名编码，例如 <code>INST_ADDI</code>。IDU 对完整的 32-bit 编码做匹配，再按指令名设置控制字段；共享的字段赋值由按运算类别命名的局部方法完成。匹配的编码包括必要的 <code>funct3</code> 和 <code>funct7</code>/移位高位约束。</p>
+<h2 id="2-interface">2. Interface<a class="headerlink" href="#2-interface" title="Permanent link">&para;</a></h2>
+<h3 id="21-inputs-and-register-file-addresses">2.1 Inputs and register-file addresses<a class="headerlink" href="#21-inputs-and-register-file-addresses" title="Permanent link">&para;</a></h3>
+<p><code>io.in</code> 是来自 <a href="../ifid-reg/"><code>IFIDReg.io.out</code></a> 的 <code>IfId</code> bundle，由以下三个信号组成；跨模块的类型约定见 <a href="../pipeline-types/">Pipeline Types</a>。IDU 对这些输入进行组合译码，本接口没有独立的 <code>ready</code> 或 <code>enable</code> 握手。</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Direction</th>
+<th style="text-align: right;">Width</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>in.valid</code></td>
+<td>in</td>
+<td style="text-align: right;">1</td>
+<td>IF/ID 流水项有效标记；<code>1</code> 表示 <code>in.pc</code> 和 <code>in.instr</code> 属于一条待译码指令，<code>0</code> 表示 bubble，下游应忽略其载荷</td>
+</tr>
+<tr>
+<td><code>in.pc</code></td>
+<td>in</td>
+<td style="text-align: right;"><code>p.vaddrBits</code>（当前 64）</td>
+<td><code>in.instr</code> 对应指令的地址；IDU 将其传入 <code>out.pc</code>，供后续计算 PC 相对结果或跳转目标</td>
+</tr>
+<tr>
+<td><code>in.instr</code></td>
+<td>in</td>
+<td style="text-align: right;">32</td>
+<td>原始指令编码；IDU 从中匹配指令、提取 <code>rd/rs1/rs2</code> 并生成立即数和控制信号</td>
+</tr>
+<tr>
+<td><code>rs1Data/rs2Data</code></td>
+<td>in</td>
+<td style="text-align: right;">64</td>
+<td>register file read data</td>
+</tr>
+<tr>
+<td><code>rs1/rs2</code></td>
+<td>out</td>
+<td style="text-align: right;">5</td>
+<td>实际使用的 source register numbers；未使用的源端口为 0</td>
+</tr>
+<tr>
+<td><code>usesRs1/usesRs2</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>hazard detector 使用标记</td>
+</tr>
+</tbody>
+</table>
+<p>当 <code>in.valid=0</code> 时，<code>in.pc</code> 和 <code>in.instr</code> 在接口上仍有位值，但没有指令语义。<code>IDU</code> 输出 <code>out.valid=0</code>，并将 <code>rs1/rs2</code> 和 <code>usesRs1/usesRs2</code> 清零；<code>out.pc</code> 仍直接复制 <code>in.pc</code>，其值同样应被忽略。</p>
+<h3 id="22-out-idex">2.2 <code>out: IdEx</code> 解码结果<a class="headerlink" href="#22-out-idex" title="Permanent link">&para;</a></h3>
+<p><code>io.out</code> 送往 <code>IDEXReg.io.in</code>，其 <code>IdEx</code> bundle 包含以下全部字段。位宽由 <code>SeedParam</code> 决定；当前 <code>p.vaddrBits=p.xLen=64</code>。</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Direction</th>
+<th style="text-align: right;">Width</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>out.valid</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>直接复制 <code>in.valid</code>；<code>0</code> 表示 bubble</td>
+</tr>
+<tr>
+<td><code>out.pc</code></td>
+<td>out</td>
+<td style="text-align: right;"><code>p.vaddrBits</code>（64）</td>
+<td>当前指令地址，直接复制 <code>in.pc</code></td>
+</tr>
+<tr>
+<td><code>out.rs1</code></td>
+<td>out</td>
+<td style="text-align: right;">5</td>
+<td>第一源寄存器编号；指令不读取 <code>rs1</code> 时为 0</td>
+</tr>
+<tr>
+<td><code>out.rs2</code></td>
+<td>out</td>
+<td style="text-align: right;">5</td>
+<td>第二源寄存器编号；指令不读取 <code>rs2</code> 时为 0</td>
+</tr>
+<tr>
+<td><code>out.rd</code></td>
+<td>out</td>
+<td style="text-align: right;">5</td>
+<td><code>in.instr[11:7]</code> 的目标寄存器编号；是否写入由 <code>regWrite</code> 决定</td>
+</tr>
+<tr>
+<td><code>out.rs1Val</code></td>
+<td>out</td>
+<td style="text-align: right;"><code>p.xLen</code>（64）</td>
+<td><code>rs1Data</code> 的读值快照；仅在使用 <code>rs1</code> 时有操作数意义</td>
+</tr>
+<tr>
+<td><code>out.rs2Val</code></td>
+<td>out</td>
+<td style="text-align: right;"><code>p.xLen</code>（64）</td>
+<td><code>rs2Data</code> 的读值快照；仅在使用 <code>rs2</code> 时有操作数意义</td>
+</tr>
+<tr>
+<td><code>out.imm</code></td>
+<td>out</td>
+<td style="text-align: right;"><code>p.xLen</code>（64）</td>
+<td>所选指令立即数，或移位指令的移位量；无需立即数时为 0</td>
+</tr>
+<tr>
+<td><code>out.aluOp</code></td>
+<td>out</td>
+<td style="text-align: right;">5</td>
+<td><code>AluOp</code> 编码，选择 EX 的算术/逻辑/M 运算；默认编码 0 为 <code>add</code></td>
+</tr>
+<tr>
+<td><code>out.aluSrcImm</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td><code>1</code> 时 EX 的第二操作数取 <code>imm</code>，否则取 <code>rs2Val</code>（可由 EX 旁路修正）</td>
+</tr>
+<tr>
+<td><code>out.usePc</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td><code>1</code> 时 EX 的第一操作数取 <code>pc</code>；当前用于 AUIPC</td>
+</tr>
+<tr>
+<td><code>out.regWrite</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>该指令请求将结果写回 <code>rd</code>；最终写入还受 <code>valid</code> 和 <code>rd != 0</code> 约束</td>
+</tr>
+<tr>
+<td><code>out.memRead</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>LOAD 请求数据存储器读取</td>
+</tr>
+<tr>
+<td><code>out.memWrite</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>STORE 请求数据存储器写入</td>
+</tr>
+<tr>
+<td><code>out.memToReg</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>写回值来自 LOAD 数据；随 <code>memRead</code> 对 LOAD 置 1</td>
+</tr>
+<tr>
+<td><code>out.branch</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>条件分支标记；EX 依据 <code>branchFunct3</code> 和源操作数判断是否跳转</td>
+</tr>
+<tr>
+<td><code>out.jump</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>无条件跳转标记；JAL/JALR 置 1</td>
+</tr>
+<tr>
+<td><code>out.jalr</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td><code>1</code> 表示 JALR 目标地址由第一源操作数（经 EX 旁路后）加 <code>imm</code> 形成；JAL 为 0</td>
+</tr>
+<tr>
+<td><code>out.branchFunct3</code></td>
+<td>out</td>
+<td style="text-align: right;">3</td>
+<td>直接取 <code>in.instr[14:12]</code>；仅对条件分支用于区分 BEQ/BNE/BLT/BGE/BLTU/BGEU</td>
+</tr>
+<tr>
+<td><code>out.memSize</code></td>
+<td>out</td>
+<td style="text-align: right;">3</td>
+<td>访存宽度：0/1/2/3 分别表示 byte/halfword/word/doubleword；非访存指令默认 2</td>
+</tr>
+<tr>
+<td><code>out.loadUnsigned</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>无符号 LOAD 标记，要求 MEM 将读取结果零扩展；有符号 LOAD 为 0</td>
+</tr>
+<tr>
+<td><code>out.wordOp</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>RV64 W 指令标记：使用低 32 位并将结果符号扩展至 64 位</td>
+</tr>
+<tr>
+<td><code>out.unsignedOp</code></td>
+<td>out</td>
+<td style="text-align: right;">1</td>
+<td>无符号 M 运算标记，供 EX 处理 MULHU、DIVU/REMU 及对应 W 形式</td>
+</tr>
+</tbody>
+</table>
+<p>除表中注明的直接复制字段和 <code>memSize</code> 默认值外，未匹配的控制字段默认为 0。<code>out.valid=0</code> 时，下游必须忽略整个 <code>out</code> 的载荷；当前未识别的编码仍保留 <code>out.valid=1</code>，但不发起寄存器写入或访存。</p>
+<h2 id="3-decode-coverage">3. Decode coverage<a class="headerlink" href="#3-decode-coverage" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Opcode</th>
+<th>Current support</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LUI/AUIPC</td>
+<td><code>0110111/0010111</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>JAL/JALR</td>
+<td><code>1101111/1100111</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>conditional branch</td>
+<td><code>1100011</code></td>
+<td>BEQ/BNE/BLT/BGE/BLTU/BGEU condition field</td>
+</tr>
+<tr>
+<td>load/store</td>
+<td><code>0000011/0100011</code></td>
+<td>byte/half/word/doubleword size fields</td>
+</tr>
+<tr>
+<td>RV64I immediate</td>
+<td><code>0010011</code></td>
+<td>arithmetic, compare, logical, shifts</td>
+</tr>
+<tr>
+<td>RV64I/M register</td>
+<td><code>0110011</code></td>
+<td>arithmetic, logical, M operations</td>
+</tr>
+<tr>
+<td>RV64W/M word</td>
+<td><code>0011011/0111011</code></td>
+<td>implemented cases in RTL</td>
+</tr>
+<tr>
+<td>CSR/system/atomic</td>
+<td>other</td>
+<td>not implemented</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-requirements">4. Requirements<a class="headerlink" href="#4-requirements" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>REQ-ID-001</code>: <code>out.valid</code> SHALL equal <code>in.valid</code>。</li>
+<li><code>REQ-ID-002</code>: 所有 immediate SHALL 按 RV64 sign-extension 和指令格式生成。</li>
+<li><code>REQ-ID-003</code>: load/store 的 <code>memSize</code> SHALL 编码为 0/1/2/3 对应 byte/half/word/doubleword。</li>
+<li><code>REQ-ID-004</code>: load 的 <code>loadUnsigned</code> SHALL 由 funct3 bit2 决定；load result 在 MEM 阶段扩展。</li>
+<li><code>REQ-ID-005</code>: <code>usesRs1/usesRs2</code> SHALL 只对当前指令真正读取的源寄存器置 1，供 load-use detector 使用。</li>
+<li><code>REQ-ID-006</code>: 未支持的指令编码（包括已知 opcode 下不合法的 <code>funct3</code>/<code>funct7</code> 组合）SHALL 输出默认控制，不产生 memory 或 register write，但仍保留 <code>valid</code>；illegal instruction trap 是后续需求。</li>
+<li><code>REQ-ID-007</code>: 当前 valid 指令不使用的源寄存器端口 SHALL 输出地址 0，避免立即数字段被当作源寄存器传递至 EX forwarding。</li>
+</ul>
+<h2 id="5-reset-and-invalid-behavior">5. Reset and invalid behavior<a class="headerlink" href="#5-reset-and-invalid-behavior" title="Permanent link">&para;</a></h2>
+<p>本模块无独立状态。invalid <code>IfId</code> 产生 invalid <code>IdEx</code>，不启动任何译码控制，<code>rs1/rs2</code> 输出 0。<code>pc</code>、<code>rd</code> 和 <code>branchFunct3</code> 等原始字段仍可携带输入值；下游以 <code>valid</code> 判断其有效性。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.sections", "navigation.expand", "content.code.copy", "content.action.edit"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

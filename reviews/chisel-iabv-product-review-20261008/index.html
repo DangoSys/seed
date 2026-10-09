@@ -1,0 +1,1837 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Design specification of the Seed RV64 processor">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>chisel-iabv 产品审查与改进建议 - Seed</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chisel-iabv" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Seed" class="md-header__button md-logo" aria-label="Seed" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seed
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              chisel-iabv 产品审查与改进建议
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DangoSys/seed" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seed" class="md-nav__button md-logo" aria-label="Seed" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seed
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DangoSys/seed" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design specs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/00-system/requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/00-system/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subsystems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Subsystems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/10-subsystems/pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline blocks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline blocks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/pipeline-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PipelineCore
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/register-file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RegisterFile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/ifu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IFU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/idu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IDU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/exu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EXU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/memu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MEMU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/wbu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WBU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/pc-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PCReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/ifid-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IFIDReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/idex-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IDEXReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/exmem-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EXMEMReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/memwb-reg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MEMWBReg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/pipeline/pipeline-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bus and top
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bus and top
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/bus/axi-bridge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AxiBridge
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/top/seed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/top/seed-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/20-blocks/top/seed-param/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 审查范围与版本
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 现在的产品实际上做了什么
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 现在的产品实际上做了什么">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        已经值得保留的设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 问题与优先级总览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-f01-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 F01 未执行的断言也可能得到 PASS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 F01 未执行的断言也可能得到 PASS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        复现方法和结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原因
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改进与验收
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-f02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 F02 需求关联和非空触发检查不足
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-f03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 F03 属性源码映射在当前命名下丢失
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-f04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 F04 配置错误没有完整的提前检查
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-f05" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 F05 取消运行没有完整回收子进程
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-f06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9 F06 当前成果还没有形成可复现的发布版本
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-f07" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 F07 自动生成验证意图仍是产品能力缺口
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-f08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11 F08 覆盖统计丢失实例维度
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-f09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12 F09 采样与复位语义仍依赖隐含约定
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-f10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13 F10 验证结论和源码新鲜度应分开表达
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-f11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14 F11 工程接入和使用体验还有明显成本
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-f12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15 F12 测试和后端范围不足以支撑通用产品承诺
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16 分阶段改进计划
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17 复现与证据索引
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/DangoSys/seed/edit/main/docs/reviews/chisel-iabv-product-review-20261008.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chisel-iabv">chisel-iabv 产品审查与改进建议<a class="headerlink" href="#chisel-iabv" title="Permanent link">&para;</a></h1>
+<p>审查日期：2026 年 10 月 8 日。面向 Seed 和 chisel-iabv 的开发维护者。</p>
+<p>当前工具已经具备可运行的属性计划渲染、隔离构建和断言仿真流程，适合作为产品原型继续开发。但在把它用于更多模块之前，需要先修复 <strong>PASS 判定的可信度问题</strong>：本次审查复现了漏绑 Assert 层后，错误属性仍被整条流程判为通过的情况。</p>
+<p>建议下一阶段按以下顺序推进：<strong>断言实际执行的证据 → 配置和需求追踪 → 稳定发布与回归 → 自动属性规划 → 形式化后端</strong>。当前最紧迫的工作是提高结果可信度。</p>
+<h2 id="1">1 审查范围与版本<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>本次检查覆盖 <code>src/product/</code> 的 CLI、契约检查、生成桥接、Mill 和 Verilator 适配器、工作流、15 项回归测试，以及它们实际调用的 ca-assertion 渲染函数和 Seed PCReg 用例。没有将整个研究、训练和历史实验目录视为已经完成审查。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>审查时状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seed HEAD</td>
+<td><code>1f8cad89820db68c99a50371a523e344b30c52d2</code></td>
+</tr>
+<tr>
+<td>chisel-iabv HEAD</td>
+<td><code>060e9e57866034b3d6a93c7e37093bb69c7b5714</code></td>
+</tr>
+<tr>
+<td>工作区</td>
+<td>两个仓库都有未提交改动；实际检查对象包含这些改动</td>
+</tr>
+<tr>
+<td>后端</td>
+<td>Verilator 5.046，断言仿真</td>
+</tr>
+<tr>
+<td>自动属性规划</td>
+<td>未接入产品入口；当前计划由项目提供</td>
+</tr>
+<tr>
+<td>形式化证明</td>
+<td>未执行，报告为 <code>formal_status: not_run</code></td>
+</tr>
+</tbody>
+</table>
+<p><a href="../chisel-iabv-review-20261008/evidence.json">审查版本与源码指纹</a>记录实际检查的 product Python 文件哈希，避免把工作区能力误认为上述 HEAD 已发布的能力。</p>
+<p>审查只新增分析文档、证据和隔离复现用例，没有修复或改写产品实现，也没有改变现有 PCReg 行为。运行中的其他 RTL 重命名和编辑不属于本次修改范围。</p>
+<h2 id="2">2 现在的产品实际上做了什么<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<pre><code class="language-mermaid">flowchart TD
+    A[项目提供 spec 和属性计划] --&gt; B[项目提供 harness 与历史采样寄存器]
+    B --&gt; C[ca-assertion stage4 渲染 Chisel LTL]
+    C --&gt; D[复制项目到独立工作目录]
+    D --&gt; E[Mill 编译与 SV 发射]
+    E --&gt; F[扫描生成文件中的属性标签]
+    F --&gt; G[按配置加载 filelist 和 layer binding]
+    G --&gt; H[Verilator 仿真与 Cover 计数]
+    H --&gt; I[可选故障注入]
+    I --&gt; J[JSON 报告]
+</code></pre>
+<p>关键区别是：<strong>工具已经能把明确的属性计划变成 Chisel Assertion 代码，但验证意图仍主要由人输入。</strong> <code>spec</code> 用于编号关联；<code>precondition</code>、<code>check</code>、复位策略和历史值采样由 Seed 的计划与 harness 明确给出。</p>
+<p>例如 PCReg 的 <code>previousPc</code>、<code>previousTarget</code> 是项目手写的采样上下文，product 不会自行从 spec 推导它们。<a href="https://github.com/DangoSys/seed/blob/main/verification/pc-reg/src/main/scala/PCRegVerificationTop.scala#L21">harness 源码</a></p>
+<h3 id="_1">已经值得保留的设计<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>生成器原始响应、生成后的 Scala、隔离 workspace 和编译报告分开保存，便于追踪。</li>
+<li>工作流不在原始 RTL 上插桩；本次反向测试也没有修改真实 Seed 输入。</li>
+<li>使用真实 Mill 项目和 Chisel 7.16 工具链，已经处理独立的 assertion 和 cover layer 文件。</li>
+<li>报告明确区分 <code>llm_invoked: false</code> 和 <code>formal_status: not_run</code>。</li>
+<li>当前 PCReg 配置确实执行了 5 条 Assert 和 6 条 Cover，<code>+4 → +8</code> 的负例被递增断言捕获。</li>
+</ul>
+<p>因此，原有 PCReg 测试结果有实际价值。下面发现的漏洞限制的是产品对任意配置作出 PASS 判断的可靠程度，并不意味着原有测试完全没有执行断言。</p>
+<h2 id="3">3 问题与优先级总览<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>P0 表示会影响 PASS 可信度，应阻止对外发布；P1 表示进入稳定产品前必须解决；P2 表示扩展模块或提高可用性时需要处理。标记“缺口”的项目属于尚未实现的能力，不等同于现有函数出错。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>优先级</th>
+<th>问题</th>
+<th>证据类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>P0</td>
+<td>属性存在于文件，却没有绑定执行，流程仍可 PASS</td>
+<td>成对端到端复现</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>P1</td>
+<td>缺少属性非空触发与需求覆盖检查</td>
+<td>校验器复现与代码检查</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>P1</td>
+<td>生成器的 assertion_map 为空，源码追踪接口不兼容</td>
+<td>实际生成产物</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>P1</td>
+<td>配置校验不完整，错误发现过晚或变成异常堆栈</td>
+<td>校验器复现</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>P1</td>
+<td>Ctrl+C 后后台构建进程仍可能运行</td>
+<td>进程控制复现</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>P1</td>
+<td>当前产品代码尚未进入固定 submodule 提交</td>
+<td>Git 状态检查，发布缺口</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>P1</td>
+<td>自动 spec 规划和可审查的计划生成过程缺失</td>
+<td>产品能力缺口</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>P2</td>
+<td>Cover 按标签汇总，掩盖不同实例的覆盖差异</td>
+<td>覆盖数据解析复现</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>P2</td>
+<td>采样语义依靠字符串和人工计划，缺少独立时序契约</td>
+<td>接口与用例检查</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>P2</td>
+<td>原工程变化被混入验证失败，报告状态不够精确</td>
+<td>既有失败报告与实现</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>P2</td>
+<td>工程接入和结果浏览仍偏向脚本使用者</td>
+<td>接口与构建检查</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>P2</td>
+<td>回归覆盖范围小于产品宣称的通用范围</td>
+<td>测试与后端范围检查</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-f01-pass">4 F01 未执行的断言也可能得到 PASS<a class="headerlink" href="#4-f01-pass" title="Permanent link">&para;</a></h2>
+<h3 id="_2">复现方法和结果<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>在 Seed 隔离副本中，把 <code>REQ_PC_003_ADVANCE</code> 的结果条件改为 <code>io.pc === 1.U</code>。这个条件与测试中的顺序递增行为冲突，理应触发失败。为了单独检查 baseline 的可信度，两个用例都关闭可选 mutations。</p>
+<p>两个副本的输入只有 <code>job.json</code> 中的 layer 列表不同，生成的 Scala 哈希完全一致。</p>
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>Assert 层绑定</th>
+<th>Cover 层绑定</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对照</td>
+<td>保留</td>
+<td>保留</td>
+<td>仿真在 <code>REQ_PC_003_ADVANCE</code> 失败，CLI 返回 1</td>
+</tr>
+<tr>
+<td>漏绑</td>
+<td>移除</td>
+<td>保留</td>
+<td>10,027 周期完成、六项 Cover 命中、最终 PASS，CLI 返回 0</td>
+</tr>
+</tbody>
+</table>
+<p>证据：<a href="../chisel-iabv-review-20261008/unbound-report.json">漏绑报告</a>、<a href="../chisel-iabv-review-20261008/bound-report.json">对照报告</a>、<a href="../chisel-iabv-review-20261008/bound-simulation.log">对照断言失败日志</a>。</p>
+<h3 id="_3">原因<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p><code>check_emitted_properties()</code> 扫描整个产物目录中的 <code>label: assert property</code> 文本；后端实际执行哪些文件和层，则由 <code>filelist</code> 与 <code>layers</code> 决定。两者之间没有执行模型一致性检查。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/adapters/verilator.py#L32">文本扫描</a> · <a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/adapters/verilator.py#L8">后端文件选择</a></p>
+<p>断言模块虽然存在于生成文件中，却没有实例化到测试顶层。独立参考模型会检查正确 DUT，因此仍通过；Cover 层独立绑定，也仍通过。可选 mutation 为空时，没有其他机制发现 Assert 层缺失。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/workflows/assertion.py#L91">通过条件</a></p>
+<p>单元探针还证明，被未启用的预处理条件包住的属性也能通过当前文本扫描。<a href="../chisel-iabv-review-20261008/unit-probes.json">校验探针结果</a></p>
+<h3 id="_4">改进与验收<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ol>
+<li>产物收集阶段生成正式的模块、属性、层和绑定清单。</li>
+<li>后端检查声明属性是否进入实际 elaboration 模型，并报告实例路径；仅存在于文件中不算“已启用”。</li>
+<li>缺少必要 layer 或预处理禁用了属性时，在仿真前返回配置或绑定错误。</li>
+<li>mutation 是补充证据；单条 mutation 的成功不能替代其他属性的绑定检查。</li>
+</ol>
+<p><strong>验收门槛：漏绑用例必须失败，正确绑定的错误属性必须触发对应断言，正确配置的 PCReg 基线仍通过。</strong></p>
+<h2 id="5-f02">5 F02 需求关联和非空触发检查不足<a class="headerlink" href="#5-f02" title="Permanent link">&para;</a></h2>
+<p>当前 <code>requirement_id in spec_text</code> 是子串查找。不存在的完整编号 <code>REQ-PC-00</code> 会因为匹配 <code>REQ-PC-001</code> 而被接受。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/contracts/job.py#L38">需求检查</a></p>
+<p>工具也会接受 <code>precondition: false.B</code> 和 <code>check: io.pc === io.pc</code> 的组合。前者使蕴含式从不触发，后者恒成立；现有校验仅拒绝字面量 <code>true.B</code>。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/contracts/job.py#L15">属性检查</a></p>
+<p>即便另有 Cover 命中，也不能保证它对应这条 Assert 的有效前件。当前要求至少一条 Assert，但不检查所有可验证需求是否有属性，不要求每条属性具备对应触发证据。属性文件、Cover 文件和需求文档可能各自看起来完整，整体仍漏检。</p>
+<p>建议建立结构化需求登记表：每个需求有精确 ID、验证方式、属性列表，以及“不适用或暂未验证”的原因。为每条时序 Assert 自动记录 antecedent 命中次数和有效检查次数，把 <code>VACUOUS</code> 与 <code>PASS</code> 分开。无需声称静态检查能判定所有时序性质是否有意义；复杂不可达问题应由仿真触发证据或形式化检查补充。</p>
+<p><strong>验收：拒绝部分编号；没有触发过的属性不能显示成“已有效验证”；缺失需求必须显式出现在报告中。</strong></p>
+<h2 id="6-f03">6 F03 属性源码映射在当前命名下丢失<a class="headerlink" href="#6-f03" title="Permanent link">&para;</a></h2>
+<p>真实 PCReg 生成器响应中有 5 条 Assert 和 6 条 Cover，但 <code>assertion_map</code> 是空数组。<a href="../chisel-iabv-review-20261008/additional-probes.json">产物统计</a></p>
+<p>ca-assertion 的注释解析规则要求特定形式的属性编号和需求编号。Seed 使用的 <code>REQ_PC_001_RESET</code>、<code>COV_RESET</code> 和 <code>REQ-PC-001</code> 不符合该规则。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/ca-assertion/utils/schema/protocol_v1.py#L38">解析规则</a> · <a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/ca-assertion/utils/schema/protocol_v1.py#L3089">映射生成</a></p>
+<p>Product 自己的 <code>requirement_mapping</code> 从人工计划复制 ID，因此报告仍看起来有映射，但缺少生成文件行号和实际插入结果的可靠对应。后续若要“点击失败断言跳回需求和 Chisel 行”，现有信息不足。</p>
+<p><code>provided</code> 模式也仅检查产物中的同名标签和种类，没有验证 plan 表达式与提供的属性源码一致；这一点是代码检查结论，本次没有另外运行 provided 模式的语义错配实验。</p>
+<p>建议统一跨层 property ID，并让生成器直接返回结构化映射，包含需求 ID、模块实例、生成文件、源码区间和语义摘要。不要靠再解析注释恢复本来已知的信息；提供属性模式应区分“标签关联”与“语义已核对”。</p>
+<p><strong>验收：本例返回 11 条可定位映射；任一实际生成缺失项不能被计划中的同名条目掩盖。</strong></p>
+<h2 id="7-f04">7 F04 配置错误没有完整的提前检查<a class="headerlink" href="#7-f04" title="Permanent link">&para;</a></h2>
+<p>以下输入在本次探针中均被 <code>validate_job()</code> 接受：</p>
+<ul>
+<li>缺少 <code>layers</code>、<code>filelist</code>、<code>result_file</code>、<code>coverage_file</code>。</li>
+<li><code>run_timeout: null</code>，后续会作为无限等待传给进程等待逻辑。</li>
+</ul>
+<p><code>check: []</code> 则让 <code>validate_plan()</code> 抛出 <code>AttributeError</code>；CLI 的异常分类没有覆盖它，可能以 traceback 结束。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/contracts/job.py#L45">配置检查</a> · <a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/cli.py#L20">CLI 异常处理</a></p>
+<p>这会让原本应在启动前发现的问题，延迟到生成、编译甚至运行之后才暴露。mutation 字段也主要在 baseline 完成后才检查。</p>
+<p>建议定义版本化的完整 job/plan schema：字段类型、必填项、有限正数超时、路径与快照归属、非空 layer 需求、mutation 目标与参数都提前校验。执行结果采用稳定错误码和字段路径，例如 <code>CONFIG_MISSING_FIELD: backend.layers</code>。不要只扩大异常捕获范围，让真正的程序错误也变成模糊的配置错误。</p>
+<p><strong>验收：无效输入不启动 Mill 或 Verilator；错误包含字段位置；所有 CLI 退出方式均可预测。</strong></p>
+<h2 id="8-f05">8 F05 取消运行没有完整回收子进程<a class="headerlink" href="#8-f05" title="Permanent link">&para;</a></h2>
+<p><code>command()</code> 为子进程创建独立 session，并在超时时杀死进程组；这部分设计有用。但是，它只处理超时和 <code>OSError</code>，没有对 <code>KeyboardInterrupt</code> 或父进程终止执行相同清理。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/adapters/mill_project.py#L40">进程控制</a></p>
+<p>隔离探针启动一个只写标记文件的短时子进程，再向调用者发送 SIGINT。调用者退出后，子进程仍完成写入。<a href="../chisel-iabv-review-20261008/cancellation.json">取消实验结果</a></p>
+<p>真实 Mill、编译器或仿真器可能因此在用户点击停止后继续占用 CPU、写日志或产生输出。工作流也没有明确的 <code>cancelled</code> 状态。</p>
+<p>建议在进程执行器中统一处理正常退出、超时、SIGINT、SIGTERM 和异常；先终止进程组，再在有限宽限期后强制结束，等待回收，并记录停止原因。避免把 <code>resource.setrlimit()</code> 这样的调用者级设置隐藏在可导入 API 中而不说明副作用。</p>
+<p><strong>验收：取消测试后无存活的子进程、无后续写入，报告状态为 cancelled。</strong></p>
+<h2 id="9-f06">9 F06 当前成果还没有形成可复现的发布版本<a class="headerlink" href="#9-f06" title="Permanent link">&para;</a></h2>
+<p>Seed 固定的工具 commit 是 <code>060e9e578…</code>，其中没有 <code>src/product/cli.py</code>；这次 product 工作流文件仍在本地未提交状态。<code>git cat-file -e HEAD:src/product/cli.py</code> 无法找到它。</p>
+<p>因此，另一台机器按 Seed 当前提交拉取 submodule，拿不到本次演示的完整入口。报告记录 <code>tool_worktree_dirty</code> 和源码哈希是正确的，但哈希本身不能替代可获取的源代码版本。</p>
+<p>此外，报告只单独记录了 <code>protocol_v1.py</code> 的 renderer 哈希，没有完整冻结其传递依赖；Mill、JDK、C++ 编译器、实际依赖解析和关键环境配置也没有统一进入机器可读工具链清单。部分信息能从日志、build.mill 和 SV 文件头恢复，但排查与迁移成本较高。</p>
+<p>建议将 product、渲染桥接和测试提交成明确版本，更新 Seed submodule 指针；发布前在干净 checkout 中运行。开发态可以保留 dirty 标记，并额外归档补丁或相关源码。记录实际工具链版本与依赖解析结果，避免只记录声明版本。</p>
+<p><strong>验收：干净克隆后仅按说明即可重跑，使用的所有代码版本均可获得。</strong>这属于当前发布阻塞项，不是“允许本地开发”本身有问题。</p>
+<h2 id="10-f07">10 F07 自动生成验证意图仍是产品能力缺口<a class="headerlink" href="#10-f07" title="Permanent link">&para;</a></h2>
+<p>产品已经连接 <code>stage4_instrument()</code>，但并没有连接自然语言需求解析、候选属性规划、语义审查和修订过程。<code>ca_assertion_reviewed_plan</code> 名称中的 reviewed 也没有配套审阅者、计划版本或审阅记录；目前只能解释为“项目显式提供的计划”。</p>
+<p>对用户来说，最困难的工作仍包括：识别应当验证的行为、选择前件和后件、决定时钟与复位策略、定义历史采样、判断哪些输入是假设。当前 product 主要自动化了这些决定之后的执行过程。</p>
+<p>建议把产品阶段显式拆成 <code>plan → review → generate → verify → report</code>：</p>
+<ul>
+<li>planner 接收 spec、接口、参数和允许观察的信号；输出需求覆盖表和候选属性。</li>
+<li>不确定的需求和无法绑定的信号应成为待确认项，不能自动猜测后继续发布。</li>
+<li>保存原始模型响应、模型配置、版本、人工修改记录和批准状态。</li>
+<li>reviewer 检查恒真、不可达、采样点、复位屏蔽、需求来源，以及是否把待证明结论错误写成假设。</li>
+<li>只有满足明确条件的计划进入代码生成和验证。</li>
+</ul>
+<p>不建议先把模型直接接到当前 PASS 判断上。应先修复 F01 至 F04，再扩大自动化范围。</p>
+<p><strong>验收：除 PCReg 外，至少两个不同结构的模块可从 spec 产出可审查计划；未知项、失败项和人工干预均可追踪。</strong>这不是现有渲染器已经达到的能力。</p>
+<h2 id="11-f08">11 F08 覆盖统计丢失实例维度<a class="headerlink" href="#11-f08" title="Permanent link">&para;</a></h2>
+<p><code>coverage_counts()</code> 只保留属性标签，把不同层级路径的命中数相加。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/adapters/verilator.py#L22">覆盖解析</a></p>
+<p>探针中 <code>TOP.instance0.COV_SHARED = 0</code>、<code>TOP.instance1.COV_SHARED = 5</code> 被合并为 <code>COV_SHARED = 5</code>。单实例 PCReg 不受此问题影响；复用多个相同模块时，一个实例的命中可能掩盖另一个实例从未执行。</p>
+<p>建议保留 <code>(property_id, instance_path)</code> 两级统计，报告中分别展示属性覆盖和实例覆盖，并由配置声明覆盖对象。</p>
+<p><strong>验收：同标签的两个实例，一个为零时，该实例必须显示 uncovered。</strong></p>
+<h2 id="12-f09">12 F09 采样与复位语义仍依赖隐含约定<a class="headerlink" href="#12-f09" title="Permanent link">&para;</a></h2>
+<p>当前 plan 直接保存 Scala 表达式字符串。harness 提供 <code>previousPc</code>，计划再引用它；生成器没有类型化的“当前值、前一拍值、位宽、符号、截断方式”表示。时钟名和 reset 策略也主要靠用户约定与编译结果检查。</p>
+<p>当前 PCReg 的方案本身合理：前件使用边沿前输入，下一边沿检查前一更新，历史寄存器保存 target 与 PC，复位属性不被默认 disable 屏蔽。风险在于更复杂模块很容易把这些条件写错，而编译通过无法发现语义错位。</p>
+<p>建议先定义有限的时序 IR：<code>sample(signal, offset)</code>、有位宽的运算、时钟域、复位时的性质策略、初始有效性和检查窗口，再映射到 Chisel LTL。每种支持的形式都提供仿真对照与故障用例。异步复位、多时钟、可变延迟和公平性应明确列为支持或不支持，不能默认沿用 PCReg 语义。</p>
+<p><strong>验收：跨拍 target 改变、复位插入、初始未知值和位宽溢出都有独立语义测试。</strong></p>
+<h2 id="13-f10">13 F10 验证结论和源码新鲜度应分开表达<a class="headerlink" href="#13-f10" title="Permanent link">&para;</a></h2>
+<p>现有流程先复制快照，结束时再检查原工程是否变化。如果原工程在快照生成后被编辑，即使该快照的验证全部通过，也会把总状态改成 failed。<a href="https://github.com/nick-2001/chisel-iabv/blob/ae5f7a0013f5c6e9cabc3eedb9b606c9c57b3c23/src/product/workflows/assertion.py#L138">状态覆盖逻辑</a></p>
+<p>此前一次 PCReg 运行已经遇到这种情况：生成、仿真和 mutation 通过，但 <code>IFStage.scala</code> 在运行期间改名，最终报告为输入变化失败。这个检查足够保守，却把“验证失败”和“结果不再对应当前编辑状态”混为一谈。</p>
+<p>建议记录三个独立维度：<code>snapshot_consistent</code>、<code>verification_status</code>、<code>matches_current_checkout</code>。如果复制期间不一致，拒绝快照；如果只是复制完成后用户继续编辑，保留对旧快照有效的结论，并提示需要重跑当前版本。还应保证报告和快照使用同一份 spec、plan 内容，减少读文件与复制之间的时间差。</p>
+<p><strong>验收：编辑原工程不会让已经验证的固定快照失去其结论，但界面明确指出结果是否适用于当前文件。</strong></p>
+<h2 id="14-f11">14 F11 工程接入和使用体验还有明显成本<a class="headerlink" href="#14-f11" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>当前表现</th>
+<th>影响</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>job 与 Mill manifest 都手写，加上 harness、C++ driver、layers 路径</td>
+<td>每接一个模块都需要理解产品内部文件组织</td>
+<td>增加项目检查和模块初始化向导，自动发现能可靠发现的构建信息</td>
+</tr>
+<tr>
+<td>product workflow 固定调用 PATH 中的 Mill，未暴露独立适配器已有的 <code>--mill</code> 能力</td>
+<td>使用项目 wrapper 或不同工具版本时不方便</td>
+<td>统一 ToolchainConfig，透传可执行文件和每阶段限时</td>
+</tr>
+<tr>
+<td><code>build_file</code> 被检查与哈希，但不用于选择实际 Mill 构建文件</td>
+<td>字段含义容易被理解成可切换入口</td>
+<td>明确限制为实际入口，或实现真实选择并做测试</td>
+</tr>
+<tr>
+<td>每次复制新工程且重建，固定 <code>-j 2</code>、始终打开 trace</td>
+<td>小模块重复开发会付出额外时间和磁盘成本</td>
+<td>按内容哈希缓存构建、可配置并行度与波形策略，保留可复现冷构建</td>
+</tr>
+<tr>
+<td>CLI 长时间无阶段进度，只在末尾输出 JSON 路径</td>
+<td>用户难以判断停在哪一步</td>
+<td>输出阶段、耗时和报告位置，日志仍保持可机读</td>
+</tr>
+<tr>
+<td>报告由多份 JSON、日志和绝对路径组成</td>
+<td>查看失败需要在目录中手工寻找</td>
+<td>增加可分享的 HTML 或 Markdown 总结及相对路径，关联需求、生成代码和反例</td>
+</tr>
+<tr>
+<td>产品必须从 Git checkout 运行、缺少安装入口和兼容性检查</td>
+<td>新机器接入成本高，归档代码不能直接满足版本查询</td>
+<td>提供 package/console entry 和 doctor 命令，定义支持矩阵</td>
+</tr>
+</tbody>
+</table>
+<p>这些是工程检查结论，不代表已经测量了大型模块的性能瓶颈。当前基线产物约 8.2 MiB，单次量级不大；问题是缺少长期运行和大模块的保留策略。</p>
+<h2 id="15-f12">15 F12 测试和后端范围不足以支撑通用产品承诺<a class="headerlink" href="#15-f12" title="Permanent link">&para;</a></h2>
+<p>审查重新执行了 15 项测试，全部通过。这些测试覆盖路径、若干 schema 条件、生成器文本输出、模拟命令失败和超时等；工作流失败测试通过 mock 停在构建失败处，没有覆盖 F01 的完整模型绑定问题。</p>
+<p>实际端到端验证主要集中于 PCReg，且是固定参数、固定随机种子、单时钟和单种 mutation。需要补充 FIFO/握手、流水线寄存器、参数化算术等不同类型模块，检查不同实例、复位、反压和时序深度。</p>
+<p>目前 <code>assert</code>、<code>cover</code> 和 Verilator 是明确支持范围；<code>assume</code> 被拒绝，形式化后端不存在。因此不能将“随机仿真 PASS”解释为对所有输入序列成立。这个边界已经写入报告，应继续保留。</p>
+<p>建议建立三层门禁：快速 schema/渲染测试、少量真实工具链端到端回归、发布前的多模块和版本兼容验证。形式化接入另行定义假设、初始状态、证明深度、完整证明与有界结果、超时、反例及过约束检查。</p>
+<p><strong>验收：每个支持的属性形式和后端都具备至少一个通过用例、一个真实语义失败用例和一个配置失败用例。</strong></p>
+<h2 id="16">16 分阶段改进计划<a class="headerlink" href="#16" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>主要交付</th>
+<th>退出条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第一阶段 结果可信</td>
+<td>修复 F01、F02；完整 schema；实例维度覆盖；取消回收</td>
+<td>漏绑、未触发、漏覆盖与取消测试能稳定识别，正确 PCReg 回归仍通过</td>
+</tr>
+<tr>
+<td>第二阶段 工程可交付</td>
+<td>结构化 assertion_map、统一工具链配置、错误码、源码与报告版本、干净 checkout 发布</td>
+<td>新环境一条文档命令跑通，失败能定位到需求和 Chisel 行</td>
+</tr>
+<tr>
+<td>第三阶段 自动规划</td>
+<td>spec/interface 到候选计划、审阅流程、类型化时序 IR、原始响应与修订记录</td>
+<td>多模块需求覆盖可审查，模型不确定性不会被静默当成正确性</td>
+</tr>
+<tr>
+<td>第四阶段 形式化与规模化</td>
+<td>正式后端契约、assume 检查、BMC/证明状态、缓存、CI 和报告界面</td>
+<td>结果区分仿真、有界检查和证明，性能与复现性有持续数据</td>
+</tr>
+</tbody>
+</table>
+<p>第一阶段不需要重写已有 ca-assertion 系统。优先把“声明了哪些属性、实际执行了哪些属性、每项证据是什么”贯通，再抽取稳定 renderer API，避免把 4,550 行研究协议模块直接当作长期产品接口。</p>
+<h2 id="17">17 复现与证据索引<a class="headerlink" href="#17" title="Permanent link">&para;</a></h2>
+<p>本次反向实验只在 Seed 的 <code>build/product-review-20261008/</code> 中创建副本。精简证据已保存在本节链接目录，报告内的完整运行路径对应本机产物。</p>
+<ul>
+<li><a href="../chisel-iabv-review-20261008/evidence.json">版本与源文件哈希</a></li>
+<li><a href="../chisel-iabv-review-20261008/unit-probes.json">配置和属性校验探针</a></li>
+<li><a href="../chisel-iabv-review-20261008/additional-probes.json">覆盖维度和映射探针</a></li>
+<li><a href="../chisel-iabv-review-20261008/cancellation.json">取消回收探针</a></li>
+<li><a href="../chisel-iabv-review-20261008/unbound-report.json">未绑定错误属性的 PASS 报告</a></li>
+<li><a href="../chisel-iabv-review-20261008/bound-report.json">绑定后错误属性的失败报告</a></li>
+<li><a href="../chisel-iabv-review-20261008/reproduce.py">可重复执行的隔离对照脚本</a></li>
+<li><a href="../chisel-iabv-review-20261008/reproduction-summary.json">文档所附脚本的实跑结果</a></li>
+</ul>
+<p>从 Seed 根目录运行以下命令。输出目录必须尚不存在，脚本会使用当前工作区版本；修复后，漏绑用例的预期结果应从错误的 PASS 变成拒绝或失败。</p>
+<pre><code class="language-bash">python3 docs/reviews/chisel-iabv-review-20261008/reproduce.py \
+  --project-root . \
+  --output /tmp/chisel-iabv-binding-review
+</code></pre>
+<p><strong>总体判断：当前是一个有真实运行证据的 Assertion 产品原型。产品化优先级应由错误 PASS 的风险决定，而不是由新增命令数量决定。</strong></p>
+<p>归档说明：本文保留审查时的结论和证据。后续工具代码已同步到 chisel-iabv 提交 <code>ae5f7a0</code>，Seed 在本次归档中固定该版本；F06 中“工具代码未发布”的状态已得到处理。其余缺陷未在本次归档中修复。证据中的本机路径已使用 <code>$SEED_ROOT</code> 替换，结果和源码哈希保持原样。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

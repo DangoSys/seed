@@ -1,0 +1,29 @@
+{
+  "review_date": "2026-10-08",
+  "seed_commit": "1f8cad89820db68c99a50371a523e344b30c52d2",
+  "tool_commit": "060e9e57866034b3d6a93c7e37093bb69c7b5714",
+  "reviewed_tool_worktree_has_uncommitted_code": true,
+  "product_source_sha256": {
+    "src/product/cli.py": "3635eb561c5351c1a6632f87a7a34b7edb6a49a75ec74cfdac3fabddc560a8dd",
+    "src/product/contracts/job.py": "822ec59d7020896c5d55485dd2dec1065cd3552557463fcf9ef3938a0f26b44e",
+    "src/product/contracts/__init__.py": "13b001094555c380480638bb11c3ebf33086e2fc98e006995ae721dd3a3d3917",
+    "src/product/tests/test_mill_project_adapter.py": "5a8205479b8dce1ee43f65984b9a1dec67a40b7ec1926ebd1aded25e3bb47e3b",
+    "src/product/tests/test_assertion_product.py": "6c527417e68c489dbcd304ff512747ab7878b8f0e2932afa2eea93535d87ea82",
+    "src/product/workflows/__init__.py": "13b001094555c380480638bb11c3ebf33086e2fc98e006995ae721dd3a3d3917",
+    "src/product/workflows/assertion.py": "63b9b4e2100d885adc67ccb62f60a85dbe790708263792a6cded2ba08e8a7e53",
+    "src/product/adapters/__init__.py": "58ce116df07190f984cd0b8c62ccb5b20df7dd38ed1b5bf39509da9c32e4fcda",
+    "src/product/adapters/assertion_generator.py": "391c03b6f322020c1473c4e4983b02a3738bc918b888df0dbde9697b318e6c7d",
+    "src/product/adapters/mill_project.py": "fa8928dc0ba8c9aba0532e7e76cac0e44d691c588eba507a74012c13b4fcaa5f",
+    "src/product/adapters/verilator.py": "e2396131a395100d8ec03741e328b160192510f3af5a4c2a3666122cb87753d6"
+  },
+  "prior_baseline_report": "build/verification/assertion-20261008-105531-902784/report.json",
+  "audit_results": {
+    "unbound_false_property": "passed",
+    "bound_false_property": "failed_at_REQ_PC_003_ADVANCE",
+    "generated_source_identical": true,
+    "only_snapshot_input_difference": "verification/pc-reg/job.json",
+    "unit_tests": "15 passed"
+  },
+  "scope": "Current product, called ca-assertion renderer, Seed PCReg integration. No full audit of research/training scripts.",
+  "document_reproduction_script_verified": true
+}
