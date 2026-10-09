@@ -7,7 +7,7 @@
 | Revision | `0.2` |
 | RTL | `src/main/scala/pipeline/IFIDReg.scala`, module `IFIDReg` |
 | Parent | [PipelineCore](pipeline-core.md) |
-| Verification | [IFIDReg verification plan](../../../verification-plan/ifid-reg.md) |
+| Verification | [IFIDReg verification plan](https://github.com/DangoSys/seed/blob/main/docs/verification-plan/ifid-reg.md) |
 | Last updated | 2026-10-09 |
 
 ## 1. Purpose and boundary

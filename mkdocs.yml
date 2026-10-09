@@ -17,6 +17,9 @@ markdown_extensions:
   - toc:
       permalink: true
 
+exclude_docs: |
+  verification-plan/**
+
 nav:
   - Home: index.md
   - Design specs:
@@ -44,7 +47,3 @@ nav:
           - Seed: specs/20-blocks/top/seed.md
           - Interface: specs/20-blocks/top/seed-interface.md
           - Parameters: specs/20-blocks/top/seed-param.md
-  - Verification plans:
-      - Overview: verification-plan/README.md
-      - IFU: verification-plan/ifu.md
-      - IFIDReg: verification-plan/ifid-reg.md

@@ -18,7 +18,7 @@ docs/
 
 - Read top-down: `00-system/`, then `10-subsystems/`, then the module's spec in `20-blocks/`.
 - `REQ-*` items are the acceptance criteria. Known problems are listed as `ISSUE-*` at the end of each spec.
-- Verification plans live only in [verification-plan](../verification-plan/README.md), never inside a spec.
+- Verification plans live only in [verification-plan](https://github.com/DangoSys/seed/blob/main/docs/verification-plan/README.md), never inside a spec.
 - New module: copy `templates/block-microarchitecture.md`, then create its verification plan with the same file name.
 
 ## Requirement keywords

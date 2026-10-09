@@ -8,7 +8,7 @@
 | RTL | `src/main/scala/pipeline/IFU.scala`, module `IFU` |
 | Parent | [PipelineCore](pipeline-core.md) |
 | Children | [PCReg](pc-reg.md) |
-| Verification | [IFU verification plan](../../../verification-plan/ifu.md) |
+| Verification | [IFU verification plan](https://github.com/DangoSys/seed/blob/main/docs/verification-plan/ifu.md) |
 | Last updated | 2026-10-08 |
 
 ## 1. Purpose and boundary
