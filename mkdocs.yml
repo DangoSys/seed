@@ -1,0 +1,50 @@
+site_name: Seed
+site_description: Design specification of the Seed RV64 processor
+repo_url: https://github.com/DangoSys/seed
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.action.edit
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Design specs:
+      - Overview: specs/README.md
+      - System:
+          - Requirements: specs/00-system/requirements.md
+          - Architecture: specs/00-system/architecture.md
+      - Subsystems:
+          - Pipeline: specs/10-subsystems/pipeline.md
+      - Pipeline blocks:
+          - PipelineCore: specs/20-blocks/pipeline/pipeline-core.md
+          - IFU: specs/20-blocks/pipeline/ifu.md
+          - IDU: specs/20-blocks/pipeline/idu.md
+          - EXU: specs/20-blocks/pipeline/exu.md
+          - MEMU: specs/20-blocks/pipeline/memu.md
+          - WBU: specs/20-blocks/pipeline/wbu.md
+          - PCReg: specs/20-blocks/pipeline/pc-reg.md
+          - IFIDReg: specs/20-blocks/pipeline/ifid-reg.md
+          - IDEXReg: specs/20-blocks/pipeline/idex-reg.md
+          - EXMEMReg: specs/20-blocks/pipeline/exmem-reg.md
+          - MEMWBReg: specs/20-blocks/pipeline/memwb-reg.md
+          - Pipeline types: specs/20-blocks/pipeline/pipeline-types.md
+      - Bus and top:
+          - AxiBridge: specs/20-blocks/bus/axi-bridge.md
+          - Seed: specs/20-blocks/top/seed.md
+          - Interface: specs/20-blocks/top/seed-interface.md
+          - Parameters: specs/20-blocks/top/seed-param.md
+  - Verification plans:
+      - Overview: verification-plan/README.md
+      - IFU: verification-plan/ifu.md
+      - IFIDReg: verification-plan/ifid-reg.md
