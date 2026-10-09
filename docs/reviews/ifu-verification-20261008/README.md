@@ -57,7 +57,7 @@ returned 1 because a real counterexample exists.
 - `REQ_IF_001_RESET_STATE` is excluded: `reset reset` initializes the design and
   deasserts reset during proof, leaving this property's trigger unreachable.
   Its dynamic-reset evidence is simulation only.
-- Both IMEM assumptions are explicit in the [formal environment](../../../verification/ifu/formal/environment.sv):
+- Both IMEM assumptions are explicit in the [formal environment](https://github.com/DangoSys/seed/blob/main/verification/ifu/formal/environment.sv):
   response credit and response stability. There is no finite response-delay bound
   or readiness/fairness restriction. All 23 generated covers are reachable.
 

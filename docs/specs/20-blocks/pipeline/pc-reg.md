@@ -64,7 +64,7 @@ else:             state' = state
 
 ## 7. Executable verification
 
-The [verification setup](../../../../verification/pc-reg/README.md) has two
+The [verification setup](https://github.com/DangoSys/seed/blob/main/verification/pc-reg/README.md) has two
 simulation checks. The ChiselSim Scala test drives PCReg directly and checks an
 independent PC reference model over directed and deterministic random cycles.
 The separate chisel-iabv job maps REQ-PC-001 through REQ-PC-005 to a supplied

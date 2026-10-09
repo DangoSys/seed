@@ -40,7 +40,7 @@ flowchart TD
 
 关键区别是：**工具已经能把明确的属性计划变成 Chisel Assertion 代码，但验证意图仍主要由人输入。** `spec` 用于编号关联；`precondition`、`check`、复位策略和历史值采样由 Seed 的计划与 harness 明确给出。
 
-例如 PCReg 的 `previousPc`、`previousTarget` 是项目手写的采样上下文，product 不会自行从 spec 推导它们。[harness 源码](../../verification/pc-reg/src/main/scala/PCRegVerificationTop.scala#L21)
+例如 PCReg 的 `previousPc`、`previousTarget` 是项目手写的采样上下文，product 不会自行从 spec 推导它们。[harness 源码](https://github.com/DangoSys/seed/blob/main/verification/pc-reg/src/main/scala/PCRegVerificationTop.scala#L21)
 
 ### 已经值得保留的设计
 

@@ -8,7 +8,7 @@
 | Spec revision | `0.2` |
 | DUT | `src/main/scala/pipeline/IFIDReg.scala`, `IFIDReg` |
 | Parameters | Default `SeedParam()` (`vaddrBits=64`) |
-| Environment | [verification/ifid-reg](../../verification/ifid-reg/README.md) |
+| Environment | [verification/ifid-reg](https://github.com/DangoSys/seed/blob/main/verification/ifid-reg/README.md) |
 | Last updated | 2026-10-08 |
 
 ## 1. Scope and environment

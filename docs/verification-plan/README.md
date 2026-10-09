@@ -24,8 +24,8 @@ verification/<block>/             Executable verification inputs
 build/verification/<run-id>/      Generated assertions, reports, logs and waves
 ```
 
-The [IFU environment](../../verification/ifu/README.md) and existing
-[PCReg environment](../../verification/pc-reg/README.md) follow this convention.
+The [IFU environment](https://github.com/DangoSys/seed/blob/main/verification/ifu/README.md) and existing
+[PCReg environment](https://github.com/DangoSys/seed/blob/main/verification/pc-reg/README.md) follow this convention.
 IFU also has a project-level SSH launcher for JasperGold. Generated run artifacts
 remain outside source control except intentional review evidence archives.
 

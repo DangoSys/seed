@@ -6,9 +6,9 @@
 | Plan status | Implemented; partial verification; request-stability counterexample |
 | Spec | [IFU](../specs/20-blocks/pipeline/ifu.md) |
 | Spec revision | `0.2` |
-| DUT | [IFU.scala](../../src/main/scala/pipeline/IFU.scala), class `framework.seed.pipeline.IFU` |
+| DUT | [IFU.scala](https://github.com/DangoSys/seed/blob/main/src/main/scala/pipeline/IFU.scala), class `framework.seed.pipeline.IFU` |
 | Parameters | `SeedParam()`: 64-bit addresses, 32-bit instructions, reset PC `0x80000000` |
-| Environment | [IFU environment](../../verification/ifu/README.md) |
+| Environment | [IFU environment](https://github.com/DangoSys/seed/blob/main/verification/ifu/README.md) |
 | Owner / reviewer | TBD |
 | Last updated | 2026-10-08 |
 
